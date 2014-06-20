@@ -1,6 +1,7 @@
 $(document)
 		.ready(
 				function() {
+
 					$('.navbar-static-side').hide();
 					var localTokenId = sessionStorage.getItem("tokenID");
 					// local storage token ID Check
@@ -65,6 +66,7 @@ function wrapperFunction(data) {
 				console.log(userID);
 				// individual message page load
 				if (data === "individual") {
+
 					// table data setting
 					$.ajax({
 						url : '/v1/users/' + userID,
@@ -109,8 +111,13 @@ function wrapperFunction(data) {
 							alert('유저 정보를 가지고 오는데 실패 하였습니다.');
 						}
 					});
+
+					// Ckeditor create
+					CKEDITOR.replace('input_messageContent');
 					// datatimePicker
-					$('#datetimepicker1').datetimepicker();
+					var nowDate = new Date();
+					var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+					$('#datetimepicker1').datetimepicker().data("DateTimePicker").setMinDate(today);
 					// click dataTable
 					$('#dataTables-example tbody').on(
 							'click',
@@ -170,7 +177,11 @@ function wrapperFunction(data) {
 							alert('Group 정보를 가지고 오는데 실패 하였습니다.');
 						}
 					});
-					$('#datetimepicker1').datetimepicker();
+					CKEDITOR.replace('input_messageContent');
+				
+					var nowDate = new Date();
+					var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+					$('#datetimepicker1').datetimepicker().data("DateTimePicker").setMinDate(today);
 					$('#dataTables-example tbody').on(
 							'click',
 							'tr',
@@ -188,8 +199,11 @@ function wrapperFunction(data) {
 				}
 				// AllMessage page load
 				if (data === "allMessage") {
+					CKEDITOR.replace('input_messageContent');
 					$('#dataTables-example').dataTable();
-					$('#datetimepicker1').datetimepicker();
+					var nowDate = new Date();
+					var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+					$('#datetimepicker1').datetimepicker().data("DateTimePicker").setMinDate(today);
 				}
 				// stats page load
 				if (data === "stats") {
@@ -314,10 +328,73 @@ function wrapperFunction(data) {
 								$('#input_adminID').val(tableData[0]);
 							});
 				}
-				if(data==="changePass"){
+				// 예약메세지 관리
+				if (data === "reservation") {
+					var input_reservationCancelID = "test";
+					$.ajax({
+						url : '/v1/users/' + input_reservationCancelID,
+						type : 'GET',
+						headers : {
+							'X-ApiKey' : tokenID
+						},
+						contentType : "application/json",
+						async : false,
+						success : function(data) {
+							var tableData = [];
+
+							for ( var i in data.result.data) {
+
+								var item = data.result.data;
+								console.log(item);
+								tableData.push({
+									"Id" : item.userID,
+									"Name" : item.name,
+									"Dept" : item.dept,
+									"Phone" : item.phone
+								});
+							}
+
+							console.log(tableData);
+							$('#dataTables-example').dataTable({
+								bJQueryUI : true,
+								aaData : tableData,
+								aoColumns : [ {
+									mData : 'Id'
+								}, {
+									mData : 'Name'
+								}, {
+									mData : 'Dept'
+								}, {
+									mData : 'Phone'
+								} ]
+							});
+						},
+						error : function(data, textStatus, request) {
+							console.log(data);
+							alert('예약 정보를 가지고 오는데 실패 하였습니다.');
+						}
+					});
+
+					$('#dataTables-example tbody').on(
+							'click',
+							'tr',
+							function() {
+
+								var tableData = $(this).children("td").map(
+										function() {
+											return $(this).text();
+										}).get();
+
+								console.log(tableData[0]);
+								$('#input_reservationCancelID').val(tableData[0]);
+							});
+				}
+
+				// 비밀번호 변경
+				if (data === "changePass") {
 					console.log('changePass...in..');
 					$('#input_changeUserId').val(userID);
-					
+
 				}
 
 			});
@@ -411,15 +488,108 @@ function loginFunction() {
 
 }
 
-// logoutFunction
+
+//logoutFunction
 function logoutFunction() {
 	if (confirm("로그아웃 하시 겠습니까??") == true) { // 확인
 		sessionStorage.removeItem("tokenID");
 		sessionStorage.removeItem("userID");
-//		window.location = "/BootStrapTest/index.jsp";
+		// window.location = "/BootStrapTest/index.jsp";
 		window.location.reload();
 	} else { // 취소
 		return;
 	}
 
+}
+
+
+
+////////////////UTIL/////////////////////////////////
+//date validateDate Check
+function validateDate(input_reservation) {
+    var date_regex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/ ;
+    return date_regex.test(input_reservation);
+}
+
+// compactTrim function
+function compactTrim(value) {
+	return value.replace(/(\s*)/g, "");
+}
+
+
+//dateFormating
+function dateFormating(value) {
+	// 06/12/20146:27PM
+
+	var result = compactTrim(value);
+	if (result.length == 16) {
+		var month = result.substring(0, 2);
+		console.log('달',month);
+		console.log(month);
+		var day = result.substring(3, 5);
+		console.log(day);
+		var year = result.substring(6, 10);
+		
+		var hour = result.substring(10, 11);
+		console.log(hour);
+		var minute = result.substring(12, 14);
+		var amPm = result.substring(14, 16);
+		if (amPm === 'PM') {
+			hour *= 1;
+			hour = hour + 12;
+		}
+		console.log(hour);
+		value = new Date(year, month-1, day, hour, minute);
+		console.log(value);
+		return value;
+	}
+
+	if (result.length == 17) {
+		// 06/12/2014 06:27PM
+		var month = result.substring(0, 2);
+		var day = result.substring(3, 5);
+		var year = result.substring(6, 10);
+		var hour = result.substring(10, 12);
+		console.log(hour);
+		var minute = result.substring(13, 15);
+		var amPm = result.substring(15, 17);
+		if (amPm === 'PM') {
+			hour *= 1;
+			hour = hour + 12;
+		}
+		console.log(hour);
+		value = new Date(year, month-1, day, hour, minute);
+		console.log(value);
+		return value;
+	}
+}
+
+
+/////////////////////////////////////////////////////////////////
+//utf8_to_b64(str)
+function utf8_to_b64(str) {
+	return window.btoa(unescape(encodeURIComponent(str)));
+}
+//b64_to_utf8(str)
+function b64_to_utf8(str) {
+	return decodeURIComponent(escape(window.atob(str)));
+}
+
+
+
+//CKEDITOR Get Contents
+function GetContents() {
+	// Get the editor instance that you want to interact with.
+	var editor = CKEDITOR.instances.input_messageContent;
+	return editor.getData();
+
+}
+
+function ckGetPlainText() {
+	var html = CKEDITOR.instances.input_messageContent.getSnapshot();
+	var dom = document.createElement("DIV");
+	dom.innerHTML = html;
+	var plain_text = (dom.textContent || dom.innerText);
+	console.log(plain_text);
+	return plain_text;
 }
