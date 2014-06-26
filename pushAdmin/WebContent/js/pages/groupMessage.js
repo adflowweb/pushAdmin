@@ -15,6 +15,24 @@ function groupMessageFunction() {
 			var input_messageTitle = $('#input_messageTitle').val();
 			var input_reservation = $('#input_reservation').val();
 			dateResult = dateFormating(input_reservation);
+			var imageText = document.getElementById("backImg").value;
+			var imageFile = document.getElementById("backImg").files[0];
+			var replaceImageText= imageText.replace(/^.*\\/, "");
+			var formdata = new FormData();
+			formdata.append("imageText", imageText);
+			formdata.append("imageFile", imageFile);
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/pushAdmin/FileUploader", true);
+			xhr.send(formdata);
+			xhr.onload = function(e) {
+
+				if (this.status == 200) {
+
+					alert(this.responseText);
+
+				}
+
+			};
 			if (input_reservation) {
 			    dateResult = dateResult.toISOString();
 			}

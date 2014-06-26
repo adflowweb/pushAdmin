@@ -9,4 +9,15 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+
+  <servlet>
+    <description></description>
+    <display-name>FileUploader</display-name>
+    <servlet-name>FileUploader</servlet-name>
+    <servlet-class>kr.co.adflow.file.FileUploader</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FileUploader</servlet-name>
+    <url-pattern>/FileUploader</url-pattern>
+  </servlet-mapping>
 </web-app>

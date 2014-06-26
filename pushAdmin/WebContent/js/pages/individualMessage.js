@@ -3,18 +3,39 @@ function individualFunction() {
 	console.log('message send click..');
 	var checkForm = individualFormCheck();
 	if (checkForm) {
-		
+
 		var tokenID = sessionStorage.getItem("tokenID");
-		
+
 		if (tokenID) {
 			var textAreaContents = GetContents();
 			var textAreaPlainText = ckGetPlainText();
+			console.log('plain TExt');
+			console.log(textAreaPlainText);
+			console.log('endplanin text');
 			var htmlEncodeResult = utf8_to_b64(textAreaContents);
 			console.log("htmlEncodeResult..");
 			console.log(htmlEncodeResult);
 			var input_messageTitle = $('#input_messageTitle').val();
 			var input_reservation = $('#input_reservation').val();
 			dateResult = dateFormating(input_reservation);
+			var imageText = document.getElementById("backImg").value;
+			var imageFile = document.getElementById("backImg").files[0];
+			var replaceImageText= imageText.replace(/^.*\\/, "");
+			var formdata = new FormData();
+			formdata.append("imageText", imageText);
+			formdata.append("imageFile", imageFile);
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/pushAdmin/FileUploader", true);
+			xhr.send(formdata);
+			xhr.onload = function(e) {
+
+				if (this.status == 200) {
+
+					alert(this.responseText);
+
+				}
+
+			};
 			if (input_reservation) {
 				dateResult = dateResult.toISOString();
 			}
@@ -34,12 +55,17 @@ function individualFunction() {
 						contentType : "application/json",
 						dataType : 'json',
 						async : false,
-
-						data : '{"sender":"nadir93","receiver":"/users/nadir93","qos":1, "retained":false, "sms":false, "timeOut":600,"reservation":"'
+						data : '{"sender":"nadir93","receiver":"/users/chan","qos":1, "retained":false, "sms":false, "timeOut":600,"reservation":"'
 								+ dateResult
 								+ '", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
+								+ input_messageTitle
+								+ '\\",\\"contentText\\":\\"'
+								+ textAreaPlainText
+								+ '\\",\\"imageName\\":\\"'
+								+ replaceImageText
+								+ '\\",\\"htmlContent\\":\\"'
 								+ htmlEncodeResult
-								+ '\\",\\"contentText\\":\\"교육장소공지입니다.\\", \\"ticker\\":\\"부산은행교육장소알림장소: 수림연수원 시간: 3월 22일 오전: 12시\\",\\"summaryText\\":\\"장소: 수림연수원 시간: 3월 22일 오전:1시\\", \\"image\\":\\"\\"} } "}',
+								+ '\\",\\"ticker\\":\\"부산은행교육장소알림장소: 수림연수원 시간: 3월 22일 오전: 12시\\",\\"summaryText\\":\\"장소: 수림연수원 시간: 3월 22일 오전:1시\\", \\"image\\":\\"\\"} } "}',
 
 						success : function(data) {
 							console.log(data);
@@ -81,8 +107,8 @@ function individualFormCheck() {
 		return false;
 	}
 
-	else if (input_messageTitle == null || input_messageTitle == "") {
-		alert("메세지 제목  입력해주세요");
+	else if (input_messageTitle == null || input_messageTitle == ""||input_messageTitle.length>15) {
+		alert("메세지 제목 이 없거나 너무 깁니다 (길이 15자 이하)");;
 		$('#input_messageTitle').focus();
 		return false;
 	}
@@ -128,6 +154,7 @@ function individualFormCheck() {
 		}
 
 	}
+
 
 	else {
 		return true;

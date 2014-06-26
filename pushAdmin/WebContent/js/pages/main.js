@@ -432,6 +432,8 @@ function loginFunction() {
 					console.log('login in ajax call success');
 					var loginResult = data.result.success;
 					// success
+					console.log(data.result);
+					console.log('login result');
 					if (loginResult) {
 						$('.navbar-static-side').show();
 						var tokenID = data.result.data.tokenID;
