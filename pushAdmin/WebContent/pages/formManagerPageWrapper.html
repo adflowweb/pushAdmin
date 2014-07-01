@@ -1,0 +1,58 @@
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">서식 관리</h1>
+		</div>
+	</div>
+	
+	       <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                           	 서식 관리 
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                                        
+                                        <div class="form-group">
+                                            <label>서식 제목 </label>
+                                            <input class="form-control" id="input_formTitle" placeholder="제목">
+                                        </div>
+                                        
+                                         <div class="form-group">
+                                            <label>Description</label>
+                                            <input class="form-control" id="input_formDescription" placeholder="설명">
+                                        </div>
+
+                                        <div class="form-group">
+										<form id="imgFileForm" method="post"
+											enctype="multipart/form-data">
+											 <label>서식  이미지 파일</label> <input type="file" id="backImg">
+										</form>
+									    </div>
+									    
+									 <div class="form-group">
+										<label>서식 내용</label>
+
+										<textarea id="input_formContent" name="ckeditor" class="ckeditor"
+											rows="5" style="width: 100%; height: 100"> 
+										</textarea>
+
+									   </div>
+                        	
+                                     
+
+                				         <input type="button" onclick="javascript:saveFormFunction();" class="btn btn-default" value="서식 저장"></input>
+                                         <input type="button" onclick="javascript:wrapperFunction('formManager');" class="btn btn-default" value="Reset"></input>
+                                  
+                            
+                          
+                        </div>
+                        <!-- /.panel-body -->
+            			</div>
+                </div>
+         
+   
+            </div>
+            
+              <script src="js/pages/formManager.js"></script>  
+              

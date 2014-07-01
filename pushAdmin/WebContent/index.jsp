@@ -56,11 +56,12 @@
                             
                                <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#" onclick="javascript:wrapperFunction('stats');">메세지 통계</a>
-                                </li>
-                                <li>
                                     <a href="#" onclick="javascript:wrapperFunction('monitoring');">시스템 모니터링</a>
                                 </li>
+                                <li>
+                                    <a href="#" onclick="javascript:wrapperFunction('stats');">메세지 통계</a>
+                                </li>
+                               
                            
                             </ul>
                             
@@ -75,6 +76,7 @@
                                 </li>
                                 <li>
                                     <a href="#" onclick="javascript:wrapperFunction('groupMessage');">그룹 메세지</a>
+                              
                                 </li>
                                  <li>
                                    <a href="#" onclick="javascript:wrapperFunction('allMessage');">전체 메세지</a>
@@ -82,6 +84,26 @@
                                  <li>
                                    <a href="#" onclick="javascript:wrapperFunction('reservation');">예약 메세지 관리</a>
                                 </li>
+<!--                                 <li> -->
+<!--                                   <a href="#">Third Level <span class="fa arrow"></span></a> -->
+<!--                                        <ul class="nav nav-third-level"> -->
+<!--                                         <li> -->
+<!--                                             <a href="#">Third Level Item</a> -->
+<!--                                         </li> -->
+<!--                                         <li> -->
+<!--                                             <a href="#">Third Level Item</a> -->
+<!--                                         </li> -->
+<!--                                         <li> -->
+<!--                                             <a href="#">Third Level Item</a> -->
+<!--                                         </li> -->
+<!--                                         <li> -->
+<!--                                             <a href="#">Third Level Item</a> -->
+<!--                                         </li> -->
+<!--                                     </ul> -->
+<!--                                 </li> -->
+<!--                                 <li> -->
+<!--                                    <a href="#" onclick="javascript:wrapperFunction('formManager');">서식 관리</a> -->
+<!--                                 </li> -->
                             </ul>
                         </li>
                         <li>
@@ -90,9 +112,9 @@
                                 <li>
                                     <a href="#" onclick="javascript:logoutFunction();">로그아웃</a>
                                 </li>
-                                <li>
-                                    <a href="#" onclick="javascript:wrapperFunction('changePass');">비밀 번호 변경</a>
-                                </li>
+<!--                                 <li> -->
+<!--                                     <a href="#" onclick="javascript:wrapperFunction('changePass');">비밀 번호 변경</a> -->
+<!--                                 </li> -->
                                  <li>
                                    <a href="#" onclick="javascript:wrapperFunction('userAdd');">관리자 등록</a>
                                 </li>

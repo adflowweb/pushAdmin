@@ -68,49 +68,49 @@ function wrapperFunction(data) {
 				if (data === "individual") {
 
 					// table data setting
-					$.ajax({
-						url : '/v1/users/' + userID,
-						type : 'GET',
-						headers : {
-							'X-ApiKey' : tokenID
-						},
-						contentType : "application/json",
-						async : false,
-						success : function(data) {
-							var tableData = [];
-
-							for ( var i in data.result.data) {
-
-								var item = data.result.data;
-								console.log(item);
-								tableData.push({
-									"Id" : item.userID,
-									"Name" : item.name,
-									"Dept" : item.dept,
-									"Phone" : item.phone
-								});
-							}
-
-							console.log(tableData);
-							$('#dataTables-example').dataTable({
-								bJQueryUI : true,
-								aaData : tableData,
-								aoColumns : [ {
-									mData : 'Id'
-								}, {
-									mData : 'Name'
-								}, {
-									mData : 'Dept'
-								}, {
-									mData : 'Phone'
-								} ]
-							});
-						},
-						error : function(data, textStatus, request) {
-							console.log(data);
-							alert('유저 정보를 가지고 오는데 실패 하였습니다.');
-						}
-					});
+//					$.ajax({
+//						url : '/v1/users/' + userID,
+//						type : 'GET',
+//						headers : {
+//							'X-ApiKey' : tokenID
+//						},
+//						contentType : "application/json",
+//						async : false,
+//						success : function(data) {
+//							var tableData = [];
+//
+//							for ( var i in data.result.data) {
+//
+//								var item = data.result.data;
+//								console.log(item);
+//								tableData.push({
+//									"Id" : item.userID,
+//									"Name" : item.name,
+//									"Dept" : item.dept,
+//									"Phone" : item.phone
+//								});
+//							}
+//
+//							console.log(tableData);
+//							$('#dataTables-example').dataTable({
+//								bJQueryUI : true,
+//								aaData : tableData,
+//								aoColumns : [ {
+//									mData : 'Id'
+//								}, {
+//									mData : 'Name'
+//								}, {
+//									mData : 'Dept'
+//								}, {
+//									mData : 'Phone'
+//								} ]
+//							});
+//						},
+//						error : function(data, textStatus, request) {
+//							console.log(data);
+//							alert('유저 정보를 가지고 오는데 실패 하였습니다.');
+//						}
+//					});
 
 					// Ckeditor create
 					CKEDITOR.replace('input_messageContent');
@@ -119,26 +119,26 @@ function wrapperFunction(data) {
 					var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
 					$('#datetimepicker1').datetimepicker().data("DateTimePicker").setMinDate(today);
 					// click dataTable
-					$('#dataTables-example tbody').on(
-							'click',
-							'tr',
-							function() {
-
-								var tableData = $(this).children("td").map(
-										function() {
-											return $(this).text();
-										}).get();
-
-								console.log(tableData[0]);
-								$('#input_messageTarget').val(tableData[0]);
-							});
+//					$('#dataTables-example tbody').on(
+//							'click',
+//							'tr',
+//							function() {
+//
+//								var tableData = $(this).children("td").map(
+//										function() {
+//											return $(this).text();
+//										}).get();
+//
+//								console.log(tableData[0]);
+//								$('#input_messageTarget').val(tableData[0]);
+//							});
 
 				}
 				// groupMessage page load
 				if (data === "groupMessage") {
 					// data Table Setting
 					$.ajax({
-						url : '/v1/users/' + userID,
+						url : '/v1/bsbank/groups',
 						type : 'GET',
 						headers : {
 							'X-ApiKey' : tokenID
@@ -149,13 +149,13 @@ function wrapperFunction(data) {
 							var tableData = [];
 
 							for ( var i in data.result.data) {
-
-								var item = data.result.data;
+								console.log(data.result);
+								console.log(data.result.success);
+								var item = data.result.data[i];
 								console.log(item);
 								tableData.push({
-									"Group Id" : item.name,
-									"Group Name" : item.dept,
-									"Group Info" : item.phone
+									"Group Id" : item.gw_sbsd_cdnm,
+									"Group Name" : item.gw_sbsd_nm
 								});
 							}
 
@@ -167,9 +167,7 @@ function wrapperFunction(data) {
 									mData : 'Group Id'
 								}, {
 									mData : 'Group Name'
-								}, {
-									mData : 'Group Info'
-								} ]
+								}]
 							});
 						},
 						error : function(data, textStatus, request) {
@@ -194,11 +192,82 @@ function wrapperFunction(data) {
 
 								console.log(tableData[0]);
 								$('#input_messageTarget').val(tableData[0]);
+								
+								$.ajax({
+									///v1/bsbank/groups/BSCP
+									url : '/v1/bsbank/groups/' + tableData[0],
+									type : 'GET',
+									headers : {
+										'X-ApiKey' : tokenID
+									},
+									contentType : "application/json",
+									async : false,
+									success : function(data) {
+										var tableData = [];
+
+										for ( var i in data.result.data) {
+
+											var item = data.result.data[i];
+											console.log(item);
+											tableData.push({
+												"Group Id" : item.gw_deptmt_cdnm,
+												"Group Name" : item.gw_dpnm,
+												"Group Code" : item.gw_sbsd_cdnm
+											});
+										}
+
+										console.log(tableData);
+									var odataTable=	$('#detaildataTables-example').dataTable({
+											bJQueryUI : true,
+											aaData : tableData,
+											bDestroy: true,
+											aoColumns : [ {
+												mData : 'Group Id'
+											}, {
+												mData : 'Group Name'
+											},{
+												mData : 'Group Code'
+													
+											}]
+										});
+										
+									//odataTable.ajax.reload();
+									$('#detaildataTables-example tbody').on('click',
+											'tr',
+											function() {
+										console.log('클리이벤트');
+										var tableData = $(this).children("td").map(
+												function() {
+													return $(this).text();
+												}).get();
+
+										console.log(tableData[0]);
+										$('#input_messageTarget').val(tableData[0]);
+								
+								});
+									
+									},
+									error : function(data, textStatus, request) {
+										console.log(data);
+										alert('Group 정보를 가지고 오는데 실패 하였습니다.');
+									}
+								});
+								
 							});
+					
+		
 
 				}
 				// AllMessage page load
 				if (data === "allMessage") {
+					CKEDITOR.replace('input_messageContent');
+					$('#dataTables-example').dataTable();
+					var nowDate = new Date();
+					var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+					$('#datetimepicker1').datetimepicker().data("DateTimePicker").setMinDate(today);
+				}
+				
+				if (data === "formManager") {
 					CKEDITOR.replace('input_messageContent');
 					$('#dataTables-example').dataTable();
 					var nowDate = new Date();
@@ -576,6 +645,19 @@ function utf8_to_b64(str) {
 function b64_to_utf8(str) {
 	return decodeURIComponent(escape(window.atob(str)));
 }
+
+
+//UUID generate
+var guid = (function() {
+	  function s4() {
+	    return Math.floor((1 + Math.random()) * 0x10000)
+	               .toString(16)
+	               .substring(1);
+	  }
+	  return function() {
+	    return s4() + s4() ;
+	  };
+	})();
 
 
 

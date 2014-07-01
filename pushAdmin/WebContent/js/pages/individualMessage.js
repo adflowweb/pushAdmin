@@ -5,7 +5,7 @@ function individualFunction() {
 	if (checkForm) {
 
 		var tokenID = sessionStorage.getItem("tokenID");
-
+		var loginID = sessionStorage.getItem("userID");
 		if (tokenID) {
 			var textAreaContents = GetContents();
 			var textAreaPlainText = ckGetPlainText();
@@ -15,15 +15,23 @@ function individualFunction() {
 			var htmlEncodeResult = utf8_to_b64(textAreaContents);
 			console.log("htmlEncodeResult..");
 			console.log(htmlEncodeResult);
+			var input_messageTarget = $('#input_messageTarget').val();
 			var input_messageTitle = $('#input_messageTitle').val();
 			var input_reservation = $('#input_reservation').val();
 			dateResult = dateFormating(input_reservation);
 			var imageText = document.getElementById("backImg").value;
 			var imageFile = document.getElementById("backImg").files[0];
-			var replaceImageText= imageText.replace(/^.*\\/, "");
+			var replaceImageText = imageText.replace(/^.*\\/, "");
+			var uuid = guid();
+			console.log("유유아이디");
+			console.log(uuid);
+			console.log("유유아이디");
+			replaceImageText = uuid + replaceImageText;
+			console.log(replaceImageText);
 			var formdata = new FormData();
 			formdata.append("imageText", imageText);
 			formdata.append("imageFile", imageFile);
+			formdata.append('uuid', uuid);
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", "/pushAdmin/FileUploader", true);
 			xhr.send(formdata);
@@ -55,17 +63,23 @@ function individualFunction() {
 						contentType : "application/json",
 						dataType : 'json',
 						async : false,
-						data : '{"sender":"nadir93","receiver":"/users/chan","qos":1, "retained":false, "sms":false, "timeOut":600,"reservation":"'
+						data : '{"sender":"'
+								+ loginID
+								+ '","receiver":"/users/'
+								+ input_messageTarget
+								+ '","qos":1, "retained":false, "sms":false, "timeOut":600,"reservation":"'
 								+ dateResult
 								+ '", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
 								+ input_messageTitle
 								+ '\\",\\"contentText\\":\\"'
-								+ textAreaPlainText
-								+ '\\",\\"imageName\\":\\"'
+								+ textAreaPlainText + '\\",\\"imageName\\":\\"'
 								+ replaceImageText
 								+ '\\",\\"htmlContent\\":\\"'
-								+ htmlEncodeResult
-								+ '\\",\\"ticker\\":\\"부산은행교육장소알림장소: 수림연수원 시간: 3월 22일 오전: 12시\\",\\"summaryText\\":\\"장소: 수림연수원 시간: 3월 22일 오전:1시\\", \\"image\\":\\"\\"} } "}',
+								+ htmlEncodeResult + '\\",\\"ticker\\":\\"'
+								+ input_messageTitle
+								+ '\\",\\"summaryText\\":\\"'
+								+ input_messageTitle
+								+ '\\", \\"image\\":\\"\\"} } "}',
 
 						success : function(data) {
 							console.log(data);
@@ -91,6 +105,97 @@ function individualFunction() {
 	}
 }
 
+function individualSearch() {
+
+	var searchForm = searchFormCheck();
+
+	if (searchForm) {
+		var selectValue = $('#searchSelect').val();
+		console.log("select Value...start");
+		console.log(selectValue);
+		console.log("select value end..");
+		var tokenID = sessionStorage.getItem("tokenID");
+		var userID = sessionStorage.getItem("userID");
+		// name
+		if (selectValue == 1) {
+
+			// Id
+		} else if (selectValue == 2) {
+			var input_searchContent = $('#input_searchContent').val();
+			$.ajax({
+				// /v1/bsbank/groups/BSCP
+				url : ' /v1/bsbank/users/' + input_searchContent,
+				type : 'GET',
+				headers : {
+					'X-ApiKey' : tokenID
+				},
+				contentType : "application/json",
+				async : false,
+				success : function(data) {
+					var tableData = [];
+					var item = data.result.data;
+					console.log(item);
+
+					tableData.push({
+						"Id" : item.gw_stf_cdnm,
+						"Name" : item.gw_user_nm,
+						"Dept" : item.gw_sbsd_cdnm,
+						"Phone" : item.mpno
+					});
+					console.log(tableData);
+					var odataTable = $('#dataTables-example').dataTable({
+						bJQueryUI : true,
+						aaData : tableData,
+						bDestroy : true,
+						aoColumns : [ {
+							mData : 'Id'
+						}, {
+							mData : 'Name'
+						}, {
+							mData : 'Dept'
+						}, {
+							mData : 'Phone'
+						} ]
+					});
+
+					// odataTable.ajax.reload();
+					$('#dataTables-example tbody').on(
+							'click',
+							'tr',
+							function() {
+								console.log('클리이벤트');
+								var tableData = $(this).children("td").map(
+										function() {
+											return $(this).text();
+										}).get();
+
+								console.log(tableData[0]);
+								$('#input_messageTarget').val(tableData[0]);
+
+							});
+
+				},
+				error : function(data, textStatus, request) {
+					console.log(data);
+					alert('정보를 가지고 오는데 실패 하였습니다.');
+				}
+			});
+
+		}
+	}
+
+}
+
+function searchFormCheck() {
+	var input_searchContent = $('#input_searchContent').val();
+	if (input_searchContent == null || input_searchContent == "") {
+		alert("검색할 대상을 입력해주세요");
+		$('#input_searchContent').focus();
+		return false;
+	}
+	return true;
+}
+
 // form null check
 function individualFormCheck() {
 	var input_messageTarget = $('#input_messageTarget').val();
@@ -107,8 +212,10 @@ function individualFormCheck() {
 		return false;
 	}
 
-	else if (input_messageTitle == null || input_messageTitle == ""||input_messageTitle.length>15) {
-		alert("메세지 제목 이 없거나 너무 깁니다 (길이 15자 이하)");;
+	else if (input_messageTitle == null || input_messageTitle == ""
+			|| input_messageTitle.length > 15) {
+		alert("메세지 제목 이 없거나 너무 깁니다 (길이 15자 이하)");
+		;
 		$('#input_messageTitle').focus();
 		return false;
 	}
@@ -154,7 +261,6 @@ function individualFormCheck() {
 		}
 
 	}
-
 
 	else {
 		return true;
