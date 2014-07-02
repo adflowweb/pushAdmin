@@ -83,11 +83,12 @@ function individualFunction() {
 
 						success : function(data) {
 							console.log(data);
-							console.log(data.result.success);
-							if (data.result.success) {
+							console.log(data.result.info);
+							console.log('result info end');
+							if (data.result.info) {
 								alert("메세지를 성공적으로 전송하였습니다.");
 								wrapperFunction('individual');
-
+//								$('#wrapper').trigger('create');
 								$('#input_messageTarget').focus();
 							} else {
 								alert("메세지 전송에 실패 하였습니다");
@@ -132,8 +133,11 @@ function individualSearch() {
 				contentType : "application/json",
 				async : false,
 				success : function(data) {
+					//search Success
+					if(data.result.data){
 					var tableData = [];
 					var item = data.result.data;
+					console.log('search Success');
 					console.log(item);
 
 					tableData.push({
@@ -173,7 +177,9 @@ function individualSearch() {
 								$('#input_messageTarget').val(tableData[0]);
 
 							});
-
+					}else{
+						alert('해당 유저 아이디가 없습니다');
+					}
 				},
 				error : function(data, textStatus, request) {
 					console.log(data);
