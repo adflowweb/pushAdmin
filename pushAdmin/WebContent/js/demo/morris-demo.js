@@ -1,47 +1,44 @@
 $(function() {
-	// var userID=sessionStorage.getItem("userID");
-	// var tokenID=sessionStorage.getItem("tokenID");
-	// var tableData = [];
-	// $.ajax({
-	// url : '/v1/users/' + userID,
-	// type : 'GET',
-	// headers : {
-	// 'X-ApiKey' : tokenID
-	// },
-	// contentType : "application/json",
-	// async : false,
-	// success : function(data) {
-	//			
-	//
-	// for ( var i in data.result.data) {
-	//
-	// var item = data.result.data;
-	// console.log(item);
-	// tableData.push({
-	// Id : '2010 Q1',
-	// name : 1231,
-	// dept : null,
-	// phone : 1234
-	// });
-	// }
-	//
-	// console.log(tableData);
-	// },
-	// error : function(data, textStatus, request) {
-	// console.log(data);
-	// alert('유저 정보를 가지고 오는데 실패 하였습니다.');
-	// }
-	// });
-	// Morris.Area({
-	// element: 'morris-area-chart',
-	// data: tableData,
-	// xkey: 'Id',
-	// ykeys: ['name', 'dept', 'phone'],
-	// labels: ['name', 'dept', 'phone'],
-	// pointSize: 2,
-	// hideHover: 'auto',
-	// resize: true
-	// });
+	// Add a random value to each line every second
+	var cpuData ;
+	var tokenID = sessionStorage.getItem("tokenID");
+	var userID = sessionStorage.getItem("userID");
+	
+//	setInterval(function() {
+//		
+//		
+//		$.ajax({
+//		url : '/v1/server',
+//		type : 'GET',
+//		headers : {
+//			'X-ApiKey' : tokenID
+//		},
+//		contentType : "application/json",
+//		async : false,
+//		success : function(data) {
+//			var tableData = [];
+//				
+//				if(data.result.success){
+//				
+//					var item = data.result.data;
+//					console.log(item);
+//					cpuData=item.cpu.combined;
+//					cpuData=cpuData*100;
+//					console.log(cpuData);
+//				}else{
+//					alert('server errors');
+//				}
+//
+//		
+//		},
+//		error : function(data, textStatus, request) {
+//			console.log(data);
+//			
+//		}
+//	});
+//		
+//	
+//	}, 1000);
 
 	Morris.Area({
 		element : 'morris-area-chart',
@@ -122,37 +119,12 @@ $(function() {
 	Morris.Bar({
 		element : 'morris-bar-chart',
 		data : [ {
-			y : '2006',
-			a : 100,
-			b : 90
-		}, {
-			y : '2007',
-			a : 75,
-			b : 65
-		}, {
-			y : '2008',
-			a : 50,
-			b : 40
-		}, {
-			y : '2009',
-			a : 75,
-			b : 65
-		}, {
-			y : '2010',
-			a : 50,
-			b : 40
-		}, {
-			y : '2011',
-			a : 75,
-			b : 65
-		}, {
-			y : '2012',
-			a : 100,
-			b : 90
-		} ],
-		xkey : 'y',
-		ykeys : [ 'a', 'b' ],
-		labels : [ 'Series A', 'Series B' ],
+			y : 'cpu',
+			a : 15
+		}],
+		xkey : '100',
+		ykeys : [ 'a' ],
+		labels : [ 'Series A' ],
 		hideHover : 'auto',
 		resize : true
 	});

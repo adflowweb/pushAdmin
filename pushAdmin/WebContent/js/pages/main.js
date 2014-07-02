@@ -9,42 +9,42 @@ $(document)
 						$('.navbar-static-side').show();
 						$("#page-wrapper")
 								.load(
-										"pages/mainPagePageWrapper.html",
+										"pages/monitoringPageWrapper.html",
 										function() {
 											// script add morris-demo graph
-											$(function() {
-												var script = document
-														.createElement("script");
-												script.type = "text/javascript";
-												if (script.readyState) { // IE
-													script.onreadystatechange = function() {
-														if (script.readyState == "loaded"
-																|| script.readyState == "complete") {
-															script.onreadystatechange = null;
-															callback();
-														}
-													};
-												} else { // Others
-													script.onload = function() {
-														callback();
-													};
-												}
-
-												script.src = "js/demo/morris-demo.js";
-												document
-														.getElementsByTagName("head")[0]
-														.appendChild(script);
-												function callback() {
-
-												}
-												;
-											});
+//											$(function() {
+//												var script = document
+//														.createElement("script");
+//												script.type = "text/javascript";
+//												if (script.readyState) { // IE
+//													script.onreadystatechange = function() {
+//														if (script.readyState == "loaded"
+//																|| script.readyState == "complete") {
+//															script.onreadystatechange = null;
+//															callback();
+//														}
+//													};
+//												} else { // Others
+//													script.onload = function() {
+//														callback();
+//													};
+//												}
+//
+//												script.src = "js/demo/morris-demo.js";
+//												document
+//														.getElementsByTagName("head")[0]
+//														.appendChild(script);
+//												function callback() {
+//
+//												}
+//												;
+//											});
 										});
 						// tokenId..null
 					} else {
 
 						$("#page-wrapper").load("pages/login.html", function() {
-							alert('token id is null..');
+
 							console.log("logind..html..");
 						});
 
@@ -308,39 +308,39 @@ function wrapperFunction(data) {
 				}
 				// monitoring page load
 				if (data === "monitoring") {
-					$(function() {
-						var script = document.createElement("script");
-						script.type = "text/javascript";
-
-						if (script.readyState) { // IE
-							script.onreadystatechange = function() {
-								if (script.readyState == "loaded"
-										|| script.readyState == "complete") {
-									script.onreadystatechange = null;
-									callback();
-								}
-							};
-						} else { // Others
-							script.onload = function() {
-								callback();
-							};
-						}
-
-						script.src = "js/demo/morris-demo.js";
-						document.getElementsByTagName("head")[0]
-								.appendChild(script);
-
-						function callback() {
-
-						}
-						;
-					});
+//					$(function() {
+//						var script = document.createElement("script");
+//						script.type = "text/javascript";
+//
+//						if (script.readyState) { // IE
+//							script.onreadystatechange = function() {
+//								if (script.readyState == "loaded"
+//										|| script.readyState == "complete") {
+//									script.onreadystatechange = null;
+//									callback();
+//								}
+//							};
+//						} else { // Others
+//							script.onload = function() {
+//								callback();
+//							};
+//						}
+//
+//						script.src = "js/demo/morris-demo.js";
+//						document.getElementsByTagName("head")[0]
+//								.appendChild(script);
+//
+//						function callback() {
+//
+//						}
+//						;
+//					});
 
 				}
-				// userDelete
-				if (data === "userDelete") {
+				// userManager
+				if (data === "userManager") {
 					$.ajax({
-						url : '/v1/users/' + userID,
+						url : '/v1/users?type=admin',
 						type : 'GET',
 						headers : {
 							'X-ApiKey' : tokenID
@@ -352,7 +352,7 @@ function wrapperFunction(data) {
 
 							for ( var i in data.result.data) {
 
-								var item = data.result.data;
+								var item = data.result.data[i];
 								console.log(item);
 								tableData.push({
 									"Id" : item.userID,
@@ -401,7 +401,7 @@ function wrapperFunction(data) {
 				if (data === "reservation") {
 					var input_reservationCancelID = "test";
 					$.ajax({
-						url : '/v1/users/' + input_reservationCancelID,
+						url :  '/v1/messages?type=reservation',
 						type : 'GET',
 						headers : {
 							'X-ApiKey' : tokenID
@@ -413,13 +413,20 @@ function wrapperFunction(data) {
 
 							for ( var i in data.result.data) {
 
-								var item = data.result.data;
+								var item = data.result.data[i];
 								console.log(item);
+								
+//							     <th>Message Id</th>
+//                                 <th>Sender</th>
+//                                 <th>Receiver</th>
+//                                 <th>Reservation Time</th> 
+								var date = new Date(item.reservation);
+								var dateResult=date.yyyymmdd();
 								tableData.push({
-									"Id" : item.userID,
-									"Name" : item.name,
-									"Dept" : item.dept,
-									"Phone" : item.phone
+									"Message Id" : item.id,
+									"Sender" : item.sender,
+									"Receiver" : item.receiver,
+									"Reservation Time" : dateResult
 								});
 							}
 
@@ -428,13 +435,13 @@ function wrapperFunction(data) {
 								bJQueryUI : true,
 								aaData : tableData,
 								aoColumns : [ {
-									mData : 'Id'
+									mData : 'Message Id'
 								}, {
-									mData : 'Name'
+									mData : 'Sender'
 								}, {
-									mData : 'Dept'
+									mData : 'Receiver'
 								}, {
-									mData : 'Phone'
+									mData : 'Reservation Time'
 								} ]
 							});
 						},
@@ -484,19 +491,17 @@ function loginFunction() {
 		alert("비밀번호를  입력해주세요");
 		return false;
 	}
+	 var deviceID= utf8_to_b64(loginId);
 	// login ajax call
 	$
 			.ajax({
-				url : '/v1/auth',
+				url : '/v1/adminAuth',
 				type : 'POST',
-				headers : {
-					'X-ApiKey' : 'devServer3'
-				},
 				contentType : "application/json",
 				dataType : 'json',
 				async : false,
 				data : '{"userID":"' + loginId + '","password":"' + loginPass
-						+ '"}',
+						+ '","deviceID":"'+deviceID+'"}',
 				success : function(data) {
 					console.log('login in ajax call success');
 					var loginResult = data.result.success;
@@ -504,6 +509,7 @@ function loginFunction() {
 					console.log(data.result);
 					console.log('login result');
 					if (loginResult) {
+				    if(!data.result.errors){
 						$('.navbar-static-side').show();
 						var tokenID = data.result.data.tokenID;
 						sessionStorage.setItem("tokenID", tokenID);
@@ -511,41 +517,44 @@ function loginFunction() {
 						// mainPage load
 						$("#page-wrapper")
 								.load(
-										"pages/mainPagePageWrapper.html",
+										"pages/monitoringPageWrapper.html",
 										function() {
-											$(function() {
-												var script = document
-														.createElement("script");
-												script.type = "text/javascript";
-
-												if (script.readyState) { // IE
-													script.onreadystatechange = function() {
-														if (script.readyState == "loaded"
-																|| script.readyState == "complete") {
-															script.onreadystatechange = null;
-															callback();
-														}
-													};
-												} else { // Others
-													script.onload = function() {
-														callback();
-													};
-												}
-
-												script.src = "js/demo/morris-demo.js";
-												document
-														.getElementsByTagName("head")[0]
-														.appendChild(script);
-
-												function callback() {
-
-												}
-												;
-											});
+//											$(function() {
+//												var script = document
+//														.createElement("script");
+//												script.type = "text/javascript";
+//
+//												if (script.readyState) { // IE
+//													script.onreadystatechange = function() {
+//														if (script.readyState == "loaded"
+//																|| script.readyState == "complete") {
+//															script.onreadystatechange = null;
+//															callback();
+//														}
+//													};
+//												} else { // Others
+//													script.onload = function() {
+//														callback();
+//													};
+//												}
+//
+//												script.src = "js/demo/morris-demo.js";
+//												document
+//														.getElementsByTagName("head")[0]
+//														.appendChild(script);
+//
+//												function callback() {
+//
+//												}
+//												;
+//											});
 										});
 						// user not found or invalid password
+						}else{
+							alert(data.result.errors[0]);
+						}
 					} else {
-						alert(data.result.info[0]);
+						alert('server error');
 					}
 
 				},
@@ -677,3 +686,13 @@ function ckGetPlainText() {
 	console.log(plain_text);
 	return plain_text;
 }
+
+
+Date.prototype.yyyymmdd = function() {
+	   var yyyy = this.getFullYear().toString();
+	   var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+	   var dd  = this.getDate().toString();
+	   var hour= this.getHours().toString();
+	   var minute=this.getMinutes().toString();
+	   return yyyy +"/"+ (mm[1]?mm:"0"+mm[0])+"/"+ (dd[1]?dd:"0"+dd[0])+" "+(hour[1]?hour:"0"+hour[0])+":"+(minute[1]?minute:"0"+minute[0]); // padding
+	  };

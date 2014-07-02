@@ -39,7 +39,7 @@ function individualFunction() {
 
 				if (this.status == 200) {
 
-					alert(this.responseText);
+					console.log(this.responseText);
 
 				}
 
@@ -140,7 +140,7 @@ function individualSearch() {
 						"Id" : item.gw_stf_cdnm,
 						"Name" : item.gw_user_nm,
 						"Dept" : item.gw_sbsd_cdnm,
-						"Phone" : item.mpno
+						"Phone" : item.gw_stf_cdnm
 					});
 					console.log(tableData);
 					var odataTable = $('#dataTables-example').dataTable({

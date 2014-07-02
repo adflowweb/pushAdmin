@@ -17,18 +17,21 @@
     <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-datetimepicker.css" rel="stylesheet">
     <link href="css/sb-admin.css" rel="stylesheet">
-    
+  
+<!-- 	<link rel="stylesheet" href="css/TableBarChart.css" /> -->
            
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="js/sb-admin.js"></script>
     <script src="js/pages/main.js"></script>
+    <script type="text/javascript" src="js/smoothie.js"></script>
     <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
     <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
     <script src="ckeditor/ckeditor.js"></script> 
     <script src="js/plugins/morris/raphael-2.1.0.min.js"></script>
     <script src="js/plugins/morris/morris.js"></script>
+<!--       <script type="text/javascript" src="js/TableBarChart.js"></script> -->
 
 
 
@@ -109,9 +112,7 @@
                         <li>
                             <a href="#"><i class="fa fa-user fa-fw"></i> Admin<span class="fa arrow"></span></a>
                               <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#" onclick="javascript:logoutFunction();">로그아웃</a>
-                                </li>
+                               
 <!--                                 <li> -->
 <!--                                     <a href="#" onclick="javascript:wrapperFunction('changePass');">비밀 번호 변경</a> -->
 <!--                                 </li> -->
@@ -119,7 +120,10 @@
                                    <a href="#" onclick="javascript:wrapperFunction('userAdd');">관리자 등록</a>
                                 </li>
                                  <li>
-                                   <a href="#" onclick="javascript:wrapperFunction('userDelete');">관리자 삭제</a>
+                                   <a href="#" onclick="javascript:wrapperFunction('userManager');">관리자 목록</a>
+                                </li>
+                                 <li>
+                                    <a href="#" onclick="javascript:logoutFunction();">로그아웃</a>
                                 </li>
                                 
                             </ul>
