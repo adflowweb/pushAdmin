@@ -67,7 +67,7 @@ function individualFunction() {
 								+ loginID
 								+ '","receiver":"/users/'
 								+ input_messageTarget
-								+ '","qos":1, "retained":false, "sms":false, "timeOut":600,"reservation":"'
+								+ '","qos":1, "retained":false, "type":0,"sms":false, "timeOut":600,"reservation":"'
 								+ dateResult
 								+ '", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
 								+ input_messageTitle

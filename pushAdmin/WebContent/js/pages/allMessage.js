@@ -51,15 +51,23 @@ function allMessageFunction() {
 						contentType : "application/json",
 						dataType : 'json',
 						async : false,
-						data : '{"message":"{\\"notification\\":{\\"notificationStyle\\":3,\\"contentTitle\\":\\"'
-								+ input_messageTitle
-								+ '\\",\\"contentText\\":\\"'
-								+ input_messageContent
-								+ '\\",\\"ticker\\":\\"'
-								+ input_messageTitle
-								+ '\\"}}","sender":"'
-								+ tokenID
-								+ '","receiver":"users/chlee","qos":2,"retained":false}',
+						data : '{"sender":"'
+							+ loginID
+							+ '","receiver":"/users/'
+							+ input_messageTarget
+							+ '","qos":1, "retained":false, "type":1,"sms":false, "timeOut":600,"reservation":"'
+							+ dateResult
+							+ '", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
+							+ input_messageTitle
+							+ '\\",\\"contentText\\":\\"'
+							+ textAreaPlainText + '\\",\\"imageName\\":\\"'
+							+ replaceImageText
+							+ '\\",\\"htmlContent\\":\\"'
+							+ htmlEncodeResult + '\\",\\"ticker\\":\\"'
+							+ input_messageTitle
+							+ '\\",\\"summaryText\\":\\"'
+							+ input_messageTitle
+							+ '\\", \\"image\\":\\"\\"} } "}',
 						success : function(data) {
 							console.log(data);
 							console.log(data.result.success);

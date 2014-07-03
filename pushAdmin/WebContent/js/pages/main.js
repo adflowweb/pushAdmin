@@ -213,6 +213,12 @@ function wrapperFunction(data) {
 												console.log(tableData[0]);
 												$('#input_messageTarget').val(
 														tableData[0]);
+												$(
+												'#message_type')
+												.val('2');
+												console.log($(
+												'#message_type')
+												.val());
 
 												$
 														.ajax({
@@ -292,7 +298,12 @@ function wrapperFunction(data) {
 																								'#input_messageTarget')
 																								.val(
 																										tableData[0]);
-
+																						$(
+																						'#message_type')
+																						.val('3');
+																						console.log($(
+																						'#message_type')
+																						.val());
 																					});
 																} else {
 																	alert('세부 Group 정보를 가지고 오는데 실패 하였습니다.');
@@ -553,6 +564,22 @@ function wrapperFunction(data) {
 							console.log('changePass...in..');
 							$('#input_changeUserId').val(userID);
 
+						}
+						
+						if(data==="excel"){
+							CKEDITOR.replace('input_messageContent');
+						
+							var nowDate = new Date();
+							var today = new Date(nowDate.getFullYear(), nowDate
+									.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+							var today_30 = new Date(nowDate.getFullYear(), nowDate
+									.getMonth(), nowDate.getDate()+30, 0, 0, 0, 0);
+							$('#datetimepicker1').datetimepicker().data(
+									"DateTimePicker").setMinDate(today);
+							
+							$('#datetimepicker1').datetimepicker().data(
+							"DateTimePicker").setMaxDate(today_30);
+							
 						}
 
 					});
