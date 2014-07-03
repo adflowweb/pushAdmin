@@ -28,19 +28,17 @@ function userAddFunction() {
 					console.log(data);
 					console.log(data.result.success);
 					if (data.result.success) {
-						
-						if (!data.result.errors) {
-							console.log('admin step1');
-							console.log(data.result.data);
-							console.log('admin step2');
-							console.log(data.result.data.admin);
-							console.log('admin step3');
-							data.result.data.admin=true;
-							console.log('admin step4');
-							console.log(data.result.data.admin);
-							var updateJson=JSON.stringify(data.result.data);
-			
 							if (data.result.data) {
+								console.log('admin step1');
+								console.log(data.result.data);
+								console.log('admin step2');
+								console.log(data.result.data.admin);
+								console.log('admin step3');
+								data.result.data.admin=true;
+								console.log('admin step4');
+								console.log(data.result.data.admin);
+								var updateJson=JSON.stringify(data.result.data);
+								
 								$.ajax({
 									url : '/v1/users/',
 									type : 'PUT',
@@ -70,9 +68,7 @@ function userAddFunction() {
 							}
 							console.log('get user info');
 							$('#input_userID').val("");
-						} else {
-							alert('server errors');
-						}
+						
 						// $('#input_userPass').val("");
 						// $('#input_userPassR').val("");
 						// $('#input_userName').val("");

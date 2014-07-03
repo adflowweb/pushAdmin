@@ -39,6 +39,7 @@ var tps;
 				heapUsed=item.heap.heapUsed*0.001;
 				heapFree=heapMax-heapUsed;
 				used=used.toFixed(1);
+				free=free.toFixed(1);
 				heapMax=heapMax.toFixed(1);
 				heapUsed=heapUsed.toFixed(1);
 				heapFree=heapFree.toFixed(1);

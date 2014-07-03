@@ -119,6 +119,92 @@ function individualSearch() {
 		var userID = sessionStorage.getItem("userID");
 		// name
 		if (selectValue == 1) {
+			var input_searchContent = $('#input_searchContent').val();
+			console.log(input_searchContent);
+			if(input_searchContent.length<2){
+				alert('이름은 2자 이상 입력 하셔야 합니다.');
+				$('#input_searchContent').focus();
+				return false;
+			}
+			$.ajax({
+				// /v1/bsbank/groups/BSCP
+				url : ' /v1/bsbank/users?name=' + input_searchContent ,
+				type : 'GET',
+				headers : {
+					'X-ApiKey' : tokenID
+				},
+				contentType : "application/json",
+				async : false,
+				success : function(data) {
+					//search Success
+//					
+//					for ( var i in data.result.data) {
+//						console.log(data.result);
+//						console.log(data.result.success);
+//						var item = data.result.data[i];
+//						console.log(item);
+//						tableData.push({
+//							"Group Id" : item.gw_sbsd_cdnm,
+//							"Group Name" : item.gw_sbsd_nm
+//						});
+//					}
+					
+					if(data.result.data){
+
+					var tableData = [];
+					for ( var i in data.result.data) {
+						var item = data.result.data[i];
+						console.log('search Success');
+						console.log(item);
+						tableData.push({
+							"Id" : item.gw_stf_cdnm,
+							"Name" : item.gw_user_nm,
+							"Dept" : item.gw_sbsd_cdnm,
+							"Phone" : item.gw_stf_cdnm
+						});
+					}
+
+					console.log(tableData);
+					var odataTable = $('#dataTables-example').dataTable({
+						bJQueryUI : true,
+						aaData : tableData,
+						bDestroy : true,
+						aoColumns : [ {
+							mData : 'Id'
+						}, {
+							mData : 'Name'
+						}, {
+							mData : 'Dept'
+						}, {
+							mData : 'Phone'
+						} ]
+					});
+
+					// odataTable.ajax.reload();
+					$('#dataTables-example tbody').on(
+							'click',
+							'tr',
+							function() {
+								console.log('클리이벤트');
+								var tableData = $(this).children("td").map(
+										function() {
+											return $(this).text();
+										}).get();
+
+								console.log(tableData[0]);
+								$('#input_messageTarget').val(tableData[0]);
+
+							});
+					}else{
+						alert('해당 유저 이름이 없습니다');
+					}
+				},
+				error : function(data, textStatus, request) {
+					console.log(data);
+					alert('정보를 가지고 오는데 실패 하였습니다.');
+				}
+			});
+			
 
 			// Id
 		} else if (selectValue == 2) {
@@ -277,6 +363,12 @@ function individualFormCheck() {
 // 메세지 서식이미지 로딩 Event
 $("#backImg").change(function() {
 	console.log('file.....change...');
+	console.log(this.files[0].size);
+	if(this.files[0].size>20000){
+		alert('파일 사이즈를 20kb 이하로 설정해 주십시요 .');
+		wrapperFunction('individual');
+	}
+	
 	readURL(this);
 });
 // 메세지 서식 이미지 적용

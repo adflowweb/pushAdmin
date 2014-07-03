@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <% request.setCharacterEncoding("utf-8"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -61,6 +62,9 @@
                                 <li>
                                     <a href="#" onclick="javascript:wrapperFunction('monitoring');">시스템 모니터링</a>
                                 </li>
+                                 <li>
+                                    <a href="#" onclick="javascript:wrapperFunction('stats');">메세지 발송 리스트</a>
+                                </li>
                                 <li>
                                     <a href="#" onclick="javascript:wrapperFunction('stats');">메세지 통계</a>
                                 </li>
@@ -83,6 +87,9 @@
                                 </li>
                                  <li>
                                    <a href="#" onclick="javascript:wrapperFunction('allMessage');">전체 메세지</a>
+                                </li>
+                                 <li>
+                                   <a href="#" onclick="javascript:wrapperFunction('excel');">엑셀 메세지</a>
                                 </li>
                                  <li>
                                    <a href="#" onclick="javascript:wrapperFunction('reservation');">예약 메세지 관리</a>

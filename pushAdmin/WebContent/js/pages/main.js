@@ -114,12 +114,18 @@ function wrapperFunction(data) {
 							var nowDate = new Date();
 							var today = new Date(nowDate.getFullYear(), nowDate
 									.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+							var today_30 = new Date(nowDate.getFullYear(), nowDate
+									.getMonth(), nowDate.getDate()+30, 0, 0, 0, 0);
 							$('#datetimepicker1').datetimepicker().data(
 									"DateTimePicker").setMinDate(today);
+							
+							$('#datetimepicker1').datetimepicker().data(
+							"DateTimePicker").setMaxDate(today_30);
 							// click dataTable
 							// $('#dataTables-example tbody').on(
 							// 'click',
 							// 'tr',
+							//endDate: '+2d'
 							// function() {
 							//
 							// var tableData = $(this).children("td").map(
@@ -182,8 +188,13 @@ function wrapperFunction(data) {
 							var nowDate = new Date();
 							var today = new Date(nowDate.getFullYear(), nowDate
 									.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+							var today_30 = new Date(nowDate.getFullYear(), nowDate
+									.getMonth(), nowDate.getDate()+30, 0, 0, 0, 0);
 							$('#datetimepicker1').datetimepicker().data(
 									"DateTimePicker").setMinDate(today);
+							
+							$('#datetimepicker1').datetimepicker().data(
+							"DateTimePicker").setMaxDate(today_30);
 							$('#dataTables-example tbody')
 									.on(
 											'click',
@@ -307,8 +318,13 @@ function wrapperFunction(data) {
 							var nowDate = new Date();
 							var today = new Date(nowDate.getFullYear(), nowDate
 									.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+							var today_30 = new Date(nowDate.getFullYear(), nowDate
+									.getMonth(), nowDate.getDate()+30, 0, 0, 0, 0);
 							$('#datetimepicker1').datetimepicker().data(
 									"DateTimePicker").setMinDate(today);
+							
+							$('#datetimepicker1').datetimepicker().data(
+							"DateTimePicker").setMaxDate(today_30);
 						}
 
 						if (data === "formManager") {
@@ -449,7 +465,9 @@ function wrapperFunction(data) {
 						}
 						// 예약메세지 관리
 						if (data === "reservation") {
+				
 							var input_reservationCancelID = "test";
+							var tableData = [];
 							$.ajax({
 								url : '/v1/messages?type=reservation',
 								type : 'GET',
@@ -459,22 +477,23 @@ function wrapperFunction(data) {
 								contentType : "application/json",
 								async : false,
 								success : function(data) {
-									var tableData = [];
+								
 									if (data.result.data) {
 
 										for ( var i in data.result.data) {
 
 											var item = data.result.data[i];
 											console.log(item);
-
+									
 											var date = new Date(
 													item.reservation);
 											var dateResult = date.yyyymmdd();
 											tableData.push({
-												"Message Id" : item.id,
+												"MessageId" : item.id,
 												"Sender" : item.sender,
 												"Receiver" : item.receiver,
-												"Reservation Time" : dateResult
+												"ReservationTime" : dateResult,
+												"content":item.sender
 											});
 										}
 
@@ -483,13 +502,13 @@ function wrapperFunction(data) {
 											bJQueryUI : true,
 											aaData : tableData,
 											aoColumns : [ {
-												mData : 'Message Id'
+												mData : 'MessageId'
 											}, {
 												mData : 'Sender'
 											}, {
 												mData : 'Receiver'
 											}, {
-												mData : 'Reservation Time'
+												mData : 'ReservationTime'
 											} ]
 										});
 									} else {
@@ -507,14 +526,25 @@ function wrapperFunction(data) {
 									'tr',
 									function() {
 
-										var tableData = $(this).children("td")
+										var tableDataRow = $(this).children("td")
 												.map(function() {
 													return $(this).text();
 												}).get();
 
-										console.log(tableData[0]);
+										console.log(tableDataRow[0]);
 										$('#input_reservationCancelID').val(
-												tableData[0]);
+												tableDataRow[0]);
+										 
+										for (var i = 0; i < tableData.length; i++) {
+											console.log('in for');
+											console.log(tableData[i].MessageId);
+											if(tableData[i].MessageId==tableDataRow[0]){
+												console.log(tableData[i].MessageId);
+												$('.reservation_detail').text(tableData[i].content);
+											}
+										}
+										
+
 									});
 						}
 

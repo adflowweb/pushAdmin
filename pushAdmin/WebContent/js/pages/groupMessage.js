@@ -160,6 +160,11 @@ function individualFormCheck() {
 //메세지 서식이미지 로딩 Event
 $("#backImg").change(function() {
 	console.log('file.....change...');
+	console.log(this.files[0].size);
+	if(this.files[0].size>20000){
+		alert('파일 사이즈를 20kb 이하로 설정해 주십시요 .');
+		wrapperFunction('groupMessage');
+	}
 	readURL(this);
 });
 //메세지 서식 이미지 적용
