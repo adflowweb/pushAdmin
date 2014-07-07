@@ -86,10 +86,10 @@
                               
                                 </li>
                                  <li>
-                                   <a href="#" onclick="javascript:wrapperFunction('allMessage');">전체 메세지</a>
+                                   <a href="#" onclick="javascript:wrapperFunction('excel');">대량 메세지</a>
                                 </li>
-                                 <li>
-                                   <a href="#" onclick="javascript:wrapperFunction('excel');">엑셀 메세지</a>
+                                   <li>
+                                   <a href="#" onclick="javascript:wrapperFunction('allMessage');">전체 메세지</a>
                                 </li>
                                  <li>
                                    <a href="#" onclick="javascript:wrapperFunction('reservation');">예약 메세지 관리</a>

@@ -5,7 +5,7 @@ $(document).ready(function() {
 	// local storage token ID Check
 	if (localTokenId) {
 		$('.navbar-static-side').show();
-		$("#page-wrapper").load("pages/monitoringPageWrapper.html", function() {
+		$("#page-wrapper").load("pages/statsPageWrapper.html", function() {
 			// script add morris-demo graph
 			// $(function() {
 			// var script = document
@@ -215,7 +215,7 @@ function wrapperFunction(data) {
 														tableData[0]);
 												$(
 												'#message_type')
-												.val('2');
+												.val(2);
 												console.log($(
 												'#message_type')
 												.val());
@@ -300,7 +300,7 @@ function wrapperFunction(data) {
 																										tableData[0]);
 																						$(
 																						'#message_type')
-																						.val('3');
+																						.val(3);
 																						console.log($(
 																						'#message_type')
 																						.val());
@@ -499,12 +499,17 @@ function wrapperFunction(data) {
 											var date = new Date(
 													item.reservation);
 											var dateResult = date.yyyymmdd();
+											console.log(item.content);
+											var json_data = JSON.parse(item.content);
+											console.log(json_data);
+											console.log('end.');
 											tableData.push({
 												"MessageId" : item.id,
 												"Sender" : item.sender,
 												"Receiver" : item.receiver,
 												"ReservationTime" : dateResult,
-												"content":item.sender
+												"title":json_data.notification.contentTitle,
+												"content":json_data.notification.contentText
 											});
 										}
 
@@ -551,7 +556,8 @@ function wrapperFunction(data) {
 											console.log(tableData[i].MessageId);
 											if(tableData[i].MessageId==tableDataRow[0]){
 												console.log(tableData[i].MessageId);
-												$('.reservation_detail').text(tableData[i].content);
+												$('.reservation_detail').html(tableData[i].content);
+												$('.reservation_title').html(tableData[i].title);
 											}
 										}
 										
@@ -623,7 +629,7 @@ function loginFunction() {
 					sessionStorage.setItem("tokenID", tokenID);
 					sessionStorage.setItem("userID", loginId);
 					// mainPage load
-					$("#page-wrapper").load("pages/monitoringPageWrapper.html",
+					$("#page-wrapper").load("pages/statsPageWrapper.html",
 							function() {
 								// $(function() {
 								// var script = document

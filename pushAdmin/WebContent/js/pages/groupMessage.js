@@ -6,7 +6,7 @@ function groupMessageFunction() {
 	if (checkForm) {
 		
 		var tokenID = sessionStorage.getItem("tokenID");
-
+		var loginID = sessionStorage.getItem("userID");
 		if (tokenID) {
 			var messageType=$('#message_type').val();
 			console.log('메세지 타입 시작');
@@ -32,7 +32,7 @@ function groupMessageFunction() {
 
 				if (this.status == 200) {
 
-					alert(this.responseText);
+					console.log('image send res code 200 return');
 
 				}
 
@@ -58,7 +58,7 @@ function groupMessageFunction() {
 							+ loginID
 							+ '","receiver":"/users/'
 							+ input_messageTarget
-							+ '","qos":1, "retained":false, "type":"'+messageType+'","sms":false, "timeOut":600,"reservation":"'
+							+ '","qos":1, "retained":false, "type":'+messageType+',"sms":false, "timeOut":600,"reservation":"'
 							+ dateResult
 							+ '", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
 							+ input_messageTitle
@@ -74,7 +74,7 @@ function groupMessageFunction() {
 						success : function(data) {
 							console.log(data);
 							console.log(data.result.success);
-							if (data.result.success) {
+							if (data.result.info) {
 								alert("메세지를 성공적으로 전송하였습니다.");
 								wrapperFunction('groupMessage');
 								$('#input_messageTarget').focus();

@@ -130,13 +130,16 @@ public class FileUploader extends HttpServlet {
 			throw new ServletException("Parsing file upload failed.", e);
 
 		} finally {
-			try {
-				if (content != null) {
+
+			if (content != null) {
+				try {
 					content.close();
+				} catch (Exception e) {
+
 				}
-			} catch (Exception e) {
 
 			}
+
 		}
 
 		response.getWriter().print(ajaxUpdateResult);

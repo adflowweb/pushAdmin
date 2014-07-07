@@ -7,7 +7,7 @@ function allMessageFunction() {
 	if (checkForm) {
 		
 		var tokenID = sessionStorage.getItem("tokenID");
-
+		var loginID = sessionStorage.getItem("userID");
 		if (tokenID) {
 			var textAreaContents = GetContents();
 			var textAreaPlainText = ckGetPlainText();
@@ -28,7 +28,7 @@ function allMessageFunction() {
 
 				if (this.status == 200) {
 
-					alert(this.responseText);
+					console.log('image send res code 200 return');
 
 				}
 
@@ -53,9 +53,7 @@ function allMessageFunction() {
 						async : false,
 						data : '{"sender":"'
 							+ loginID
-							+ '","receiver":"/users/'
-							+ input_messageTarget
-							+ '","qos":1, "retained":false, "type":1,"sms":false, "timeOut":600,"reservation":"'
+							+ '","receiver":"/users/","qos":1, "retained":false, "type":1,"sms":false, "timeOut":600,"reservation":"'
 							+ dateResult
 							+ '", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
 							+ input_messageTitle
@@ -71,7 +69,7 @@ function allMessageFunction() {
 						success : function(data) {
 							console.log(data);
 							console.log(data.result.success);
-							if (data.result.success) {
+							if (data.result.info) {
 								alert("메세지를 성공적으로 전송하였습니다.");
 
 								wrapperFunction('allMessage');
