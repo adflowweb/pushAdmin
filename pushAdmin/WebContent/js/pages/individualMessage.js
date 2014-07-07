@@ -1,5 +1,10 @@
+
+
 // message send click
 function individualFunction() {
+	var smscheck=false;
+	var smsTimeOut=0;
+	var qos=0;
 	console.log('message send click..');
 	var checkForm = individualFormCheck();
 	if (checkForm) {
@@ -7,6 +12,28 @@ function individualFunction() {
 		var tokenID = sessionStorage.getItem("tokenID");
 		var loginID = sessionStorage.getItem("userID");
 		if (tokenID) {
+			
+			qos=$("#qosSelect").val();
+			console.log("QOS");
+			console.log(qos);
+			
+			if($("input:checkbox[id='smsckeck']").is(":checked") == true){
+			
+		    	var timeSet= $('#timeSelect').val();
+		    	console.log('smsckeck change function');
+		    	smscheck=true;
+		    	if(timeSet==1){
+		    		smsTimeOut=600;
+		    	}else if(timeSet==2){
+		    		smsTimeOut=1200;
+		    	}else if(timeSet==3){
+		    		smsTimeOut=1800;
+		    	}else if(timeSet==4){
+		    		smsTimeOut=3600;
+		    	}
+				
+			} 
+
 			var textAreaContents = GetContents();
 			var textAreaPlainText = ckGetPlainText();
 			console.log('plain TExt');
@@ -52,7 +79,10 @@ function individualFunction() {
 				console.log("date Result is..undefined.....");
 				dateResult = "";
 			}
-
+			console.log('sms start');
+			console.log(smscheck);
+			console.log(smsTimeOut);
+			console.log('sms end');
 			$
 					.ajax({
 						url : '/v1/messages',
@@ -67,7 +97,7 @@ function individualFunction() {
 								+ loginID
 								+ '","receiver":"/users/'
 								+ input_messageTarget
-								+ '","qos":1, "retained":false, "type":0,"sms":false, "timeOut":600,"reservation":"'
+								+ '","qos":'+qos+', "retained":false, "type":0,"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
 								+ dateResult
 								+ '", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
 								+ input_messageTitle
@@ -117,6 +147,7 @@ function individualSearch() {
 		console.log("select value end..");
 		var tokenID = sessionStorage.getItem("tokenID");
 		var userID = sessionStorage.getItem("userID");
+
 		// name
 		if (selectValue == 1) {
 			var input_searchContent = $('#input_searchContent').val();
@@ -359,6 +390,14 @@ function individualFormCheck() {
 	}
 
 }
+
+$('#smsckeck').change(function(){
+	   if(this.checked) {
+		   $('#timeSelect').prop('disabled', false);
+	    }else{
+	    	  $('#timeSelect').prop('disabled', 'disabled');
+	    }
+});
 
 // 메세지 서식이미지 로딩 Event
 $("#backImg").change(function() {

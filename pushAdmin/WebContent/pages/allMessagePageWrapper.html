@@ -1,64 +1,95 @@
-	<div class="row">
-		<div class="col-lg-12">
-			<h1 class="page-header">전체 메세지</h1>
-		</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">전체 메세지</h1>
 	</div>
-	
-	       <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                           	 전체 메세지 발송
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                                        
-                                        <div class="form-group">
-                                            <label>메세지 제목 </label>
-                                            <input class="form-control" id="input_messageTitle" placeholder="제목">
-                                        </div>
+</div>
 
-                                        <div class="form-group">
-										<form id="imgFileForm" method="post"
-											enctype="multipart/form-data">
-											 <label>메세지 서식 파일</label> <input type="file" id="backImg">
-										</form>
-									    </div>
-									    
-									 <div class="form-group">
-										<label>메세지 내용</label>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">전체 메세지 발송</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">
 
-										<textarea id="input_messageContent" name="ckeditor" class="ckeditor"
-											rows="5" style="width: 100%; height: 100"> 
+				<div class="form-group">
+					<label>메세지 제목 </label> <input class="form-control"
+						id="input_messageTitle" placeholder="제목">
+				</div>
+				<div class="form-group">
+					<label>Qos 설정</label> <select id="qosSelect" class="form-control">
+						<option value="0">0:메세지를 한번 전달하며 전달 여부는 확인 하지 않습니다.</option>
+						<option value="1">1:적어도 한번 이상 메세지를 전달하며 전달 여부는 확인 하지
+							않습니다.</option>
+						<option value="2">2:4단계의 핸드 쎼이킹을 통해 정확히 한번만 전달 합니다.</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<form id="imgFileForm" method="post" enctype="multipart/form-data">
+						<label>메세지 서식 파일</label> <input type="file" id="backImg">
+					</form>
+				</div>
+
+				<div class="form-group">
+					<label>메세지 내용</label>
+
+					<textarea id="input_messageContent" name="ckeditor"
+						class="ckeditor" rows="5" style="width: 100%; height: 100"> 
 										</textarea>
 
-									   </div>
-                        	
-                                          <div class="form-group">
-                                         <label>예약 메세지 </label>
-         									<div class='input-group date' id='datetimepicker1'>
-                    							<input id="input_reservation"  type='text' class="form-control" />
-                    								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-                    									</span>
-                							</div>
-                  					    </div>
+				</div>
 
-                				         <input type="button" onclick="javascript:allMessageFunction();" class="btn btn-default" value="Message Send"></input>
-                                         <input type="button" onclick="javascript:wrapperFunction('allMessage');" class="btn btn-default" value="Reset"></input>
-                                  
-                            
-                          
-                        </div>
-                        <!-- /.panel-body -->
-            			</div>
-                </div>
-         
-   
-            </div>
-   
+				<div class="form-group">
+					<label>예약 메세지 </label>
+					<div class='input-group date' id='datetimepicker1'>
+						<input id="input_reservation" type='text' class="form-control" />
+						<span class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span> </span>
+					</div>
+				</div>
 
-    <script src="js/pages/allMessage.js"></script>   
-    <script src="js/moment.js"></script>
-    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
-    <script src="js/bootstrap-datetimepicker.js"></script>
+				<div class="panel panel-default">
+					<div class="panel-heading">SMS 발송 체크</div>
+					<!-- /.panel-heading -->
+					<div class="panel-body">
+						<div class="checkbox">
+							<label> <input type="checkbox" value="" id="smsckeck">SMS
+								메세지 발송
+							</label>
+						</div>
+						<div id="smsTimeSetting" style="display: none;" class="form-group">
+							<label>SMS 발송 시간 설정</label> <select id="timeSelect"
+								class="form-control">
+								<option value="1">10분</option>
+								<option value="2">20분</option>
+								<option value="3">30분</option>
+								<option value="4">1시간</option>
+							</select>
+						</div>
+					</div>
+					<!-- /.panel-body -->
+				</div>
+
+				<input type="button" onclick="javascript:allMessageFunction();"
+					class="btn btn-default" value="Message Send"></input> <input
+					type="button" onclick="javascript:wrapperFunction('allMessage');"
+					class="btn btn-default" value="Reset"></input>
+
+
+
+			</div>
+
+			<!-- /.panel-body -->
+		</div>
+	</div>
+
+
+</div>
+
+
+<script src="js/pages/allMessage.js"></script>
+<script src="js/moment.js"></script>
+<script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="js/bootstrap-datetimepicker.js"></script>

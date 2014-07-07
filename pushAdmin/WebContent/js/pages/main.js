@@ -62,7 +62,13 @@ function wrapperFunction(data) {
 						console.log(userID);
 						// individual message page load
 						if (data === "individual") {
-
+							  $('#timeSelect').prop('disabled', 'disabled');
+							  $("#timeSelect").each(function()
+									  {
+									      $(this).val('disable'); 
+									    
+									  });
+						
 							// table data setting
 							// $.ajax({
 							// url : '/v1/users/' + userID,
@@ -140,6 +146,13 @@ function wrapperFunction(data) {
 						}
 						// groupMessage page load
 						if (data === "groupMessage") {
+							  $('#timeSelect').prop('disabled', 'disabled');
+							  $("#timeSelect").each(function()
+									  {
+									      $(this).val('disable'); 
+									    
+									  });
+						
 							// data Table Setting
 							$.ajax({
 								url : '/v1/bsbank/groups',
@@ -324,6 +337,13 @@ function wrapperFunction(data) {
 						}
 						// AllMessage page load
 						if (data === "allMessage") {
+							  $('#timeSelect').prop('disabled', 'disabled');
+							  $("#timeSelect").each(function()
+									  {
+									      $(this).val('disable'); 
+									    
+									  });
+						
 							CKEDITOR.replace('input_messageContent');
 							$('#dataTables-example').dataTable();
 							var nowDate = new Date();
@@ -565,6 +585,108 @@ function wrapperFunction(data) {
 									});
 						}
 
+						//메세지 리스트 
+						if(data==='messageList'){
+							
+//							*method : GET
+//							header : X-ApiKey:{tokenID}
+//							uri : /v1/messages?type=sent*
+//							>
+//							> **response : **
+//							{"result":{"success":true,"data":[{"id":25152,"content":null,
+//								"sender":"pushServer","receiver":"/users/1731124","issue":1404703268000,"issueSms":null,"" +
+//										"qos":2,"retained":false,"sms":false,"timeOut":0,"reservation":null,"type":100,"status":1}]}}
+							
+//							var input_reservationCancelID = "test";
+							var tableData = [];
+							$.ajax({
+								url : '/v1/messages?type=sent',
+								type : 'GET',
+								headers : {
+									'X-ApiKey' : tokenID
+								},
+								contentType : "application/json",
+								async : false,
+								success : function(data) {
+								
+									if (data.result.data) {
+
+										for ( var i in data.result.data) {
+
+											var item = data.result.data[i];
+											console.log(item);
+											var status="";
+											if(item.status==0){
+												status="미발송";
+											}else if(item.status==1){
+												status="발송됨";
+											}
+											tableData.push({
+												"MessageId" : item.id,
+												"Sender" : item.sender,
+												"Receiver" : item.receiver,
+												"qos" : item.qos,
+												"status":status
+										
+											});
+										}
+
+										console.log(tableData);
+										$('#dataTables-example').dataTable({
+											bJQueryUI : true,
+											aaData : tableData,
+											aoColumns : [ {
+												mData : 'MessageId'
+											}, {
+												mData : 'Sender'
+											}, {
+												mData : 'Receiver'
+											}, {
+												mData : 'qos'
+											},{
+												mData : 'status'
+											} ]
+										});
+									} else {
+										alert('메세지 발송 정보를 가지고 오는데 실패 하였습니다.');
+									}
+								},
+								error : function(data, textStatus, request) {
+									console.log(data);
+									alert('메세지 발송 정보를 가지고 오는데 실패 하였습니다.');
+								}
+							});
+
+//							$('#dataTables-example tbody').on(
+//									'click',
+//									'tr',
+//									function() {
+//
+//										var tableDataRow = $(this).children("td")
+//												.map(function() {
+//													return $(this).text();
+//												}).get();
+//
+//										console.log(tableDataRow[0]);
+//										$('#input_reservationCancelID').val(
+//												tableDataRow[0]);
+//										 
+//										for (var i = 0; i < tableData.length; i++) {
+//											console.log('in for');
+//											console.log(tableData[i].MessageId);
+//											if(tableData[i].MessageId==tableDataRow[0]){
+//												console.log(tableData[i].MessageId);
+//												$('.reservation_detail').html(tableData[i].content);
+//												$('.reservation_title').html(tableData[i].title);
+//											}
+//										}
+//										
+//
+//									});
+							
+							
+						}
+						
 						// 비밀번호 변경
 						if (data === "changePass") {
 							console.log('changePass...in..');
@@ -573,6 +695,13 @@ function wrapperFunction(data) {
 						}
 						
 						if(data==="excel"){
+							  $('#timeSelect').prop('disabled', 'disabled');
+							  $("#timeSelect").each(function()
+									  {
+									      $(this).val('disable'); 
+									    
+									  });
+						
 							CKEDITOR.replace('input_messageContent');
 						
 							var nowDate = new Date();

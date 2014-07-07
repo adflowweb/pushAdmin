@@ -5,10 +5,32 @@ function allMessageFunction() {
 	console.log('message send click..');
 	var checkForm = individualFormCheck();
 	if (checkForm) {
-		
+		var smscheck=false;
+		var smsTimeOut=0;
+		var qos=0;
 		var tokenID = sessionStorage.getItem("tokenID");
 		var loginID = sessionStorage.getItem("userID");
 		if (tokenID) {
+			
+			
+			qos=$("#qosSelect").val();
+			console.log("QOS");
+			console.log(qos);
+			if($("input:checkbox[id='smsckeck']").is(":checked") == true){
+		    	var timeSet= $('#timeSelect').val();
+		    	console.log('smsckeck change function');
+		    	smscheck=true;
+		    	if(timeSet==1){
+		    		smsTimeOut=600;
+		    	}else if(timeSet==2){
+		    		smsTimeOut=1200;
+		    	}else if(timeSet==3){
+		    		smsTimeOut=1800;
+		    	}else if(timeSet==4){
+		    		smsTimeOut=3600;
+		    	}
+				
+			} 
 			var textAreaContents = GetContents();
 			var textAreaPlainText = ckGetPlainText();
 			var htmlEncodeResult = utf8_to_b64(textAreaContents);
@@ -53,7 +75,7 @@ function allMessageFunction() {
 						async : false,
 						data : '{"sender":"'
 							+ loginID
-							+ '","receiver":"/users/","qos":1, "retained":false, "type":1,"sms":false, "timeOut":600,"reservation":"'
+							+ '","receiver":"/users/","qos":'+qos+', "retained":false, "type":1,"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
 							+ dateResult
 							+ '", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
 							+ input_messageTitle
@@ -194,3 +216,12 @@ function readURL(input) {
 	}
 }
 
+
+
+$('#smsckeck').change(function(){
+	   if(this.checked) {
+		   $('#timeSelect').prop('disabled', false);
+	    }else{
+	    	  $('#timeSelect').prop('disabled', 'disabled');
+	    }
+});

@@ -2,12 +2,35 @@
 //click group message send..
 function groupMessageFunction() {
 	console.log('message send click..');
+	var smscheck=false;
+	var smsTimeOut=0;
+	var qos=0;
 	var checkForm = individualFormCheck();
 	if (checkForm) {
 		
 		var tokenID = sessionStorage.getItem("tokenID");
 		var loginID = sessionStorage.getItem("userID");
 		if (tokenID) {
+			
+			qos=$("#qosSelect").val();
+			console.log("QOS");
+			console.log(qos);
+			
+			if($("input:checkbox[id='smsckeck']").is(":checked") == true){
+		    	var timeSet= $('#timeSelect').val();
+		    	console.log('smsckeck change function');
+		    	smscheck=true;
+		    	if(timeSet==1){
+		    		smsTimeOut=600;
+		    	}else if(timeSet==2){
+		    		smsTimeOut=1200;
+		    	}else if(timeSet==3){
+		    		smsTimeOut=1800;
+		    	}else if(timeSet==4){
+		    		smsTimeOut=3600;
+		    	}
+				
+			} 
 			var messageType=$('#message_type').val();
 			console.log('메세지 타입 시작');
 			console.log(messageType);
@@ -58,7 +81,7 @@ function groupMessageFunction() {
 							+ loginID
 							+ '","receiver":"/users/'
 							+ input_messageTarget
-							+ '","qos":1, "retained":false, "type":'+messageType+',"sms":false, "timeOut":600,"reservation":"'
+							+ '","qos":'+qos+', "retained":false, "type":'+messageType+',"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
 							+ dateResult
 							+ '", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
 							+ input_messageTitle
@@ -166,7 +189,13 @@ function individualFormCheck() {
 }
 
 
-
+$('#smsckeck').change(function(){
+	   if(this.checked) {
+		   $('#timeSelect').prop('disabled', false);
+	    }else{
+	    	  $('#timeSelect').prop('disabled', 'disabled');
+	    }
+});
 //메세지 서식이미지 로딩 Event
 $("#backImg").change(function() {
 	console.log('file.....change...');

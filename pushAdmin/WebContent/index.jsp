@@ -63,7 +63,7 @@
                                     <a href="#" onclick="javascript:wrapperFunction('monitoring');">시스템 모니터링</a>
                                 </li>
                                  <li>
-                                    <a href="#" onclick="javascript:wrapperFunction('stats');">메세지 발송 리스트</a>
+                                    <a href="#" onclick="javascript:wrapperFunction('messageList');">메세지 발송 리스트</a>
                                 </li>
                                 <li>
                                     <a href="#" onclick="javascript:wrapperFunction('stats');">메세지 통계</a>
