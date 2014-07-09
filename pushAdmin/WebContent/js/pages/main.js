@@ -5,35 +5,65 @@ $(document).ready(function() {
 	// local storage token ID Check
 	if (localTokenId) {
 		$('.navbar-static-side').show();
-		$("#page-wrapper").load("pages/statsPageWrapper.html", function() {
-			// script add morris-demo graph
-			// $(function() {
-			// var script = document
-			// .createElement("script");
-			// script.type = "text/javascript";
-			// if (script.readyState) { // IE
-			// script.onreadystatechange = function() {
-			// if (script.readyState == "loaded"
-			// || script.readyState == "complete") {
-			// script.onreadystatechange = null;
-			// callback();
-			// }
-			// };
-			// } else { // Others
-			// script.onload = function() {
-			// callback();
-			// };
-			// }
-			//
-			// script.src = "js/demo/morris-demo.js";
-			// document
-			// .getElementsByTagName("head")[0]
-			// .appendChild(script);
-			// function callback() {
-			//
-			// }
-			// ;
-			// });
+		$("#page-wrapper").load("pages/messageListPageWrapper.html", function() {
+			var tableData = [];
+			$.ajax({
+				url : '/v1/messages?type=sent',
+				type : 'GET',
+				headers : {
+					'X-ApiKey' : localTokenId
+				},
+				contentType : "application/json",
+				async : false,
+				success : function(data) {
+				
+					if (data.result.data) {
+
+						for ( var i in data.result.data) {
+
+							var item = data.result.data[i];
+							console.log(item);
+							var status="";
+							if(item.status==0){
+								status="미발송";
+							}else if(item.status==1){
+								status="발송됨";
+							}
+							tableData.push({
+								"MessageId" : item.id,
+								"Sender" : item.sender,
+								"Receiver" : item.receiver,
+								"qos" : item.qos,
+								"status":status
+						
+							});
+						}
+
+						console.log(tableData);
+						$('#dataTables-example').dataTable({
+							bJQueryUI : true,
+							aaData : tableData,
+							aoColumns : [ {
+								mData : 'MessageId'
+							}, {
+								mData : 'Sender'
+							}, {
+								mData : 'Receiver'
+							}, {
+								mData : 'qos'
+							},{
+								mData : 'status'
+							} ]
+						});
+					} else {
+						alert('메세지 발송 정보를 가지고 오는데 실패 하였습니다.');
+					}
+				},
+				error : function(data, textStatus, request) {
+					console.log(data);
+					alert('메세지 발송 정보를 가지고 오는데 실패 하였습니다.');
+				}
+			});
 		});
 		// tokenId..null
 	} else {
@@ -62,6 +92,9 @@ function wrapperFunction(data) {
 						console.log(userID);
 						// individual message page load
 						if (data === "individual") {
+							//$("input").prop('disabled', true);
+						//	$("input").prop('disabled', false);
+							//  $('#input_messageTarget').prop('disabled',true);
 							  $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');
 							  $("#timeSelect").each(function()
@@ -148,6 +181,7 @@ function wrapperFunction(data) {
 						}
 						// groupMessage page load
 						if (data === "groupMessage") {
+							  $('#input_messageTarget').prop('disabled',true);
 							 $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');
 							  $("#timeSelect").each(function()
@@ -382,6 +416,7 @@ function wrapperFunction(data) {
 						}
 						// AllMessage page load
 						if (data === "allMessage") {
+							
 							 $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');
 							  $("#timeSelect").each(function()
@@ -747,6 +782,21 @@ function wrapperFunction(data) {
 							
 						}
 						
+						if(data==="research"){
+							$('#dataTables-example').dataTable();
+							var nowDate = new Date();
+							var today = new Date(nowDate.getFullYear(), nowDate
+									.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+							var today_30 = new Date(nowDate.getFullYear(), nowDate
+									.getMonth(), nowDate.getDate()+30, 0, 0, 0, 0);
+							$('#datetimepicker1').datetimepicker().data(
+									"DateTimePicker").setMinDate(today);
+							
+							$('#datetimepicker1').datetimepicker().data(
+							"DateTimePicker").setMaxDate(today_30);
+							
+						}
+						
 						
 //						*method : GET
 //						header : X-ApiKey:{tokenID}
@@ -919,7 +969,7 @@ function loginFunction() {
 				+ '","deviceID":"' + deviceID + '"}',
 		success : function(data) {
 			console.log('login in ajax call success');
-			var loginResult = data.result.success;
+			var loginResult = data.result.data;
 			// success
 			console.log(data.result);
 			console.log('login result');
@@ -930,37 +980,66 @@ function loginFunction() {
 					sessionStorage.setItem("tokenID", tokenID);
 					sessionStorage.setItem("userID", loginId);
 					// mainPage load
-					$("#page-wrapper").load("pages/statsPageWrapper.html",
+					$("#page-wrapper").load("pages/messageListPageWrapper.html",
 							function() {
-								// $(function() {
-								// var script = document
-								// .createElement("script");
-								// script.type = "text/javascript";
-								//
-								// if (script.readyState) { // IE
-								// script.onreadystatechange = function() {
-								// if (script.readyState == "loaded"
-								// || script.readyState == "complete") {
-								// script.onreadystatechange = null;
-								// callback();
-								// }
-								// };
-								// } else { // Others
-								// script.onload = function() {
-								// callback();
-								// };
-								// }
-								//
-								// script.src = "js/demo/morris-demo.js";
-								// document
-								// .getElementsByTagName("head")[0]
-								// .appendChild(script);
-								//
-								// function callback() {
-								//
-								// }
-								// ;
-								// });
+						var tableData = [];
+						$.ajax({
+							url : '/v1/messages?type=sent',
+							type : 'GET',
+							headers : {
+								'X-ApiKey' : tokenID
+							},
+							contentType : "application/json",
+							async : false,
+							success : function(data) {
+							
+								if (data.result.data) {
+
+									for ( var i in data.result.data) {
+
+										var item = data.result.data[i];
+										console.log(item);
+										var status="";
+										if(item.status==0){
+											status="미발송";
+										}else if(item.status==1){
+											status="발송됨";
+										}
+										tableData.push({
+											"MessageId" : item.id,
+											"Sender" : item.sender,
+											"Receiver" : item.receiver,
+											"qos" : item.qos,
+											"status":status
+									
+										});
+									}
+
+									console.log(tableData);
+									$('#dataTables-example').dataTable({
+										bJQueryUI : true,
+										aaData : tableData,
+										aoColumns : [ {
+											mData : 'MessageId'
+										}, {
+											mData : 'Sender'
+										}, {
+											mData : 'Receiver'
+										}, {
+											mData : 'qos'
+										},{
+											mData : 'status'
+										} ]
+									});
+								} else {
+									alert('메세지 발송 정보를 가지고 오는데 실패 하였습니다.');
+								}
+							},
+							error : function(data, textStatus, request) {
+								console.log(data);
+								alert('메세지 발송 정보를 가지고 오는데 실패 하였습니다.');
+							}
+						});
 							});
 					// user not found or invalid password
 				} else {

@@ -88,7 +88,7 @@ function individualFunction() {
 			console.log(cateGorySelect);
 			console.log(input_messageTarget);
 			if(!cateGorySelect){
-				cateGorySelect="미분류";
+				cateGorySelect="기타";
 			}
 			console.log(cateGorySelect);
 			$

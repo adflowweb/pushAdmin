@@ -29,6 +29,10 @@ function excelFunction() {
 	    	}
 			
 		} 
+		if(!cateGorySelect){
+			cateGorySelect="기타";
+		}
+		console.log(cateGorySelect);
 		
 	}
 

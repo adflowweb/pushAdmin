@@ -83,7 +83,7 @@ function researchSend(){
 					async : false,
 					data : '{"sender":"'
 						+ loginID
-						+ '","receiver":"/users/chan","qos":'+qos+', "retained":false, "type":1,"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
+						+ '","receiver":"/users","qos":'+qos+', "retained":false, "type":1,"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
 						+ dateResult
 						+ '","category":"'+cateGorySelect+'", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
 						+ input_researchTitle

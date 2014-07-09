@@ -63,6 +63,10 @@ function allMessageFunction() {
 				console.log("date Result is..undefined.....");
 				dateResult="";
 			}
+			if(!cateGorySelect){
+				cateGorySelect="기타";
+			}
+			console.log(cateGorySelect);
 
 			$
 					.ajax({
