@@ -1,6 +1,6 @@
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">관리자 목록</h1>
+			<h1 class="page-header">카테고리 관리</h1>
 		</div>
 	</div>
 	      <!-- /.row -->
@@ -8,10 +8,10 @@
             <div class="row">
         
                 <!-- /.col-lg-6 -->
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                                                              관리자 목록
+                              	카테고리 목록                              
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -21,8 +21,6 @@
                                         <tr> 
                                             <th>Id</th> 
                                             <th>Name</th>
-                                            <th>Dept</th>
-                                            <th>Phone</th>
                                         </tr>
                                     </thead>
                                     <tbody id="userDataTbody">
@@ -37,22 +35,21 @@
                     <!-- /.panel -->
                 </div>
                 
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                           	관리자  삭제
+                           	카테고리 삭제
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                               
                                         <form role="form">
                                         <div class="form-group">
-                                         <label>관리자 아이디 </label>
-                                            <input class="form-control" id="input_adminID" value="" placeholder="관리자 아이디">
+                                         <label>카테고리 아이디 </label>
+                                            <input class="form-control" id="input_categoryID" value="" placeholder="카테고리 아이디">
 
                                         </div>
-<!--                                          <input type="button" onclick="javascript:insertAdminFunction();" class="btn btn-default" value="관리자  등록"></input> -->
-                                        <input type="button" onclick="javascript:deleteAdminFunction();" class="btn btn-default" value="관리자 삭제"></input>
+                                        <input type="button" onclick="javascript:deleteCategoryFunction();" class="btn btn-default" value="카테고리 삭제"></input>
                                         <button type="reset" class="btn btn-default">Reset</button>
                                     </form>
                             
@@ -61,13 +58,35 @@
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
-                </div>
+               
+                     
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                           	카테고리 등록
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                              
+                                        <form role="form">
+                                        <div class="form-group">
+                                         <label>카테고리 이름 </label>
+                                            <input class="form-control" id="input_categoryName" value="" placeholder="카테고리 이름">
+                                        </div>
+                                         <input type="button" onclick="javascript:insertCategoryFunction();" class="btn btn-default" value="카테고리 등록"></input>
+                                        <button type="reset" class="btn btn-default">Reset</button>
+                                    </form>
+                            
+                          
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+         </div>
             
                 
                 <!-- /.col-lg-12 -->
             </div>
             
             
-    <script src="js/pages/userManager.js"></script>       
+    <script src="js/pages/category.js"></script>       
     <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
     <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>

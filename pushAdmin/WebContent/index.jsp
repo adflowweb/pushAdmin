@@ -68,6 +68,9 @@
                                 <li>
                                     <a href="#" onclick="javascript:wrapperFunction('stats');">메세지 통계</a>
                                 </li>
+                                 <li>
+                                    <a href="#" onclick="javascript:wrapperFunction('surveyList');">설문조사 통계</a>
+                                </li>
                                
                            
                             </ul>
@@ -91,9 +94,18 @@
                                    <li>
                                    <a href="#" onclick="javascript:wrapperFunction('allMessage');">전체 메세지</a>
                                 </li>
+                                
+                                 <li>
+                                   <a href="#" onclick="javascript:wrapperFunction('research');">설문조사</a>
+                                </li>
+                                 <li>
+                                   <a href="#" onclick="javascript:wrapperFunction('category');">카테고리 관리</a>
+                                </li>
                                  <li>
                                    <a href="#" onclick="javascript:wrapperFunction('reservation');">예약 메세지 관리</a>
                                 </li>
+                       
+                        
 <!--                                 <li> -->
 <!--                                   <a href="#">Third Level <span class="fa arrow"></span></a> -->
 <!--                                        <ul class="nav nav-third-level"> -->

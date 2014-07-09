@@ -11,6 +11,7 @@ function excelFunction() {
 		var smsTimeOut=0;
 		var qos=0;
 		qos=$("#qosSelect").val();
+		var  cateGorySelect=$('#cateGorySelect').val();
 		console.log("QOS");
 		console.log(qos);
 		if($("input:checkbox[id='smsckeck']").is(":checked") == true){
@@ -162,6 +163,13 @@ function excelFormCheck() {
 	}
 
 }
+$('#categorycheck').change(function(){
+	   if(this.checked) {
+		   $('#cateGorySelect').prop('disabled', false);
+	    }else{
+	    	  $('#cateGorySelect').prop('disabled', 'disabled');
+	    }
+});
 
 $('#smsckeck').change(function(){
 	   if(this.checked) {

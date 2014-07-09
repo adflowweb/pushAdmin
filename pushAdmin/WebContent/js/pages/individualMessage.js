@@ -45,6 +45,7 @@ function individualFunction() {
 			var input_messageTarget = $('#input_messageTarget').val();
 			var input_messageTitle = $('#input_messageTitle').val();
 			var input_reservation = $('#input_reservation').val();
+			var  cateGorySelect=$('#cateGorySelect').val();
 			dateResult = dateFormating(input_reservation);
 			var imageText = document.getElementById("backImg").value;
 			var imageFile = document.getElementById("backImg").files[0];
@@ -83,6 +84,13 @@ function individualFunction() {
 			console.log(smscheck);
 			console.log(smsTimeOut);
 			console.log('sms end');
+			console.log('category send value');
+			console.log(cateGorySelect);
+			console.log(input_messageTarget);
+			if(!cateGorySelect){
+				cateGorySelect="미분류";
+			}
+			console.log(cateGorySelect);
 			$
 					.ajax({
 						url : '/v1/messages',
@@ -99,7 +107,8 @@ function individualFunction() {
 								+ input_messageTarget
 								+ '","qos":'+qos+', "retained":false, "type":0,"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
 								+ dateResult
-								+ '", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
+								+ '","category":"'+cateGorySelect+'", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
+								
 								+ input_messageTitle
 								+ '\\",\\"contentText\\":\\"'
 								+ textAreaPlainText + '\\",\\"imageName\\":\\"'
@@ -390,6 +399,18 @@ function individualFormCheck() {
 	}
 
 }
+
+
+
+$('#categorycheck').change(function(){
+	   if(this.checked) {
+		   $('#cateGorySelect').prop('disabled', false);
+	    }else{
+	    	  $('#cateGorySelect').prop('disabled', 'disabled');
+
+	    }
+});
+
 
 $('#smsckeck').change(function(){
 	   if(this.checked) {

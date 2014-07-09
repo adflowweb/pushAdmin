@@ -36,6 +36,7 @@ function allMessageFunction() {
 			var htmlEncodeResult = utf8_to_b64(textAreaContents);
 			var input_messageTitle = $('#input_messageTitle').val();
 			var input_reservation = $('#input_reservation').val();
+			var  cateGorySelect=$('#cateGorySelect').val();
 			dateResult = dateFormating(input_reservation);
 			var imageText = document.getElementById("backImg").value;
 			var imageFile = document.getElementById("backImg").files[0];
@@ -75,9 +76,9 @@ function allMessageFunction() {
 						async : false,
 						data : '{"sender":"'
 							+ loginID
-							+ '","receiver":"/users/","qos":'+qos+', "retained":false, "type":1,"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
+							+ '","receiver":"/users","qos":'+qos+', "retained":false, "type":1,"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
 							+ dateResult
-							+ '", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
+							+ '","category":"'+cateGorySelect+'", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
 							+ input_messageTitle
 							+ '\\",\\"contentText\\":\\"'
 							+ textAreaPlainText + '\\",\\"imageName\\":\\"'
@@ -216,6 +217,13 @@ function readURL(input) {
 	}
 }
 
+$('#categorycheck').change(function(){
+	   if(this.checked) {
+		   $('#cateGorySelect').prop('disabled', false);
+	    }else{
+	    	  $('#cateGorySelect').prop('disabled', 'disabled');
+	    }
+});
 
 
 $('#smsckeck').change(function(){

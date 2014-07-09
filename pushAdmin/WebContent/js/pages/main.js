@@ -62,57 +62,59 @@ function wrapperFunction(data) {
 						console.log(userID);
 						// individual message page load
 						if (data === "individual") {
+							  $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');
 							  $("#timeSelect").each(function()
 									  {
 									      $(this).val('disable'); 
 									    
 									  });
+					
 						
-							// table data setting
-							// $.ajax({
-							// url : '/v1/users/' + userID,
-							// type : 'GET',
-							// headers : {
-							// 'X-ApiKey' : tokenID
-							// },
-							// contentType : "application/json",
-							// async : false,
-							// success : function(data) {
-							// var tableData = [];
-							//
-							// for ( var i in data.result.data) {
-							//
-							// var item = data.result.data;
-							// console.log(item);
-							// tableData.push({
-							// "Id" : item.userID,
-							// "Name" : item.name,
-							// "Dept" : item.dept,
-							// "Phone" : item.phone
-							// });
-							// }
-							//
-							// console.log(tableData);
-							// $('#dataTables-example').dataTable({
-							// bJQueryUI : true,
-							// aaData : tableData,
-							// aoColumns : [ {
-							// mData : 'Id'
-							// }, {
-							// mData : 'Name'
-							// }, {
-							// mData : 'Dept'
-							// }, {
-							// mData : 'Phone'
-							// } ]
-							// });
-							// },
-							// error : function(data, textStatus, request) {
-							// console.log(data);
-							// alert('유저 정보를 가지고 오는데 실패 하였습니다.');
-							// }
-							// });
+							//get Category select Option
+							
+								$.ajax({
+									url : '/v1/categories',
+									type : 'GET',
+									headers : {
+									'X-ApiKey' : tokenID
+								},
+									contentType : "application/json",
+									dataType : 'json',
+									async : false,
+									success : function(data) {
+										console.log('category call success');
+										console.log(data.result);
+										console.log(data.result.data);
+										if(data.result.data){
+											for ( var i in data.result.data) {
+											
+												var item = data.result.data[i];
+												console.log(item.id);
+												console.log(item.name);
+											
+												$('#cateGorySelect').append('<option value="'+item.name+'">'+item.name+'</option>');
+											}
+											  $("#cateGorySelect").each(function()
+													  {
+													      $(this).val('disable'); 
+													    
+													  });
+										}else{
+											alert('카테고리 조회에 실패하였습니다.');
+										
+										}
+								
+
+									},
+									error : function(data, textStatus, request) {
+										console.log('fail start...........');
+										alert('카테고리 조회에 실패하였습니다.');
+										console.log('fail end.............');
+									}
+								});
+							  
+							  
 
 							// Ckeditor create
 							CKEDITOR.replace('input_messageContent');
@@ -146,12 +148,55 @@ function wrapperFunction(data) {
 						}
 						// groupMessage page load
 						if (data === "groupMessage") {
+							 $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');
 							  $("#timeSelect").each(function()
 									  {
 									      $(this).val('disable'); 
 									    
 									  });
+							  
+								
+								$.ajax({
+									url : '/v1/categories',
+									type : 'GET',
+									headers : {
+									'X-ApiKey' : tokenID
+								},
+									contentType : "application/json",
+									dataType : 'json',
+									async : false,
+									success : function(data) {
+										console.log('category call success');
+										console.log(data.result);
+										console.log(data.result.data);
+										if(data.result.data){
+											for ( var i in data.result.data) {
+											
+												var item = data.result.data[i];
+												console.log(item.id);
+												console.log(item.name);
+											
+												$('#cateGorySelect').append('<option value="'+item.name+'">'+item.name+'</option>');
+											}
+											  $("#cateGorySelect").each(function()
+													  {
+													      $(this).val('disable'); 
+													    
+													  });
+										}else{
+											alert('카테고리 조회에 실패하였습니다.');
+										
+										}
+								
+
+									},
+									error : function(data, textStatus, request) {
+										console.log('fail start...........');
+										alert('카테고리 조회에 실패하였습니다.');
+										console.log('fail end.............');
+									}
+								});
 						
 							// data Table Setting
 							$.ajax({
@@ -337,13 +382,54 @@ function wrapperFunction(data) {
 						}
 						// AllMessage page load
 						if (data === "allMessage") {
+							 $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');
 							  $("#timeSelect").each(function()
 									  {
 									      $(this).val('disable'); 
 									    
 									  });
-						
+								
+								$.ajax({
+									url : '/v1/categories',
+									type : 'GET',
+									headers : {
+									'X-ApiKey' : tokenID
+								},
+									contentType : "application/json",
+									dataType : 'json',
+									async : false,
+									success : function(data) {
+										console.log('category call success');
+										console.log(data.result);
+										console.log(data.result.data);
+										if(data.result.data){
+											for ( var i in data.result.data) {
+											
+												var item = data.result.data[i];
+												console.log(item.id);
+												console.log(item.name);
+											
+												$('#cateGorySelect').append('<option value="'+item.name+'">'+item.name+'</option>');
+											}
+											  $("#cateGorySelect").each(function()
+													  {
+													      $(this).val('disable'); 
+													    
+													  });
+										}else{
+											alert('카테고리 조회에 실패하였습니다.');
+										
+										}
+								
+
+									},
+									error : function(data, textStatus, request) {
+										console.log('fail start...........');
+										alert('카테고리 조회에 실패하였습니다.');
+										console.log('fail end.............');
+									}
+								});
 							CKEDITOR.replace('input_messageContent');
 							$('#dataTables-example').dataTable();
 							var nowDate = new Date();
@@ -588,16 +674,6 @@ function wrapperFunction(data) {
 						//메세지 리스트 
 						if(data==='messageList'){
 							
-//							*method : GET
-//							header : X-ApiKey:{tokenID}
-//							uri : /v1/messages?type=sent*
-//							>
-//							> **response : **
-//							{"result":{"success":true,"data":[{"id":25152,"content":null,
-//								"sender":"pushServer","receiver":"/users/1731124","issue":1404703268000,"issueSms":null,"" +
-//										"qos":2,"retained":false,"sms":false,"timeOut":0,"reservation":null,"type":100,"status":1}]}}
-							
-//							var input_reservationCancelID = "test";
 							var tableData = [];
 							$.ajax({
 								url : '/v1/messages?type=sent',
@@ -656,35 +732,7 @@ function wrapperFunction(data) {
 									alert('메세지 발송 정보를 가지고 오는데 실패 하였습니다.');
 								}
 							});
-
-//							$('#dataTables-example tbody').on(
-//									'click',
-//									'tr',
-//									function() {
-//
-//										var tableDataRow = $(this).children("td")
-//												.map(function() {
-//													return $(this).text();
-//												}).get();
-//
-//										console.log(tableDataRow[0]);
-//										$('#input_reservationCancelID').val(
-//												tableDataRow[0]);
-//										 
-//										for (var i = 0; i < tableData.length; i++) {
-//											console.log('in for');
-//											console.log(tableData[i].MessageId);
-//											if(tableData[i].MessageId==tableDataRow[0]){
-//												console.log(tableData[i].MessageId);
-//												$('.reservation_detail').html(tableData[i].content);
-//												$('.reservation_title').html(tableData[i].title);
-//											}
-//										}
-//										
-//
-//									});
-							
-							
+	
 						}
 						
 						// 비밀번호 변경
@@ -694,13 +742,137 @@ function wrapperFunction(data) {
 
 						}
 						
+						if(data==="surveyList"){
+							console.log('survey List');
+							
+						}
+						
+						
+//						*method : GET
+//						header : X-ApiKey:{tokenID}
+//						uri : /v1/categories*
+//						>
+//						> **response : **
+//						*{"result":{"success":true,"data":[{"id":1,"name":"오늘의날씨"},{"id":2,"name":"경조사"}]}}*
+						
+						if(data==="category"){
+							var tableData=[];
+							$.ajax({
+								url : '/v1/categories',
+								type : 'GET',
+								headers : {
+								'X-ApiKey' : tokenID
+							},
+								contentType : "application/json",
+								dataType : 'json',
+								async : false,
+								success : function(data) {
+									console.log('category call success');
+									console.log(data.result);
+									console.log(data.result.data);
+									if(data.result.data){
+										for ( var i in data.result.data) {
+										
+											var item = data.result.data[i];
+											console.log(item);
+											tableData.push({
+												"Id" : item.id,
+												"Name" : item.name
+											});
+										}
+										
+										console.log(tableData);
+										$('#dataTables-example').dataTable({
+											bJQueryUI : true,
+											aaData : tableData,
+											aoColumns : [ {
+												mData : 'Id'
+											}, {
+												mData : 'Name'
+											} ]
+										});
+										
+										$('#dataTables-example tbody').on(
+												'click',
+												'tr',
+												function() {
+
+													var tableData = $(this).children("td")
+															.map(function() {
+																return $(this).text();
+															}).get();
+
+													console.log(tableData[0]);
+													$('#input_categoryID').val(tableData[0]);
+												});
+										
+									}else{
+										alert('카테고리 조회에 실패하였습니다.');
+									
+									}
+							
+
+								},
+								error : function(data, textStatus, request) {
+									console.log('fail start...........');
+									alert('카테고리 조회에 실패하였습니다.');
+									console.log('fail end.............');
+								}
+							});
+							
+							
+							
+						}
+						
 						if(data==="excel"){
+							 $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');
 							  $("#timeSelect").each(function()
 									  {
 									      $(this).val('disable'); 
 									    
 									  });
+								
+								$.ajax({
+									url : '/v1/categories',
+									type : 'GET',
+									headers : {
+									'X-ApiKey' : tokenID
+								},
+									contentType : "application/json",
+									dataType : 'json',
+									async : false,
+									success : function(data) {
+										console.log('category call success');
+										console.log(data.result);
+										console.log(data.result.data);
+										if(data.result.data){
+											for ( var i in data.result.data) {
+											
+												var item = data.result.data[i];
+												console.log(item.id);
+												console.log(item.name);
+											
+												$('#cateGorySelect').append('<option value="'+item.name+'">'+item.name+'</option>');
+											}
+											  $("#cateGorySelect").each(function()
+													  {
+													      $(this).val('disable'); 
+													    
+													  });
+										}else{
+											alert('카테고리 조회에 실패하였습니다.');
+										
+										}
+								
+
+									},
+									error : function(data, textStatus, request) {
+										console.log('fail start...........');
+										alert('카테고리 조회에 실패하였습니다.');
+										console.log('fail end.............');
+									}
+								});
 						
 							CKEDITOR.replace('input_messageContent');
 						
