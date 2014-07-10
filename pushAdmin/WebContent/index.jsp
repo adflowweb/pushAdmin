@@ -32,6 +32,9 @@
     <script src="ckeditor/ckeditor.js"></script> 
     <script src="js/plugins/morris/raphael-2.1.0.min.js"></script>
     <script src="js/plugins/morris/morris.js"></script>
+
+
+  
 <!--       <script type="text/javascript" src="js/TableBarChart.js"></script> -->
 
 
@@ -68,9 +71,9 @@
 <!--                                 <li> -->
 <!--                                     <a href="#" onclick="javascript:wrapperFunction('stats');">메세지 통계</a> -->
 <!--                                 </li> -->
-<!--                                  <li> -->
-<!--                                     <a href="#" onclick="javascript:wrapperFunction('surveyList');">설문조사 통계</a> -->
-<!--                                 </li> -->
+                                 <li>
+                                    <a href="#" onclick="javascript:wrapperFunction('surveyList');">설문조사 통계</a>
+                                </li>
                                
                            
                             </ul>

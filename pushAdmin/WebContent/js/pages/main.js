@@ -94,7 +94,7 @@ function wrapperFunction(data) {
 						if (data === "individual") {
 							//$("input").prop('disabled', true);
 						//	$("input").prop('disabled', false);
-							//  $('#input_messageTarget').prop('disabled',true);
+							  $('#input_messageTarget').prop('disabled',true);
 							  $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');
 							  $("#timeSelect").each(function()
@@ -728,10 +728,13 @@ function wrapperFunction(data) {
 											console.log(item);
 											var status="";
 											if(item.status==0){
-												status="미발송";
+												status="발송 준비중";
 											}else if(item.status==1){
 												status="발송됨";
+											}else{
+												status=item.status;
 											}
+											
 											tableData.push({
 												"MessageId" : item.id,
 												"Sender" : item.sender,
@@ -778,8 +781,10 @@ function wrapperFunction(data) {
 						}
 						
 						if(data==="surveyList"){
-							console.log('survey List');
-							
+						console.log('in survey List');
+			
+
+						
 						}
 						
 						if(data==="research"){
