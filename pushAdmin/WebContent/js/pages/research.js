@@ -65,10 +65,13 @@ function researchSend(){
 		var input_researchTitle = $('#input_researchTitle').val();
 		var surveyStart = $('#input_surveyStart').val();
 		var surveyEnd = $('#input_surveyEnd').val();
+		console.log(surveyStart);
+		console.log(surveyEnd);
 		var cateGorySelect="설문조사";
 		var startdateResult = dateFormating(surveyStart);
 		var enddateResult=dateFormating(surveyEnd);
-	
+		console.log(startdateResult);
+		console.log(enddateResult);
 		if (surveyStart) {
 			startdateResult = startdateResult.toISOString();
 		}
@@ -76,12 +79,33 @@ function researchSend(){
 		if(enddateResult){
 			enddateResult=enddateResult.toISOString();
 		}
+		console.log('설문 시작 날 끝날 로그 시작');
+		console.log(startdateResult);
+		console.log(enddateResult);
+		
+		console.log('설문 시작날 끝나는날 로그 끝');
+		
+		
+		
+		
 		if(typeof startdateResult===undefined||typeof startdateResult==='undefined'||enddateResult===undefined||typeof enddateResult==='undefined'){
 			console.log("date Result is..undefined.....");
 			alert('설문 시작일과 종료일을 설정 하여야 합니다.');
 			return false;
 		}
-	
+
+		 var startCheck= surveyDateCheck(startdateResult);
+		 var endChekc=surveyDateCheck(enddateResult);
+		 console.log('start!!!!!!!!!!!!!!!!!!!!!');
+		 console.log(startCheck);
+		 console.log(endChekc);
+		 console.log('end!!!!!!!!!!!!!!!!!!!!!');
+		 if(startCheck>endChekc){
+			 alert('시작일이 종료일보다 큽니다.');
+			 return false;
+		 }
+		
+		
 		
 		var serverSendRadio="";
 		var testArr=[];
@@ -198,4 +222,18 @@ function researchSend(){
 
 	}
 
+}
+
+
+function surveyDateCheck(str){
+	var yyyy=str.substring(0,4);
+	console.log('functino start');
+	console.log(yyyy);
+	var mm=str.substring(5,7);
+	console.log(mm);
+	var dd=str.substring(8,10);
+	console.log(dd);
+	var result=yyyy+mm+dd;
+	result*=1;
+	return result;
 }

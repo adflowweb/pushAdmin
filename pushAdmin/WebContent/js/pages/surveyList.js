@@ -35,19 +35,19 @@ function surveyCancelFunction(){
 						alert("메세지를 취소하였습니다.");
 						$('#input_surveyCancelID').val("");
 						$('#input_surveyCancelID').focus();
-						wrapperFunction('reservation');
+						wrapperFunction('surveyList');
 					} else {
 						alert("메세지를 취소에 실패했습니다.");
 						$('#input_surveyCancelID').val("");
 						$('#input_surveyCancelID').focus();
-					
+						wrapperFunction('surveyList');
 					}
 				},
 				error : function(data, textStatus, request) {
 					alert("예약된 메세지를 취소에 실패했습니다.");
 					$('#input_surveyCancelID').val("");
 					$('#input_surveyCancelID').focus();
-					
+					wrapperFunction('surveyList');
 					console.log(data);
 				}
 			});

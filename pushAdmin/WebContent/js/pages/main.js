@@ -775,7 +775,10 @@ function wrapperFunction(data) {
 						
 						//설문 조사 
 						if(data==="surveyList"){
-							
+							var surveyBeforeTag='<div class="panel panel-default"><div class="panel-heading">설문조사제목</div><div class="panel-body">';
+							var surveyContentTag='<div class="alert alert-info">브라질 10%</div><div class="alert alert-info">독일 70%</div><div class="alert alert-info">아르헨티나 10%</div>';
+							var surveyEndTag='</div></div></div>';
+							$('#row_survey').html(surveyBeforeTag+surveyContentTag+surveyEndTag);
 							
 //							*method : GET
 //							header : X-ApiKey:{tokenID}
@@ -804,11 +807,19 @@ function wrapperFunction(data) {
 											var item = data.result.data[i];
 											console.log(item);
 									
+											var startDate = new Date(
+													item.start);
+											var startDateResult = startDate.yyyymmdd();
+											
+											var endDate = new Date(
+													item.end);
+											var endDateResult = endDate.yyyymmdd();
+											
 											tableData.push({
 												"MessageId" : item.id,
 												"title" : item.title,
-												"start" : item.start,
-												"end" : item.end
+												"start" : startDateResult,
+												"end" : endDateResult
 										
 											});
 										}
@@ -848,10 +859,37 @@ function wrapperFunction(data) {
 												}).get();
 
 										console.log(tableData[0]);
-										$('#input_surveyCancelID').val(tableData[0]);
+										var surveyID=tableData[0];
+										var surveyTitle="";
+										$('#input_surveyCancelID').val(surveyID);
+										
+										for (var i = 0; i < tableData.length; i++) {
+											console.log('in for');
+											console.log(tableData[i].MessageId);
+											if(tableData[i].MessageId==tableDataRow[0]){
+												console.log(tableData[i].MessageId);
+												surveyTitle=tableData[i].title;
+											}
+										}
+										
+										
+										
+										//surveyId 로 통계 데이터 조회 해서 통계 만들기 
+//							
+//										<div class="panel panel-default">
+//										<div class="panel-heading">'+surveyTitle+'</div>
+//										<div class="panel-body">
+//											<div class="alert alert-info">브라질 10%</div>
+//											<div class="alert alert-info">독일 70%</div>
+//											<div class="alert alert-info">아르헨티나 10%</div>
+//											<div class="alert alert-info">네덜란드 20%</div>
+//										</div>
+//									</div>
+//								</div>
 										
 										//ajax xhdrP rkwudhktj Qnflrl 
 									});
+				
 							
 							
 						}
