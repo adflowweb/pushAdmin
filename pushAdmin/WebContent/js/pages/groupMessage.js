@@ -46,9 +46,12 @@ function groupMessageFunction() {
 			var imageText = document.getElementById("backImg").value;
 			var imageFile = document.getElementById("backImg").files[0];
 			var replaceImageText= imageText.replace(/^.*\\/, "");
+			var uuid = guid();
+			replaceImageText = uuid + replaceImageText;
 			var formdata = new FormData();
 			formdata.append("imageText", imageText);
 			formdata.append("imageFile", imageFile);
+			formdata.append('uuid', uuid);
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", "/pushAdmin/FileUploader", true);
 			xhr.send(formdata);
@@ -99,6 +102,33 @@ function groupMessageFunction() {
 							+ '\\",\\"summaryText\\":\\"'
 							+ input_messageTitle
 							+ '\\", \\"image\\":\\"\\"} } "}',
+							
+							
+//							
+//							'{"sender":"'
+//							+ loginID
+//							+ '","receiver":"/users/'
+//							+ input_messageTarget
+//							+ '","qos":'+qos+', "retained":false, "type":0,"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
+//							+ dateResult
+//							+ '","category":"'+cateGorySelect+'", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
+//							
+//							+ input_messageTitle
+//							+ '\\",\\"contentText\\":\\"'
+//							+ textAreaPlainText + '\\",\\"imageName\\":\\"'
+//							+ replaceImageText
+//							+ '\\",\\"htmlContent\\":\\"'
+//							+ htmlEncodeResult + '\\",\\"ticker\\":\\"'
+//							+ input_messageTitle
+//							+ '\\",\\"summaryText\\":\\"'
+//							+ input_messageTitle
+//							+ '\\", \\"image\\":\\"\\"} } "}',
+							
+							
+							
+							
+							
+							
 						success : function(data) {
 							console.log(data);
 							console.log(data.result.success);

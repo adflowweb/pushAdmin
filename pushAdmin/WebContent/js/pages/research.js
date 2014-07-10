@@ -25,6 +25,10 @@ function researchSend(){
 	 }
 	 
 	var researchHtml= $('.presearch').html();
+	var researchHtmlText=$('.presearch').text();
+	console.log('서버로 보낼 설문조사 항목 시작 ');
+	console.log(researchHtmlText);
+	console.log('서버로 보낼 설문조사 항목 끝');
 	console.log(researchHtml.length);
 	console.log(researchHtml);
 	if(researchHtml.length==0){
@@ -59,68 +63,139 @@ function researchSend(){
 		} 
 		var htmlEncodeResult = utf8_to_b64(researchHtml);
 		var input_researchTitle = $('#input_researchTitle').val();
-		var input_reservation = $('#input_reservation').val();
+		var surveyStart = $('#input_surveyStart').val();
+		var surveyEnd = $('#input_surveyEnd').val();
 		var cateGorySelect="설문조사";
-		dateResult = dateFormating(input_reservation);
+		var startdateResult = dateFormating(surveyStart);
+		var enddateResult=dateFormating(surveyEnd);
 	
-		if (input_reservation) {
-		    dateResult = dateResult.toISOString();
+		if (surveyStart) {
+			startdateResult = startdateResult.toISOString();
 		}
-		if(typeof dateResult===undefined||typeof dateResult==='undefined'){
+		
+		if(enddateResult){
+			enddateResult=enddateResult.toISOString();
+		}
+		if(typeof startdateResult===undefined||typeof startdateResult==='undefined'||enddateResult===undefined||typeof enddateResult==='undefined'){
 			console.log("date Result is..undefined.....");
-			dateResult="";
+			alert('설문 시작일과 종료일을 설정 하여야 합니다.');
+			return false;
 		}
-
+	
+		
+		var serverSendRadio="";
+		var testArr=[];
+		var testString="";
+		//"answers":["아르헨티나","독일"]
+		$('input[name=nameResearch]').each(function(){
+			console.log($(this).val());
+			testArr=testArr.concat($(this).val());
+			serverSendRadio=serverSendRadio.concat("\\\""+$(this).val()+"\\\""+",");
+			testString=testString.concat($(this).val()+",");
+		});
+		
+		console.log('어래이');
+		console.log(testArr);
+		console.log(serverSendRadio);
+		serverSendRadio=serverSendRadio.slice(0, -1);
+		testString=testString.slice(0, -1);
+		console.log('서버 전송 컨턴트');
+		console.log(serverSendRadio);
+		console.log('서버전송 컨텐트');
+		console.log('테스트 스트링');
+		console.log(testString);
+		//서버로 설문 조사 전송
+		//if(success){}
+		//client  message send 
+//		 - **  설문조사입력  **
+//		 > **request : ** 
+//		 *method : POST
+//		 header : X-ApiKey:{tokenID}
+//		 uri : /v1/bsbank/poll *
+//		 >
+//		 > **body : **
+//		 *{"title":"월드컵우승국은?","start":"2104-07-07","end":"20140708","responses":0,"status":0, "answers":["아르헨티나","독일"]}*
+//		 > **response : **
+//		 *{"result":{"success":true,"info":["updates=3"]}}*
 		$
-				.ajax({
-					url : '/v1/messages',
-					type : 'POST',
-					headers : {
-						'X-ApiKey' : tokenID
-					},
-					contentType : "application/json",
-					dataType : 'json',
-					async : false,
-					data : '{"sender":"'
-						+ loginID
-						+ '","receiver":"/users","qos":'+qos+', "retained":false, "type":1,"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
-						+ dateResult
-						+ '","category":"'+cateGorySelect+'", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
-						+ input_researchTitle
-						+ '\\",\\"contentText\\":\\"'
-						+ input_researchTitle + '\\",\\"imageName\\":\\"\\",\\"htmlContent\\":\\"'
-						+ htmlEncodeResult + '\\",\\"ticker\\":\\"'
-						+ input_researchTitle
-						+ '\\",\\"summaryText\\":\\"'
-						+ input_researchTitle
-						+ '\\", \\"image\\":\\"\\"} } "}',
-					success : function(data) {
-						console.log(data);
-						console.log(data.result.success);
-						if (data.result.info) {
-							alert("설문조사를 성공적으로 전송하였습니다.");
+		.ajax({
+			url : '/v1/bsbank/poll',
+			type : 'POST',
+			headers : {
+				'X-ApiKey' : tokenID
+			},
+			contentType : "application/json",
+			dataType : 'json',
+			async : false,
+			data : '{"title":"'+input_researchTitle+'","start":"'+startdateResult+'","end":"'+enddateResult+'","responses":0,"status":0, "answers":["'+serverSendRadio+'"]}',
+			success : function(data) {
+				console.log(data);
+				console.log(data.result.success);
+				if (data.result.info) {
+					console.log('설문조사 서버 전송 성공.');
+					console.log('client sen start');
+					$
+							.ajax({
+								url : '/v1/messages',
+								type : 'POST',
+								headers : {
+									'X-ApiKey' : tokenID
+								},
+								contentType : "application/json",
+								dataType : 'json',
+								async : false,
+								data : '{"sender":"'
+									+ loginID
+									+ '","receiver":"/users","qos":'+qos+', "retained":false, "type":1,"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
+									+ startdateResult
+									+ '","category":"'+cateGorySelect+'", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
+									+ input_researchTitle
+									+ '\\",\\"contentText\\":\\"'
+									+ input_researchTitle + '\\",\\"imageName\\":\\"\\",\\"htmlContent\\":\\"'
+									+ htmlEncodeResult + '\\",\\"ticker\\":\\"'
+									+ input_researchTitle
+									+ '\\",\\"summaryText\\":\\"'
+									+ input_researchTitle
+									+ '\\", \\"image\\":\\"\\"} } "}',
+								success : function(data) {
+									console.log(data);
+									console.log(data.result.success);
+									if (data.result.info) {
+										alert("설문조사를 성공적으로 전송하였습니다.");
 
-							wrapperFunction('research');
-						
-						} else {
-							alert("설문조사 전송에 실패 하였습니다");
-							wrapperFunction('research');
-							
-						}
-					},
-					error : function(data, textStatus, request) {
-						alert("설문조사 전송에 실패 하였습니다");
+										wrapperFunction('research');
+									
+									} else {
+										alert("설문조사 전송에 실패 하였습니다");
+										wrapperFunction('research');
+										
+									}
+								},
+								error : function(data, textStatus, request) {
+									alert("설문조사 전송에 실패 하였습니다");
 
-						wrapperFunction('research');
+									wrapperFunction('research');
+								
+									console.log(data);
+								}
+							});
+				
+				} else {
+					alert("설문조사 전송에 실패 하였습니다");
+				
 					
-						console.log(data);
-					}
-				});
+				}
+			},
+			error : function(data, textStatus, request) {
+				alert("설문조사 전송에 실패 하였습니다");
+
+				wrapperFunction('research');
+			
+				console.log(data);
+			}
+		});
+		
+
 	}
-	
-	
-	
-	
-	
-	 
+
 }

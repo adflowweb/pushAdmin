@@ -773,6 +773,89 @@ function wrapperFunction(data) {
 	
 						}
 						
+						//설문 조사 
+						if(data==="surveyList"){
+							
+							
+//							*method : GET
+//							header : X-ApiKey:{tokenID}
+//							uri : v1/bsbank/polls/*
+//							>
+//							> **response : **
+//							*{"result":{"success":true,"data":[{"id":12,"title":"월드컵우승국은?","start":1404691200000,"end":1404777600000,"responses":0,"status":0}]}}*
+							
+							
+							
+							var tableData = [];
+							$.ajax({
+								url : '/v1/bsbank/polls/',
+								type : 'GET',
+								headers : {
+									'X-ApiKey' : tokenID
+								},
+								contentType : "application/json",
+								async : false,
+								success : function(data) {
+								
+									if (data.result.data) {
+
+										for ( var i in data.result.data) {
+
+											var item = data.result.data[i];
+											console.log(item);
+									
+											tableData.push({
+												"MessageId" : item.id,
+												"title" : item.title,
+												"start" : item.start,
+												"end" : item.end
+										
+											});
+										}
+
+										console.log(tableData);
+										$('#dataTables-example').dataTable({
+											bJQueryUI : true,
+											aaData : tableData,
+											aoColumns : [ {
+												mData : 'MessageId'
+											}, {
+												mData : 'title'
+											}, {
+												mData : 'start'
+											}, {
+												mData : 'end'
+											} ]
+										});
+									} else {
+										alert('정보를 가지고 오는데 실패 하였습니다.');
+									}
+								},
+								error : function(data, textStatus, request) {
+									console.log(data);
+									alert('정보를 가지고 오는데 실패 하였습니다.');
+								}
+							});
+							
+							$('#dataTables-example tbody').on(
+									'click',
+									'tr',
+									function() {
+
+										var tableData = $(this).children("td")
+												.map(function() {
+													return $(this).text();
+												}).get();
+
+										console.log(tableData[0]);
+										$('#input_surveyCancelID').val(tableData[0]);
+										
+										//ajax xhdrP rkwudhktj Qnflrl 
+									});
+							
+							
+						}
+						
 						// 비밀번호 변경
 						if (data === "changePass") {
 							console.log('changePass...in..');
@@ -788,16 +871,25 @@ function wrapperFunction(data) {
 						}
 						
 						if(data==="research"){
-							$('#dataTables-example').dataTable();
+							
+							$('#input_surveyStart').prop('disabled',true);
+							$('#input_surveyEnd').prop('disabled',true);
+
 							var nowDate = new Date();
 							var today = new Date(nowDate.getFullYear(), nowDate
 									.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
 							var today_30 = new Date(nowDate.getFullYear(), nowDate
 									.getMonth(), nowDate.getDate()+30, 0, 0, 0, 0);
-							$('#datetimepicker1').datetimepicker().data(
+							$('#surveyStart').datetimepicker().data(
 									"DateTimePicker").setMinDate(today);
 							
-							$('#datetimepicker1').datetimepicker().data(
+							$('#surveyStart').datetimepicker().data(
+							"DateTimePicker").setMaxDate(today_30);
+							
+							$('#surveyEnd').datetimepicker().data(
+							"DateTimePicker").setMinDate(today);
+					
+							$('#surveyEnd').datetimepicker().data(
 							"DateTimePicker").setMaxDate(today_30);
 							
 						}

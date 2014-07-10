@@ -7,33 +7,85 @@ function excelFunction() {
 	if (formResult) {
 
 		fileCheck();
-		var smscheck=false;
-		var smsTimeOut=0;
-		var qos=0;
-		qos=$("#qosSelect").val();
-		var  cateGorySelect=$('#cateGorySelect').val();
-		console.log("QOS");
-		console.log(qos);
-		if($("input:checkbox[id='smsckeck']").is(":checked") == true){
-	    	var timeSet= $('#timeSelect').val();
-	    	console.log('smsckeck change function');
-	    	smscheck=true;
-	    	if(timeSet==1){
-	    		smsTimeOut=600;
-	    	}else if(timeSet==2){
-	    		smsTimeOut=1200;
-	    	}else if(timeSet==3){
-	    		smsTimeOut=1800;
-	    	}else if(timeSet==4){
-	    		smsTimeOut=3600;
-	    	}
-			
-		} 
-		if(!cateGorySelect){
-			cateGorySelect="기타";
+
+		// //
+		var tokenID = sessionStorage.getItem("tokenID");
+
+		if (tokenID) {
+
+			var textAreaContents = GetContents();
+			var textAreaPlainText = ckGetPlainText();
+			console.log('plain TExt');
+			console.log(textAreaPlainText);
+			console.log('endplanin text');
+			var htmlEncodeResult = utf8_to_b64(textAreaContents);
+			console.log("htmlEncodeResult..");
+			console.log(htmlEncodeResult);
+
+			var input_messageTitle = $('#input_messageTitle').val();
+			var input_reservation = $('#input_reservation').val();
+			var cateGorySelect = $('#cateGorySelect').val();
+			dateResult = dateFormating(input_reservation);
+			var imageText = document.getElementById("backImg").value;
+			var imageFile = document.getElementById("backImg").files[0];
+			var replaceImageText = imageText.replace(/^.*\\/, "");
+			var uuid = guid();
+			console.log("유유아이디");
+			console.log(uuid);
+			console.log("유유아이디");
+			replaceImageText = uuid + replaceImageText;
+			console.log(replaceImageText);
+			var formdata = new FormData();
+			formdata.append("imageText", imageText);
+			formdata.append("imageFile", imageFile);
+			formdata.append('uuid', uuid);
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/pushAdmin/FileUploader", true);
+			xhr.send(formdata);
+			xhr.onload = function(e) {
+
+				if (this.status == 200) {
+
+					console.log(this.responseText);
+
+				}
+
+			};
+			if (input_reservation) {
+				dateResult = dateResult.toISOString();
+			}
+			if (typeof dateResult === undefined
+					|| typeof dateResult === 'undefined') {
+				console.log("date Result is..undefined.....");
+				dateResult = "";
+			}
+			var smscheck = false;
+			var smsTimeOut = 0;
+			var qos = 0;
+			qos = $("#qosSelect").val();
+			var cateGorySelect = $('#cateGorySelect').val();
+			console.log("QOS");
+			console.log(qos);
+			if ($("input:checkbox[id='smsckeck']").is(":checked") == true) {
+				var timeSet = $('#timeSelect').val();
+				console.log('smsckeck change function');
+				smscheck = true;
+				if (timeSet == 1) {
+					smsTimeOut = 600;
+				} else if (timeSet == 2) {
+					smsTimeOut = 1200;
+				} else if (timeSet == 3) {
+					smsTimeOut = 1800;
+				} else if (timeSet == 4) {
+					smsTimeOut = 3600;
+				}
+
+			}
+			if (!cateGorySelect) {
+				cateGorySelect = "기타";
+			}
+			console.log(cateGorySelect);
 		}
-		console.log(cateGorySelect);
-		
 	}
 
 }
@@ -115,9 +167,10 @@ function excelFormCheck() {
 		filePath = excelObj.value;
 		lastIndex = filePath.lastIndexOf('.');
 		extension = filePath.substring(lastIndex + 1, filePath.len);
-		if (!((extension.toLowerCase() == "xls"||extension.toLowerCase() == "xlsx")) && extension != "") {
+		if (!((extension.toLowerCase() == "xls" || extension.toLowerCase() == "xlsx"))
+				&& extension != "") {
 			alert('xls 파일만 첨부가능 합니다.');
-			
+
 			return false;
 		}
 		return true;
@@ -167,18 +220,18 @@ function excelFormCheck() {
 	}
 
 }
-$('#categorycheck').change(function(){
-	   if(this.checked) {
-		   $('#cateGorySelect').prop('disabled', false);
-	    }else{
-	    	  $('#cateGorySelect').prop('disabled', 'disabled');
-	    }
+$('#categorycheck').change(function() {
+	if (this.checked) {
+		$('#cateGorySelect').prop('disabled', false);
+	} else {
+		$('#cateGorySelect').prop('disabled', 'disabled');
+	}
 });
 
-$('#smsckeck').change(function(){
-	   if(this.checked) {
-		   $('#timeSelect').prop('disabled', false);
-	    }else{
-	    	  $('#timeSelect').prop('disabled', 'disabled');
-	    }
+$('#smsckeck').change(function() {
+	if (this.checked) {
+		$('#timeSelect').prop('disabled', false);
+	} else {
+		$('#timeSelect').prop('disabled', 'disabled');
+	}
 });

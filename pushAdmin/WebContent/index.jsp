@@ -72,7 +72,7 @@
 <!--                                     <a href="#" onclick="javascript:wrapperFunction('stats');">메세지 통계</a> -->
 <!--                                 </li> -->
                                  <li>
-                                    <a href="#" onclick="javascript:wrapperFunction('surveyList');">설문조사 통계</a>
+                                    <a href="#" onclick="javascript:wrapperFunction('surveyList');">설문조사 리스트</a>
                                 </li>
                                
                            

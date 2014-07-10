@@ -41,9 +41,12 @@ function allMessageFunction() {
 			var imageText = document.getElementById("backImg").value;
 			var imageFile = document.getElementById("backImg").files[0];
 			var replaceImageText= imageText.replace(/^.*\\/, "");
+			var uuid = guid();
+			replaceImageText = uuid + replaceImageText;
 			var formdata = new FormData();
 			formdata.append("imageText", imageText);
 			formdata.append("imageFile", imageFile);
+			formdata.append('uuid', uuid);
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", "/pushAdmin/FileUploader", true);
 			xhr.send(formdata);
