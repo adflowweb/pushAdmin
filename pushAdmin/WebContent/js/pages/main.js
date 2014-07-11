@@ -775,11 +775,7 @@ function wrapperFunction(data) {
 						
 						//설문 조사 
 						if(data==="surveyList"){
-							var surveyBeforeTag='<div class="panel panel-default"><div class="panel-heading">설문조사제목</div><div class="panel-body">';
-							var surveyContentTag='<div class="alert alert-info">브라질 10%</div><div class="alert alert-info">독일 70%</div><div class="alert alert-info">아르헨티나 10%</div>';
-							var surveyEndTag='</div></div></div>';
-							$('#row_survey').html(surveyBeforeTag+surveyContentTag+surveyEndTag);
-							
+						
 //							*method : GET
 //							header : X-ApiKey:{tokenID}
 //							uri : v1/bsbank/polls/*
@@ -816,8 +812,8 @@ function wrapperFunction(data) {
 											var endDateResult = endDate.yyyymmdd();
 											
 											tableData.push({
-												"MessageId" : item.id,
 												"title" : item.title,
+												"MessageId" : item.id,
 												"start" : startDateResult,
 												"end" : endDateResult
 										
@@ -829,9 +825,9 @@ function wrapperFunction(data) {
 											bJQueryUI : true,
 											aaData : tableData,
 											aoColumns : [ {
-												mData : 'MessageId'
-											}, {
 												mData : 'title'
+											}, {
+												mData : 'MessageId'
 											}, {
 												mData : 'start'
 											}, {
@@ -853,41 +849,76 @@ function wrapperFunction(data) {
 									'tr',
 									function() {
 
-										var tableData = $(this).children("td")
+										var tableDataRow = $(this).children("td")
 												.map(function() {
 													return $(this).text();
 												}).get();
 
-										console.log(tableData[0]);
-										var surveyID=tableData[0];
+										console.log(tableDataRow[1]);
+										var surveyID=tableDataRow[1];
 										var surveyTitle="";
 										$('#input_surveyCancelID').val(surveyID);
 										
 										for (var i = 0; i < tableData.length; i++) {
 											console.log('in for');
 											console.log(tableData[i].MessageId);
-											if(tableData[i].MessageId==tableDataRow[0]){
+											if(tableData[i].MessageId==tableDataRow[1]){
 												console.log(tableData[i].MessageId);
 												surveyTitle=tableData[i].title;
+												
+												console.log('title!!!!!!');
+												console.log(surveyTitle);
+												
 											}
 										}
 										
-										
-										
-										//surveyId 로 통계 데이터 조회 해서 통계 만들기 
-//							
-//										<div class="panel panel-default">
-//										<div class="panel-heading">'+surveyTitle+'</div>
-//										<div class="panel-body">
-//											<div class="alert alert-info">브라질 10%</div>
-//											<div class="alert alert-info">독일 70%</div>
-//											<div class="alert alert-info">아르헨티나 10%</div>
-//											<div class="alert alert-info">네덜란드 20%</div>
-//										</div>
-//									</div>
-//								</div>
-										
-										//ajax xhdrP rkwudhktj Qnflrl 
+
+
+										$.ajax({
+											url : '/v1/bsbank/polls/'+surveyID,
+											type : 'GET',
+											headers : {
+												'X-ApiKey' : tokenID
+											},
+											contentType : "application/json",
+											async : false,
+											success : function(data) {
+												if (data.result.data) {
+
+													var surveyContentTag="";
+													var item = data.result.data;
+													var surveyBeforeTag='<div class="panel panel-default"><div class="panel-heading">'+surveyTitle+"&nbsp; &nbsp;(총 참여자 :"+item.responses+") &nbsp; &nbsp;"+'</div><div class="panel-body">';
+														console.log('test length');
+//														console.log(item.answers[0]);
+//														console.log(item.result[0]);
+//														var answers=item.answers[0].replace(/"/g, ""); 
+//														var answersArr=[];
+//														answersArr=answers.split(",");
+//														console.log('answersArr lenght');
+//														console.log(answersArr.length);
+//														console.log(answersArr[0]);
+//												 	var resultArr=item.result[0].split(",");
+															
+														for(var i=0 ; i<item.answers.length;i++){
+															surveyContentTag=surveyContentTag.concat('<div class="alert alert-info">'+item.answers[i]+"&nbsp; &nbsp; &nbsp; &nbsp;"+item.result[i]+"&nbsp;%"+'</div>');
+															
+														}
+		
+														console.log(surveyContentTag);
+													console.log('complate tag');
+													var surveyEndTag='</div></div></div>';
+													$('#row_survey').html(surveyBeforeTag+surveyContentTag+surveyEndTag);
+												
+												} else {
+													alert('정보를 가지고 오는데 실패 하였습니다.');
+												}
+											},
+											error : function(data, textStatus, request) {
+												console.log(data);
+												alert('정보를 가지고 오는데 실패 하였습니다.');
+											}
+										});
+
 									});
 				
 							
