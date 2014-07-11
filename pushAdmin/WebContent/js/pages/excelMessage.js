@@ -66,20 +66,21 @@ function excelFunction() {
 			var cateGorySelect = $('#cateGorySelect').val();
 			console.log("QOS");
 			console.log(qos);
-			if ($("input:checkbox[id='smsckeck']").is(":checked") == true) {
-				var timeSet = $('#timeSelect').val();
-				console.log('smsckeck change function');
-				smscheck = true;
-				if (timeSet == 1) {
-					smsTimeOut = 600;
-				} else if (timeSet == 2) {
-					smsTimeOut = 1200;
-				} else if (timeSet == 3) {
-					smsTimeOut = 1800;
-				} else if (timeSet == 4) {
-					smsTimeOut = 3600;
-				}
-
+			if($("input:checkbox[id='smsckeck']").is(":checked") == true){
+				
+		    	var timeSet= $('#timeSelect').val();
+		    	console.log('smsckeck change function');
+		    	smscheck=true;
+		    	if(timeSet==1){
+		    		smsTimeOut=1;
+		    	}else if(timeSet==2){
+		    		smsTimeOut=10;
+		    	}else if(timeSet==3){
+		    		smsTimeOut=30;
+		    	}else if(timeSet==4){
+		    		smsTimeOut=60;
+		    	}
+				
 			}
 			if (!cateGorySelect) {
 				cateGorySelect = "기타";

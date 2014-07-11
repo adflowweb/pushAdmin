@@ -91,9 +91,9 @@
                                     <a href="#" onclick="javascript:wrapperFunction('groupMessage');">그룹 메세지</a>
                               
                                 </li>
-                                 <li>
-                                   <a href="#" onclick="javascript:wrapperFunction('excel');">대량 메세지</a>
-                                </li>
+<!--                                  <li> -->
+<!--                                    <a href="#" onclick="javascript:wrapperFunction('excel');">대량 메세지</a> -->
+<!--                                 </li> -->
                                    <li>
                                    <a href="#" onclick="javascript:wrapperFunction('allMessage');">전체 메세지</a>
                                 </li>
