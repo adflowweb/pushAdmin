@@ -9,6 +9,12 @@ var heapFree;
 var diskUsed;
 var diskFree;
 var tps;
+if(monitoringInterval){
+	console.log('in clear');
+	clearInterval(monitoringInterval);
+}
+
+
 	$.ajax({
 		url : '/v1/server',
 		type : 'GET',
@@ -132,7 +138,7 @@ var tps;
 		resize : true
 	});
 	
-	setInterval(function() {
+	var monitoringInterval=setInterval(function() {
 		console.log('!!!');
 	$.ajax({
 		url : '/v1/server',

@@ -25,9 +25,11 @@ $(document).ready(function() {
 							console.log(item);
 							var status="";
 							if(item.status==0){
-								status="미발송";
+								status="발송 준비중";
 							}else if(item.status==1){
 								status="발송됨";
+							}else{
+								status=item.status;
 							}
 							tableData.push({
 								"MessageId" : item.id,
@@ -1167,9 +1169,11 @@ function loginFunction() {
 										console.log(item);
 										var status="";
 										if(item.status==0){
-											status="미발송";
+											status="발송 준비중";
 										}else if(item.status==1){
 											status="발송됨";
+										}else{
+											status=item.status;
 										}
 										tableData.push({
 											"MessageId" : item.id,
