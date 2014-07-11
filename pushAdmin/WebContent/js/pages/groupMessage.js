@@ -103,32 +103,7 @@ function groupMessageFunction() {
 							+ '\\",\\"summaryText\\":\\"'
 							+ input_messageTitle
 							+ '\\", \\"image\\":\\"\\"} } "}',
-							
-							
-//							
-//							'{"sender":"'
-//							+ loginID
-//							+ '","receiver":"/users/'
-//							+ input_messageTarget
-//							+ '","qos":'+qos+', "retained":false, "type":0,"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
-//							+ dateResult
-//							+ '","category":"'+cateGorySelect+'", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
-//							
-//							+ input_messageTitle
-//							+ '\\",\\"contentText\\":\\"'
-//							+ textAreaPlainText + '\\",\\"imageName\\":\\"'
-//							+ replaceImageText
-//							+ '\\",\\"htmlContent\\":\\"'
-//							+ htmlEncodeResult + '\\",\\"ticker\\":\\"'
-//							+ input_messageTitle
-//							+ '\\",\\"summaryText\\":\\"'
-//							+ input_messageTitle
-//							+ '\\", \\"image\\":\\"\\"} } "}',
-							
-							
-							
-							
-							
+
 							
 						success : function(data) {
 							console.log(data);

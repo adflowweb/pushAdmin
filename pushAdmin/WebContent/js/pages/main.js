@@ -94,8 +94,6 @@ function wrapperFunction(data) {
 						console.log(userID);
 						// individual message page load
 						if (data === "individual") {
-							//$("input").prop('disabled', true);
-						//	$("input").prop('disabled', false);
 							  $('#input_messageTarget').prop('disabled',true);
 							  $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');
@@ -164,21 +162,6 @@ function wrapperFunction(data) {
 							
 							$('#datetimepicker1').datetimepicker().data(
 							"DateTimePicker").setMaxDate(today_30);
-							// click dataTable
-							// $('#dataTables-example tbody').on(
-							// 'click',
-							// 'tr',
-							//endDate: '+2d'
-							// function() {
-							//
-							// var tableData = $(this).children("td").map(
-							// function() {
-							// return $(this).text();
-							// }).get();
-							//
-							// console.log(tableData[0]);
-							// $('#input_messageTarget').val(tableData[0]);
-							// });
 
 						}
 						// groupMessage page load
@@ -192,7 +175,7 @@ function wrapperFunction(data) {
 									    
 									  });
 							  
-								
+						//get Category		
 								$.ajax({
 									url : '/v1/categories',
 									type : 'GET',
@@ -277,8 +260,11 @@ function wrapperFunction(data) {
 									alert('Group 정보를 가지고 오는데 실패 하였습니다.');
 								}
 							});
+							
+							//ckeditor create
 							CKEDITOR.replace('input_messageContent');
-
+							
+							// datetime picker create
 							var nowDate = new Date();
 							var today = new Date(nowDate.getFullYear(), nowDate
 									.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
@@ -313,7 +299,7 @@ function wrapperFunction(data) {
 												console.log($(
 												'#message_type')
 												.val());
-
+												//get group info 
 												$
 														.ajax({
 															// /v1/bsbank/groups/BSCP
@@ -426,7 +412,7 @@ function wrapperFunction(data) {
 									      $(this).val('disable'); 
 									    
 									  });
-								
+								//get category
 								$.ajax({
 									url : '/v1/categories',
 									type : 'GET',
@@ -467,8 +453,14 @@ function wrapperFunction(data) {
 										console.log('fail end.............');
 									}
 								});
+								
+							//ckdeditor create
 							CKEDITOR.replace('input_messageContent');
+							
+							//data table create
 							$('#dataTables-example').dataTable();
+							
+							//datetimepicker create
 							var nowDate = new Date();
 							var today = new Date(nowDate.getFullYear(), nowDate
 									.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
@@ -480,7 +472,7 @@ function wrapperFunction(data) {
 							$('#datetimepicker1').datetimepicker().data(
 							"DateTimePicker").setMaxDate(today_30);
 						}
-
+						// 추후 업데이트 
 						if (data === "formManager") {
 							CKEDITOR.replace('input_messageContent');
 							$('#dataTables-example').dataTable();
@@ -524,33 +516,7 @@ function wrapperFunction(data) {
 						}
 						// monitoring page load
 						if (data === "monitoring") {
-							// $(function() {
-							// var script = document.createElement("script");
-							// script.type = "text/javascript";
-							//
-							// if (script.readyState) { // IE
-							// script.onreadystatechange = function() {
-							// if (script.readyState == "loaded"
-							// || script.readyState == "complete") {
-							// script.onreadystatechange = null;
-							// callback();
-							// }
-							// };
-							// } else { // Others
-							// script.onload = function() {
-							// callback();
-							// };
-							// }
-							//
-							// script.src = "js/demo/morris-demo.js";
-							// document.getElementsByTagName("head")[0]
-							// .appendChild(script);
-							//
-							// function callback() {
-							//
-							// }
-							// ;
-							// });
+		
 
 						}
 						// userManager
@@ -657,6 +623,8 @@ function wrapperFunction(data) {
 										}
 
 										console.log(tableData);
+										
+										//테이블 생성
 										$('#dataTables-example').dataTable({
 											bJQueryUI : true,
 											aaData : tableData,
@@ -680,6 +648,7 @@ function wrapperFunction(data) {
 								}
 							});
 
+							//테이블 클릭시 
 							$('#dataTables-example tbody').on(
 									'click',
 									'tr',
@@ -748,6 +717,8 @@ function wrapperFunction(data) {
 										}
 
 										console.log(tableData);
+										
+										//테이블 생성
 										$('#dataTables-example').dataTable({
 											bJQueryUI : true,
 											aaData : tableData,
@@ -823,6 +794,8 @@ function wrapperFunction(data) {
 										}
 
 										console.log(tableData);
+										
+										//테이블 생성
 										$('#dataTables-example').dataTable({
 											bJQueryUI : true,
 											aaData : tableData,
@@ -846,6 +819,7 @@ function wrapperFunction(data) {
 								}
 							});
 							
+							//테이블 클릭시 
 							$('#dataTables-example tbody').on(
 									'click',
 									'tr',
@@ -875,7 +849,7 @@ function wrapperFunction(data) {
 										}
 										
 
-
+										//설문조사 
 										$.ajax({
 											url : '/v1/bsbank/polls/'+surveyID,
 											type : 'GET',
@@ -891,16 +865,7 @@ function wrapperFunction(data) {
 													var item = data.result.data;
 													var surveyBeforeTag='<div class="panel panel-default"><div class="panel-heading">'+surveyTitle+"&nbsp; &nbsp;(총 참여자 :"+item.responses+") &nbsp; &nbsp;"+'</div><div class="panel-body">';
 														console.log('test length');
-//														console.log(item.answers[0]);
-//														console.log(item.result[0]);
-//														var answers=item.answers[0].replace(/"/g, ""); 
-//														var answersArr=[];
-//														answersArr=answers.split(",");
-//														console.log('answersArr lenght');
-//														console.log(answersArr.length);
-//														console.log(answersArr[0]);
-//												 	var resultArr=item.result[0].split(",");
-															
+	
 														for(var i=0 ; i<item.answers.length;i++){
 															surveyContentTag=surveyContentTag.concat('<div class="alert alert-info">'+item.answers[i]+"&nbsp; &nbsp; &nbsp; &nbsp;"+item.result[i]+"&nbsp;%"+'</div>');
 															
@@ -934,13 +899,7 @@ function wrapperFunction(data) {
 
 						}
 						
-						if(data==="surveyList"){
-						console.log('in survey List');
-			
-
-						
-						}
-						
+						//설문조사 페이지
 						if(data==="research"){
 							
 							$('#input_surveyStart').prop('disabled',true);
@@ -973,6 +932,7 @@ function wrapperFunction(data) {
 //						> **response : **
 //						*{"result":{"success":true,"data":[{"id":1,"name":"오늘의날씨"},{"id":2,"name":"경조사"}]}}*
 						
+						//카테고리 생성 페이지 
 						if(data==="category"){
 							var tableData=[];
 							$.ajax({
@@ -1041,7 +1001,7 @@ function wrapperFunction(data) {
 							
 							
 						}
-						
+						//서식 발송 페이지 추후 업데이트 
 						if(data==="excel"){
 							 $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');

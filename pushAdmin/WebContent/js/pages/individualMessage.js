@@ -177,17 +177,6 @@ function individualSearch() {
 				async : false,
 				success : function(data) {
 					//search Success
-//					
-//					for ( var i in data.result.data) {
-//						console.log(data.result);
-//						console.log(data.result.success);
-//						var item = data.result.data[i];
-//						console.log(item);
-//						tableData.push({
-//							"Group Id" : item.gw_sbsd_cdnm,
-//							"Group Name" : item.gw_sbsd_nm
-//						});
-//					}
 					
 					if(data.result.data){
 

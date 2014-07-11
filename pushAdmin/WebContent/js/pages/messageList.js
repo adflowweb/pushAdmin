@@ -44,8 +44,7 @@ $('#dataTables-example tbody').on('click', 'tr', function() {
 			alert('메세지 발송 정보를 가지고 오는데 실패 하였습니다.');
 		}
 	});
-//	$('.message_detail').html(tableData[i].content);
-//	$('.message_title').html(tableData[i].title);
+
 
 	
 });

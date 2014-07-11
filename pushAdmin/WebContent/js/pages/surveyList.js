@@ -10,15 +10,7 @@ function surveyCancelFunction(){
 			console.log(loginUserId);
 			var input_surveyCancelID = $('#input_surveyCancelID').val();
 		
-//			> **request : ** 
-//			*method : DELETE
-//			header : X-ApiKey:{tokenID}
-//			uri : /v1/bsbank/polls/{pollID}*
-//			>
-//			> **response : **
-//			*{"result":{"success":"true", "info":{"updates":1}}}*
-			
-			
+
 			$.ajax({
 				url : '/v1/bsbank/polls/'+input_surveyCancelID,
 				type : 'DELETE',
