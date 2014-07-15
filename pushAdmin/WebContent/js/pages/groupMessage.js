@@ -76,6 +76,13 @@ function groupMessageFunction() {
 				cateGorySelect="기타";
 			}
 			console.log(cateGorySelect);
+			console.log('group message Target start');
+			console.log(input_messageTarget);
+			console.log('group message Target end');
+			var inputMsgArr=[];
+			inputMsgArr=input_messageTarget.split('(');
+			console.log('send group message target');
+			console.log(inputMsgArr[0]);
 			$
 					.ajax({
 						url : '/v1/messages',
@@ -89,7 +96,7 @@ function groupMessageFunction() {
 						data : '{"sender":"'
 							+ loginID
 							+ '","receiver":"/groups/'
-							+ input_messageTarget
+							+ inputMsgArr[0]
 							+ '","qos":'+qos+', "retained":false, "type":'+messageType+',"sms":'+smscheck+', "timeOut":'+smsTimeOut+',"reservation":"'
 							+ dateResult
 							+ '","category":"'+cateGorySelect+'", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'

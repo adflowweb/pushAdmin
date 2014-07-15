@@ -243,7 +243,7 @@ function wrapperFunction(data) {
 										}
 
 										console.log(tableData);
-										$('#dataTables-example').dataTable({
+										$('#dataTables-example-groupA').dataTable({
 											bJQueryUI : true,
 											aaData : tableData,
 											aoColumns : [ {
@@ -276,7 +276,7 @@ function wrapperFunction(data) {
 							
 							$('#datetimepicker1').datetimepicker().data(
 							"DateTimePicker").setMaxDate(today_30);
-							$('#dataTables-example tbody')
+							$('#dataTables-example-groupA tbody')
 									.on(
 											'click',
 											'tr',
@@ -293,7 +293,7 @@ function wrapperFunction(data) {
 
 												console.log(tableData[0]);
 												$('#input_messageTarget').val(
-														tableData[0]);
+														tableData[0]+"("+tableData[1]+")");
 												$(
 												'#message_type')
 												.val(2);
@@ -333,7 +333,7 @@ function wrapperFunction(data) {
 																	console
 																			.log(tableData);
 																	var odataTable = $(
-																			'#detaildataTables-example')
+																			'#detaildataTables-example-groupB')
 																			.dataTable(
 																					{
 																						bJQueryUI : true,
@@ -354,7 +354,7 @@ function wrapperFunction(data) {
 
 																	// odataTable.ajax.reload();
 																	$(
-																			'#detaildataTables-example tbody')
+																			'#detaildataTables-example-groupB tbody')
 																			.on(
 																					'click',
 																					'tr',
@@ -378,7 +378,7 @@ function wrapperFunction(data) {
 																						$(
 																								'#input_messageTarget')
 																								.val(
-																										tableData[0]);
+																										tableData[0]+"("+tableData[1]+")");
 																						$(
 																						'#message_type')
 																						.val(3);
