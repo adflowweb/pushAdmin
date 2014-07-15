@@ -1,4 +1,168 @@
 
+function surveyPersonSearch() {
+
+	var searchForm = surveySearchFormCheck();
+
+	if (searchForm) {
+		var selectValue = $('#searchSelect').val();
+		console.log("select Value...start");
+		console.log(selectValue);
+		console.log("select value end..");
+		var tokenID = sessionStorage.getItem("tokenID");
+		var userID = sessionStorage.getItem("userID");
+
+		// name
+		if (selectValue == 1) {
+			var input_searchContent = $('#input_searchContent').val();
+			console.log(input_searchContent);
+			if(input_searchContent.length<2){
+				alert('이름은 2자 이상 입력 하셔야 합니다.');
+				$('#input_searchContent').focus();
+				return false;
+			}
+			$.ajax({
+				// /v1/bsbank/groups/BSCP
+				url : ' /v1/bsbank/users?name=' + input_searchContent ,
+				type : 'GET',
+				headers : {
+					'X-ApiKey' : tokenID
+				},
+				contentType : "application/json",
+				async : false,
+				success : function(data) {
+					//search Success
+					
+					if(data.result.data){
+
+					var tableData = [];
+					for ( var i in data.result.data) {
+						var item = data.result.data[i];
+						console.log('search Success');
+						console.log(item);
+						tableData.push({
+							"Id" : item.gw_stf_cdnm,
+							"Name" : item.gw_user_nm,
+							"Dept" : item.gw_sbsd_cdnm,
+							"Phone" : item.gw_stf_cdnm
+						});
+					}
+
+					console.log(tableData);
+					var odataTable = $('#dataTables-example-person').dataTable({
+						bJQueryUI : true,
+						aaData : tableData,
+						bDestroy : true,
+						aoColumns : [ {
+							mData : 'Id'
+						}, {
+							mData : 'Name'
+						}, {
+							mData : 'Dept'
+						}, {
+							mData : 'Phone'
+						} ]
+					});
+
+					// odataTable.ajax.reload();
+					$('#dataTables-example-person tbody').on(
+							'click',
+							'tr',
+							function() {
+								console.log('클리이벤트');
+								var tableData = $(this).children("td").map(
+										function() {
+											return $(this).text();
+										}).get();
+
+								console.log(tableData[0]);
+								$('#input_researchTarget').val(tableData[0]);
+
+							});
+					}else{
+						alert('해당 유저 이름이 없습니다');
+					}
+				},
+				error : function(data, textStatus, request) {
+					console.log(data);
+					alert('정보를 가지고 오는데 실패 하였습니다.');
+				}
+			});
+			
+
+			// Id
+		} else if (selectValue == 2) {
+			var input_searchContent = $('#input_searchContent').val();
+			$.ajax({
+				// /v1/bsbank/groups/BSCP
+				url : ' /v1/bsbank/users/' + input_searchContent,
+				type : 'GET',
+				headers : {
+					'X-ApiKey' : tokenID
+				},
+				contentType : "application/json",
+				async : false,
+				success : function(data) {
+					//search Success
+					if(data.result.data){
+					var tableData = [];
+					var item = data.result.data;
+					console.log('search Success');
+					console.log(item);
+
+					tableData.push({
+						"Id" : item.gw_stf_cdnm,
+						"Name" : item.gw_user_nm,
+						"Dept" : item.gw_sbsd_cdnm,
+						"Phone" : item.gw_stf_cdnm
+					});
+					console.log(tableData);
+					var odataTable = $('#dataTables-example-person').dataTable({
+						bJQueryUI : true,
+						aaData : tableData,
+						bDestroy : true,
+						aoColumns : [ {
+							mData : 'Id'
+						}, {
+							mData : 'Name'
+						}, {
+							mData : 'Dept'
+						}, {
+							mData : 'Phone'
+						} ]
+					});
+
+					// odataTable.ajax.reload();
+					$('#dataTables-example-person tbody').on(
+							'click',
+							'tr',
+							function() {
+								console.log('클리이벤트');
+								var tableData = $(this).children("td").map(
+										function() {
+											return $(this).text();
+										}).get();
+
+								console.log(tableData[0]);
+								$('#input_researchTarget').val(tableData[0]);
+
+							});
+					}else{
+						alert('해당 유저 아이디가 없습니다');
+					}
+				},
+				error : function(data, textStatus, request) {
+					console.log(data);
+					alert('정보를 가지고 오는데 실패 하였습니다.');
+				}
+			});
+
+		}
+	}
+
+}
+
+
+
 function addResearchFunction() {
 
 	var input_researchAdd = $('#input_researchAdd').val();
@@ -15,6 +179,7 @@ function addResearchFunction() {
 
 function researchSend() {
 	var input_researchTitle = $('#input_researchTitle').val();
+
 
 	if (input_researchTitle == "" || input_researchTitle == null
 			|| input_researchTitle.length > 15) {
@@ -118,7 +283,31 @@ function researchSend() {
 		+ serverSendRadio + '"]}';
 		console.log("test log start");
 		console.log(test);
+		var input_researchTarget=$('#input_researchTarget').val();
+		var sendTarget=[];
+	
+		console.log(input_researchTarget);
+
+		sendTarget= input_researchTarget.split('(');
+		console.log(sendTarget[0]);
+		var receiver="";
+		if(sendTarget.length>1){
+			receiver="/groups/"+sendTarget[0];
+		}else if(sendTarget[0]==null||sendTarget[0]==""){
+			('타겟을 지정하지 않음');
+			if (confirm("전 직원 설문 조사로 발송 하시겠습니까??") == true) { // 확인
+				receiver="/users";
+			} else { // 취소
+				return;
+			}
 		
+		}else{
+			receiver="/users/"+sendTarget[0];
+		}
+		console.log('설문 조사 대상 시작');
+		console.log(sendTarget);
+		console.log(receiver);
+		console.log('설문조사 대상 끝');
 		$
 				.ajax({
 					url : '/v1/bsbank/polls',
@@ -154,7 +343,7 @@ function researchSend() {
 										async : false,
 										data : '{"sender":"'
 												+ loginID
-												+ '","receiver":"/users","qos":'
+												+ '","receiver":"'+receiver+'","qos":'
 												+ qos
 												+ ', "retained":false,"type":1,"sms":"", "timeOut":"","reservation":"","category":"'
 												+ cateGorySelect
@@ -214,6 +403,16 @@ function researchSend() {
 
 	}
 
+}
+
+function surveySearchFormCheck() {
+	var input_searchContent = $('#input_searchContent').val();
+	if (input_searchContent == null || input_searchContent == "") {
+		alert("검색할 대상을 입력해주세요");
+		$('#input_searchContent').focus();
+		return false;
+	}
+	return true;
 }
 
 function surveyDateCheck(str) {

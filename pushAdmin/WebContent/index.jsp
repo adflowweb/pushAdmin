@@ -66,15 +66,17 @@
                                     <a href="#" onclick="javascript:wrapperFunction('monitoring');">시스템 모니터링</a>
                                 </li>
                                  <li>
-                                    <a href="#" onclick="javascript:wrapperFunction('messageList');">메세지 발송 리스트</a>
+                                    <a href="#" onclick="javascript:wrapperFunction('messageList');">메세지 발송 현황</a>
                                 </li>
 <!--                                 <li> -->
 <!--                                     <a href="#" onclick="javascript:wrapperFunction('stats');">메세지 통계</a> -->
 <!--                                 </li> -->
                                  <li>
-                                    <a href="#" onclick="javascript:wrapperFunction('surveyList');">설문조사 리스트</a>
+                                    <a href="#" onclick="javascript:wrapperFunction('surveyList');">설문조사 현황</a>
                                 </li>
-                               
+                                <li>
+                                   <a href="#" onclick="javascript:wrapperFunction('reservation');">예약 메세지 현황</a>
+                                </li>
                            
                             </ul>
                             
@@ -101,12 +103,12 @@
                                  <li>
                                    <a href="#" onclick="javascript:wrapperFunction('research');">설문조사</a>
                                 </li>
-                                 <li>
-                                   <a href="#" onclick="javascript:wrapperFunction('category');">카테고리 관리</a>
-                                </li>
-                                 <li>
-                                   <a href="#" onclick="javascript:wrapperFunction('reservation');">예약 메세지 관리</a>
-                                </li>
+<!--                                  <li> -->
+<!--                                    <a href="#" onclick="javascript:wrapperFunction('category');">카테고리 관리</a> -->
+<!--                                 </li> -->
+<!--                                  <li> -->
+<!--                                    <a href="#" onclick="javascript:wrapperFunction('reservation');">예약 메세지 관리</a> -->
+<!--                                 </li> -->
                        
                         
 <!--                                 <li> -->
@@ -138,11 +140,14 @@
 <!--                                 <li> -->
 <!--                                     <a href="#" onclick="javascript:wrapperFunction('changePass');">비밀 번호 변경</a> -->
 <!--                                 </li> -->
+<!--                                  <li> -->
+<!--                                    <a href="#" onclick="javascript:wrapperFunction('userAdd');">관리자 등록</a> -->
+<!--                                 </li> -->
                                  <li>
-                                   <a href="#" onclick="javascript:wrapperFunction('userAdd');">관리자 등록</a>
+                                   <a href="#" onclick="javascript:wrapperFunction('userManager');">사용자 관리</a>
                                 </li>
-                                 <li>
-                                   <a href="#" onclick="javascript:wrapperFunction('userManager');">관리자 목록</a>
+                                                                 <li>
+                                   <a href="#" onclick="javascript:wrapperFunction('category');">카테고리 관리</a>
                                 </li>
                                  <li>
                                     <a href="#" onclick="javascript:logoutFunction();">로그아웃</a>
