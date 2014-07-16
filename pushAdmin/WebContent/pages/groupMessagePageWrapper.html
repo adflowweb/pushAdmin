@@ -13,8 +13,11 @@
 
 
 				<div class="form-group">
-					<label>그룹 메세지 발송 대상 </label> <input class="form-control"
-						id="input_messageTarget" value="" placeholder="메세지 발송 대상">
+					<label>그룹 메세지 발송 대상 </label><br/>
+					 <input type="checkbox" value="" id="input_targetcheck">복수 선택 설정
+
+					 <textarea class="form-control"
+						id="input_messageTarget"  placeholder="메세지 발송 대상"></textarea>
 					<input type="hidden" id="message_type"></input>
 				</div>
 				<div class="form-group">
@@ -22,18 +25,21 @@
 						id="input_messageTitle" placeholder="제목">
 				</div>
 				<div class="form-group">
-					 <div class="checkbox">
-						<label> <input type="checkbox" value="" id="categorycheck">카테고리 설정 
-					  </label>
-				   </div>
-					<label>카테고리 목록</label> <select id="cateGorySelect" class="form-control">
+					<div class="checkbox">
+						<label> <input type="checkbox" value="" id="categorycheck">카테고리
+							설정
+						</label>
+					</div>
+					<label>카테고리 목록</label> <select id="cateGorySelect"
+						class="form-control">
 					</select>
 				</div>
 				<div class="form-group">
 					<label>Qos 설정</label> <select id="qosSelect" class="form-control">
-					<option value="2">2:4단계의 핸드 쎼이킹을 통해 정확히 한번만 전달 합니다.</option>
-					<option value="1">1:적어도 한번 이상 메세지를 전달하며 전달 여부는 확인 하지 않습니다.</option>
-					<option value="0">0:메세지를 한번 전달하며 전달 여부는 확인 하지 않습니다. </option>
+						<option value="2">2:4단계의 핸드 쎼이킹을 통해 정확히 한번만 전달 합니다.</option>
+						<option value="1">1:적어도 한번 이상 메세지를 전달하며 전달 여부는 확인 하지
+							않습니다.</option>
+						<option value="0">0:메세지를 한번 전달하며 전달 여부는 확인 하지 않습니다.</option>
 
 					</select>
 				</div>
@@ -125,6 +131,43 @@
 			</div>
 			<!-- /.panel-body -->
 		</div>
+						<div class="panel panel-default">
+					<div class="panel-heading">부서 개인 메세지 발송 대상</div>
+				
+
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered table-hover"
+								id="detaildataTables-example-groupC">
+								<thead>
+									<tr>
+										<th>직원 번호</th>
+										<th>이름</th>
+										<th>직위</th>
+									</tr>
+								</thead>
+								<tbody id="userDataTbody-groupC">
+
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				
+
+				</div>
+<!-- 		<div class="panel panel-default"> -->
+<!-- 			<div class="panel-heading">그룹 메세지 발송 대상</div> -->
+<!-- 			<div class="panel-body"> -->
+<!-- 				<h4>Unordered List</h4> -->
+<!-- 				<ul id="ul_group">	 -->
+				
+<!-- 				</ul> -->
+
+<!-- 			</div> -->
+<!-- 			<!-- /.panel-body --> 
+<!-- 		</div> -->
+
 		<div class="panel panel-default">
 			<div class="panel-heading">SMS 발송 체크</div>
 			<!-- /.panel-heading -->
