@@ -55,7 +55,24 @@
                 <a class="navbar-brand" href="index.jsp">Push Server Admin </a>
                 
             </div>
+            
+             <ul  id="ul_userInfo" class="nav navbar-top-links navbar-right">
+               <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#" onclick="javascript:userInfo();"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#" onclick="javascript:logoutFunction();"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
             <div class="navbar-default navbar-static-side" role="navigation">
+            
                 <div class="sidebar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
@@ -85,19 +102,19 @@
                             <a href="#"><i class="fa fa-envelope fa-fw"></i> Push Message <span class="fa arrow"></a>
                             
                             <ul class="nav nav-second-level">
-                                <li>
+<!--                                 <li> -->
                                
-                                    <a href="#" onclick=" javascript:wrapperFunction('individual');">개인 메세지</a>
-                                </li>
+<!--                                     <a href="#" onclick=" javascript:wrapperFunction('individual');">개인 메세지</a> -->
+<!--                                 </li> -->
                                 <li>
-                                    <a href="#" onclick="javascript:wrapperFunction('groupMessage');">그룹 메세지</a>
+                                    <a href="#" onclick="javascript:wrapperFunction('groupMessage');">메세지 발송</a>
                               
                                 </li>
 <!--                                  <li> -->
 <!--                                    <a href="#" onclick="javascript:wrapperFunction('excel');">대량 메세지</a> -->
 <!--                                 </li> -->
                                    <li>
-                                   <a href="#" onclick="javascript:wrapperFunction('allMessage');">전체 메세지</a>
+                                   <a href="#" onclick="javascript:wrapperFunction('allMessage');">전체 메세지 발송 </a>
                                 </li>
                                 
                                  <li>
@@ -149,9 +166,9 @@
                                                                  <li>
                                    <a href="#" onclick="javascript:wrapperFunction('category');">카테고리 관리</a>
                                 </li>
-                                 <li>
-                                    <a href="#" onclick="javascript:logoutFunction();">로그아웃</a>
-                                </li>
+<!--                                  <li> -->
+<!--                                     <a href="#" onclick="javascript:logoutFunction();">로그아웃</a> -->
+<!--                                 </li> -->
                                 
                             </ul>
                         </li>

@@ -5,8 +5,10 @@ $(document).ready(function() {
 	// local storage token ID Check
 	if (localTokenId) {
 		$('.navbar-static-side').show();
+		$('#ul_userInfo').show();
 		$("#page-wrapper").load("pages/messageListPageWrapper.html", function() {
 			var tableData = [];
+			$('#ul_userInfo').show();
 			$.ajax({
 				url : '/v1/messages?type=sent',
 				type : 'GET',
@@ -71,7 +73,7 @@ $(document).ready(function() {
 	} else {
 
 		$("#page-wrapper").load("pages/login.html", function() {
-
+			$('#ul_userInfo').hide();
 			console.log("logind..html..");
 		});
 
@@ -1163,6 +1165,7 @@ function loginFunction() {
 					$("#page-wrapper").load("pages/messageListPageWrapper.html",
 							function() {
 						var tableData = [];
+						$('#ul_userInfo').show();
 						$.ajax({
 							url : '/v1/messages?type=sent',
 							type : 'GET',
@@ -1243,10 +1246,16 @@ function loginFunction() {
 }
 
 // logoutFunction
+function userInfo(){
+	var userID = sessionStorage.getItem("userID");
+	alert(userID+"으로 로그인 중입니다.");
+}
+
 function logoutFunction() {
 	if (confirm("로그아웃 하시 겠습니까??") == true) { // 확인
 		sessionStorage.removeItem("tokenID");
 		sessionStorage.removeItem("userID");
+	
 		// window.location = "/BootStrapTest/index.jsp";
 		window.location.reload();
 	} else { // 취소
