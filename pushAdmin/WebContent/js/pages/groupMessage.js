@@ -1,7 +1,7 @@
 
-alreadyclickedA=false;
-alreadyclickedB=false;
-alreadyclickedC=false;
+var alreadyclickedA=false;
+var alreadyclickedB=false;
+var alreadyclickedC=false;
 $('#dataTables-example-groupA tbody').on('click','tr',function(){
     var el=$(this);
     console.log(el);
@@ -48,8 +48,7 @@ $('#dataTables-example-groupA tbody').on('click','tr',function(){
 			}).get();
 
 			console.log(tableDataElse[0]);
-			$
-					.ajax({
+			$.ajax({
 						// /v1/bsbank/groups/BSCP
 						url : '/v1/bsbank/groups/' + tableDataElse[0],
 						type : 'GET',
@@ -92,8 +91,7 @@ $('#dataTables-example-groupA tbody').on('click','tr',function(){
 										});
 
 								// odataTable.ajax.reload();
-								$(
-										'#detaildataTables-example-groupB tbody')
+								$('#detaildataTables-example-groupB tbody')
 										.on('click','tr',
 									function() {
 										    var el=$(this);
@@ -107,6 +105,7 @@ $('#dataTables-example-groupA tbody').on('click','tr',function(){
 										    	var tableData = el.find("td").map(function() {
 													return $(this).text();
 												}).get();
+										    	
 										    	 if ($("input:checkbox[id='input_targetcheck']").is(
 												 ":checked") == true) {
 												
@@ -141,8 +140,7 @@ $('#dataTables-example-groupA tbody').on('click','tr',function(){
 													}).get();
 
 													console.log(tableDataElse[0]);
-													$
-													.ajax({
+													$.ajax({
 														// /v1/bsbank/groups/BSCP
 														url : '/v1/bsbank/users?dept='
 																+ tableDataElse[0],
@@ -160,18 +158,15 @@ $('#dataTables-example-groupA tbody').on('click','tr',function(){
 																for ( var i in data.result.data) {
 
 																	var item = data.result.data[i];
-																	console
-																			.log(item);
-																	tableData
-																			.push({
+																	console.log(item);
+																	tableData.push({
 																				"personId" : item.gw_stf_cdnm,
 																				"personName" : item.gw_user_nm,
 																				"personCode" : item.gw_psinm
 																			});
 																}
 
-																console
-																		.log(tableData);
+																console.log(tableData);
 																var odataTable = $(
 																		'#detaildataTables-example-groupC')
 																		.dataTable(
@@ -191,11 +186,7 @@ $('#dataTables-example-groupA tbody').on('click','tr',function(){
 
 																							} ]
 																				});
-																$(
-																		'#detaildataTables-example-groupC tbody')
-																		.on(
-																				'click',
-																				'tr',
+																$('#detaildataTables-example-groupC tbody').on('click','tr',
 																				function() {
 																				    var el=$(this);
 																				    console.log(el);
