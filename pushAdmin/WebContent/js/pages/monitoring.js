@@ -9,6 +9,7 @@ var heapFree;
 var diskUsed;
 var diskFree;
 var tps;
+var smsmonitor;
 if(monitoringInterval){
 	console.log('in clear');
 	clearInterval(monitoringInterval);
@@ -58,7 +59,13 @@ if(monitoringInterval){
 				tps=item.tps;
 				combined=combined.toFixed(1);
 				idle=idle.toFixed(1);
-			
+				
+				smsmonitor=item.sms;
+				if(smsmonitor){
+					$('#sms_monitor').html('<button type="button" style="width:100%" class="btn btn-success">On</button>');
+				}else{
+					$('#sms_monitor').html('<button type="button" style="width:100%" class="btn btn-danger">Off</button>');
+				}
 
 			} else {
 				console.log('server errors');

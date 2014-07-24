@@ -150,7 +150,7 @@
 <!--                                 </li> -->
                             </ul>
                         </li>
-                        <li>
+                        <li id="adminRole_li">
                             <a href="#"><i class="fa fa-user fa-fw"></i> Admin<span class="fa arrow"></span></a>
                               <ul class="nav nav-second-level">
                                

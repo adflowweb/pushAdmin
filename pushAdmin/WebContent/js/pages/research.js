@@ -179,7 +179,13 @@ function addResearchFunction() {
 
 function researchSend() {
 	var input_researchTitle = $('#input_researchTitle').val();
-
+	var noIdSurvey="";
+	if($("input:checkbox[id='noIdSurvey_checkBox']").is(":checked") == true){
+		noIdSurvey="true";
+		
+	}else{
+		noIdSurvey="false";
+	}
 
 	if (input_researchTitle == "" || input_researchTitle == null
 			|| input_researchTitle.length > 15) {
@@ -353,7 +359,7 @@ function researchSend() {
 												+ input_researchTitle
 												+ '\\",\\"pollID\\":\\"'
 												+ pollID
-												+ '\\",\\"imageName\\":\\"\\",\\"htmlContent\\":\\"'
+												+ '\\",\\"imageName\\":\\"\\",\\"noid\\":\\"'+noIdSurvey+'\\",\\"htmlContent\\":\\"'
 												+ htmlEncodeResult
 												+ '\\",\\"ticker\\":\\"'
 												+ input_researchTitle

@@ -29,11 +29,11 @@ function deleteAdminFunction(){
 							console.log('admin step1');
 							console.log(data.result.data);
 							console.log('admin step2');
-							console.log(data.result.data.admin);
+							console.log(data.result.data.role);
 							console.log('admin step3');
-							data.result.data.admin=false;
+							data.result.data.role="user";
 							console.log('admin step4');
-							console.log(data.result.data.admin);
+							console.log(data.result.data.role);
 							var updateJson=JSON.stringify(data.result.data);
 			
 							if (data.result.data) {
@@ -102,7 +102,7 @@ function insertAdminFunction() {
 		if (tokenID) {
 			loginUserId = sessionStorage.getItem("userID");
 			console.log(loginUserId);
-			var input_userID = $('#input_userID').val();
+			var input_userID = $('#input_adminID').val();
 
 			$.ajax({
 				url : '/v1/users/' + input_userID,
@@ -122,11 +122,11 @@ function insertAdminFunction() {
 								console.log('admin step1');
 								console.log(data.result.data);
 								console.log('admin step2');
-								console.log(data.result.data.admin);
+								console.log(data.result.data.role);
 								console.log('admin step3');
-								data.result.data.admin=true;
+								data.result.data.role="admin";
 								console.log('admin step4');
-								console.log(data.result.data.admin);
+								console.log(data.result.data.role);
 								var updateJson=JSON.stringify(data.result.data);
 								
 								$.ajax({

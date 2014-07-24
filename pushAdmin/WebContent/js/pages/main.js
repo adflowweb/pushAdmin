@@ -1,3 +1,4 @@
+var userRole;
 $(document).ready(function() {
 
 	$('.navbar-static-side').hide();
@@ -169,6 +170,17 @@ function wrapperFunction(data) {
 						}
 						// groupMessage page load
 						if (data === "groupMessage") {
+							
+							console.log('롤');
+							console.log(userRole);
+							for(var i=0;i<userRole.length;i++){
+								console.log('그룹 메세지');
+								console.log(userRole[i]);
+								if(userRole[i].menu=="sms"){
+									$('#sms_checkdiv').show();
+								}
+								
+							}
 							  $('#input_messageTarget').prop('disabled',true);
 							 $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');
@@ -286,6 +298,17 @@ function wrapperFunction(data) {
 						}
 						// AllMessage page load
 						if (data === "allMessage") {
+						
+							console.log('롤');
+							console.log(userRole);
+							for(var i=0;i<userRole.length;i++){
+								console.log('그룹 메세지');
+								console.log(userRole[i]);
+								if(userRole[i].menu=="sms"){
+									$('#sms_checkdiv').show();
+								}
+								
+							}
 							
 							 $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');
@@ -470,6 +493,7 @@ function wrapperFunction(data) {
 				
 							var input_reservationCancelID = "test";
 							var tableData = [];
+							var loginUser=sessionStorage.getItem("userID");
 							$.ajax({
 								url : '/v1/messages?type=reservation',
 								type : 'GET',
@@ -481,12 +505,26 @@ function wrapperFunction(data) {
 								success : function(data) {
 								
 									if (data.result.data) {
+										
+										var userCheck="";
+										if(userRole.length==0){
+											userCheck="user";
+										}else{
+											for(var i=0;i<userRole.length;i++){
+												if(userRole[i].role=="user"){
+													userCheck="user";
+												}else{
+													userCheck="admin";
+												}
+											}
+										}
 
 										for ( var i in data.result.data) {
 
 											var item = data.result.data[i];
 											console.log(item);
-									
+											console.log("예약메세지 보낸이");
+											console.log(item.sender);
 											var date = new Date(
 													item.reservation);
 											var dateResult = date.yyyymmdd();
@@ -494,14 +532,33 @@ function wrapperFunction(data) {
 											var json_data = JSON.parse(item.content);
 											console.log(json_data);
 											console.log('end.');
-											tableData.push({
-												"MessageId" : item.id,
-												"Sender" : item.sender,
-												"Receiver" : item.receiver,
-												"ReservationTime" : dateResult,
-												"title":json_data.notification.contentTitle,
-												"content":json_data.notification.contentText
-											});
+											
+											if(userCheck=="user"){
+												if(item.sender==loginUser){
+													console.log("보낸이와 로그인유저가 같은 아이디일때");
+													tableData.push({
+														"MessageId" : item.id,
+														"Sender" : item.sender,
+														"Receiver" : item.receiver,
+														"ReservationTime" : dateResult,
+														"title":json_data.notification.contentTitle,
+														"content":json_data.notification.contentText
+													});
+												}
+												
+											}else{
+												tableData.push({
+													"MessageId" : item.id,
+													"Sender" : item.sender,
+													"Receiver" : item.receiver,
+													"ReservationTime" : dateResult,
+													"title":json_data.notification.contentTitle,
+													"content":json_data.notification.contentText
+												});
+												
+											}
+											
+										
 										}
 
 										console.log(tableData);
@@ -650,13 +707,30 @@ function wrapperFunction(data) {
 								contentType : "application/json",
 								async : false,
 								success : function(data) {
-								
+									var loginUser=sessionStorage.getItem("userID");
 									if (data.result.data) {
+										var userCheck="";
+										if(userRole.length==0){
+											userCheck="user";
+										}else{
+											for(var i=0;i<userRole.length;i++){
+												if(userRole[i].role=="user"){
+													userCheck="user";
+												}else{
+													userCheck="admin";
+												}
+											}
+										}
+										
+										
 
 										for ( var i in data.result.data) {
+											
 
 											var item = data.result.data[i];
 											console.log(item);
+											console.log('설문조사 보낸이');
+											console.log(item.sender);
 									
 											var startDate = new Date(
 													item.start);
@@ -665,14 +739,30 @@ function wrapperFunction(data) {
 											var endDate = new Date(
 													item.end);
 											var endDateResult = endDate.yyyymmdd();
+											if(userCheck=="user"){
+												console.log("유저일경우");
+												console.log(userCheck);
+												if(item.sender==loginUser){
+													tableData.push({
+														"title" : item.title,
+														"MessageId" : item.id,
+														"start" : startDateResult,
+														"end" : endDateResult
+												
+													});	
+												}
+												
+											}else{
+												tableData.push({
+													"title" : item.title,
+													"MessageId" : item.id,
+													"start" : startDateResult,
+													"end" : endDateResult
 											
-											tableData.push({
-												"title" : item.title,
-												"MessageId" : item.id,
-												"start" : startDateResult,
-												"end" : endDateResult
+												});	
+												
+											}
 										
-											});
 										}
 
 										console.log(tableData);
@@ -1142,7 +1232,7 @@ function loginFunction() {
 	var deviceID = utf8_to_b64(loginId);
 	// login ajax call
 	$.ajax({
-		url : '/v1/adminAuth',
+		url : '/v1/auth',
 		type : 'POST',
 		contentType : "application/json",
 		dataType : 'json',
@@ -1150,17 +1240,41 @@ function loginFunction() {
 		data : '{"userID":"' + loginId + '","password":"' + loginPass
 				+ '","deviceID":"' + deviceID + '"}',
 		success : function(data) {
+			console.log("ajax data!!!!!");
+			console.log(data);
+			console.log("ajax data!!!!!");
+			
 			console.log('login in ajax call success');
 			var loginResult = data.result.data;
-			// success
-			console.log(data.result);
-			console.log('login result');
+
 			if (loginResult) {
 				if (!data.result.errors) {
-					$('.navbar-static-side').show();
+				
+					console.log(data.result.data);
 					var tokenID = data.result.data.tokenID;
+					userRole=data.result.data.role;
+					console.log(userRole);
 					sessionStorage.setItem("tokenID", tokenID);
 					sessionStorage.setItem("userID", loginId);
+				
+					if(userRole.length==0){
+						console.log('유저입니다.');
+						$('.navbar-static-side').show();
+						$('#adminRole_li').hide();
+					}else if(userRole.length>=1){
+						if(userRole[0].role=="admin"){
+							$('.navbar-static-side').show();
+						}
+						
+						if(userRole[0].role=="user"){
+							console.log('이프 유저 입니다.');
+							$('.navbar-static-side').show();
+							$('#adminRole_li').hide();
+						}
+						
+					}
+				
+					
 					// mainPage load
 					$("#page-wrapper").load("pages/messageListPageWrapper.html",
 							function() {
@@ -1255,6 +1369,7 @@ function logoutFunction() {
 	if (confirm("로그아웃 하시 겠습니까??") == true) { // 확인
 		sessionStorage.removeItem("tokenID");
 		sessionStorage.removeItem("userID");
+		userRole="";
 	
 		// window.location = "/BootStrapTest/index.jsp";
 		window.location.reload();

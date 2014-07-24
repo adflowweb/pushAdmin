@@ -57,27 +57,31 @@
 					</div>
 				</div>
 
-				<div class="panel panel-default">
-					<div class="panel-heading">SMS 발송 체크</div>
-					<!-- /.panel-heading -->
-					<div class="panel-body">
-						<div class="checkbox">
-							<label> <input type="checkbox" value="" id="smsckeck">SMS
-								메세지 발송
-							</label>
-						</div>
-						<div id="smsTimeSetting" style="display: none;" class="form-group">
-							<label>SMS 발송 시간 설정</label> <select id="timeSelect"
-								class="form-control">
-								<option value="1">1분</option>
-								<option value="2">10분</option>
-								<option value="3">30분</option>
-								<option value="4">1시간</option>
-							</select>
-						</div>
-					</div>
-					<!-- /.panel-body -->
+			<div class="panel panel-default" id="sms_checkdiv" style="display: none;">
+			<div class="panel-heading" >SMS 발송 체크</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">
+				<div class="checkbox">
+					<label> <input type="checkbox" value="" id="smsckeck">SMS
+						메세지 발송
+					</label>
 				</div>
+				<div class="form-group">
+					<label>SMS 발송 타임아웃 시간</label> <select id="timeSelect"
+						class="form-control">
+						<option value="1">1분</option>
+						<option value="2">10분</option>
+						<option value="3">30분</option>
+						<option value="4">1시간</option>
+					</select>
+				</div>
+
+
+
+
+			</div>
+			<!-- /.panel-body -->
+		</div>
 
 				<input type="button" onclick="javascript:allMessageFunction();"
 					class="btn btn-default" value="Message Send"></input> <input
