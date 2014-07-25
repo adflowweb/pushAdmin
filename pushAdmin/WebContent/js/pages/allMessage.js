@@ -10,6 +10,7 @@ function allMessageFunction() {
 		var qos=0;
 		var tokenID = sessionStorage.getItem("tokenID");
 		var loginID = sessionStorage.getItem("userID");
+	
 		if (tokenID) {
 			
 			
@@ -39,27 +40,27 @@ function allMessageFunction() {
 			var input_reservation = $('#input_reservation').val();
 			var  cateGorySelect=$('#cateGorySelect').val();
 			dateResult = dateFormating(input_reservation);
-			var imageText = document.getElementById("backImg").value;
-			var imageFile = document.getElementById("backImg").files[0];
-			var replaceImageText= imageText.replace(/^.*\\/, "");
-			var uuid = guid();
-			replaceImageText = uuid + replaceImageText;
-			var formdata = new FormData();
-			formdata.append("imageText", imageText);
-			formdata.append("imageFile", imageFile);
-			formdata.append('uuid', uuid);
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "/pushAdmin/FileUploader", true);
-			xhr.send(formdata);
-			xhr.onload = function(e) {
-
-				if (this.status == 200) {
-
-					console.log('image send res code 200 return');
-
-				}
-
-			};
+//			var imageText = document.getElementById("backImg").value;
+//			var imageFile = document.getElementById("backImg").files[0];
+//			var replaceImageText= imageText.replace(/^.*\\/, "");
+//			var uuid = guid();
+//			replaceImageText = uuid + replaceImageText;
+//			var formdata = new FormData();
+//			formdata.append("imageText", imageText);
+//			formdata.append("imageFile", imageFile);
+//			formdata.append('uuid', uuid);
+//			var xhr = new XMLHttpRequest();
+//			xhr.open("POST", "/pushAdmin/FileUploader", true);
+//			xhr.send(formdata);
+//			xhr.onload = function(e) {
+//
+//				if (this.status == 200) {
+//
+//					console.log('image send res code 200 return');
+//
+//				}
+//
+//			};
 			if (input_reservation) {
 			    dateResult = dateResult.toISOString();
 			}
@@ -70,8 +71,12 @@ function allMessageFunction() {
 			if(!cateGorySelect){
 				cateGorySelect="기타";
 			}
+			var userPhone=sessionStorage.getItem("userPhone");
 			console.log(cateGorySelect);
 
+//			\\"imageName\\":\\"'
+//			+ replaceImageText
+//			+ '\\",
 			$
 					.ajax({
 						url : '/v1/messages',
@@ -89,14 +94,12 @@ function allMessageFunction() {
 							+ '","category":"'+cateGorySelect+'", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
 							+ input_messageTitle
 							+ '\\",\\"contentText\\":\\"'
-							+ textAreaPlainText + '\\",\\"imageName\\":\\"'
-							+ replaceImageText
-							+ '\\",\\"htmlContent\\":\\"'
+							+ textAreaPlainText + '\\",\\"htmlContent\\":\\"'
 							+ htmlEncodeResult + '\\",\\"ticker\\":\\"'
 							+ input_messageTitle
 							+ '\\",\\"summaryText\\":\\"'
 							+ input_messageTitle
-							+ '\\", \\"image\\":\\"\\"} } "}',
+							+ '\\",\\"userPhone\\":\\"'+userPhone+'\\", \\"image\\":\\"\\"} } "}',
 						success : function(data) {
 							console.log(data);
 							console.log(data.result.success);

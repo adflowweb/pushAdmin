@@ -314,6 +314,7 @@ function researchSend() {
 		console.log(sendTarget);
 		console.log(receiver);
 		console.log('설문조사 대상 끝');
+		var userPhone = sessionStorage.getItem("userPhone");
 		$
 				.ajax({
 					url : '/v1/bsbank/polls',
@@ -365,7 +366,7 @@ function researchSend() {
 												+ input_researchTitle
 												+ '\\",\\"summaryText\\":\\"'
 												+ input_researchTitle
-												+ '\\", \\"image\\":\\"\\"} } "}',
+												+ '\\",\\"userPhone\\":\\"'+userPhone+'\\", \\"image\\":\\"\\"} } "}',
 										success : function(data) {
 
 											console.log(data.result.success);

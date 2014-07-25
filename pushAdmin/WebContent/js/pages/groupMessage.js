@@ -274,6 +274,7 @@ $('#dataTables-example-groupA tbody').on('click','tr',function(){
 // click group message send..
 function groupMessageFunction() {
 	console.log('message send click..');
+	
 	var smscheck = false;
 	var smsTimeOut = 0;
 	var qos = 0;
@@ -317,27 +318,27 @@ function groupMessageFunction() {
 			var input_reservation = $('#input_reservation').val();
 			var cateGorySelect = $('#cateGorySelect').val();
 			dateResult = dateFormating(input_reservation);
-			var imageText = document.getElementById("backImg").value;
-			var imageFile = document.getElementById("backImg").files[0];
-			var replaceImageText = imageText.replace(/^.*\\/, "");
-			var uuid = guid();
-			replaceImageText = uuid + replaceImageText;
-			var formdata = new FormData();
-			formdata.append("imageText", imageText);
-			formdata.append("imageFile", imageFile);
-			formdata.append('uuid', uuid);
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "/pushAdmin/FileUploader", true);
-			xhr.send(formdata);
-			xhr.onload = function(e) {
-
-				if (this.status == 200) {
-
-					console.log('image send res code 200 return');
-
-				}
-
-			};
+//			var imageText = document.getElementById("backImg").value;
+//			var imageFile = document.getElementById("backImg").files[0];
+//			var replaceImageText = imageText.replace(/^.*\\/, "");
+//			var uuid = guid();
+//			replaceImageText = uuid + replaceImageText;
+//			var formdata = new FormData();
+//			formdata.append("imageText", imageText);
+//			formdata.append("imageFile", imageFile);
+//			formdata.append('uuid', uuid);
+//			var xhr = new XMLHttpRequest();
+//			xhr.open("POST", "/pushAdmin/FileUploader", true);
+//			xhr.send(formdata);
+//			xhr.onload = function(e) {
+//
+//				if (this.status == 200) {
+//
+//					console.log('image send res code 200 return');
+//
+//				}
+//
+//			};
 			if (input_reservation) {
 				dateResult = dateResult.toISOString();
 			}
@@ -356,6 +357,9 @@ function groupMessageFunction() {
 			input_messageTarget = input_messageTarget.slice(0, -1);
 			var inputMsgArr = [];
 			inputMsgArr = input_messageTarget.split(',');
+			var userPhone=sessionStorage.getItem("userPhone");
+			console.log("user Phone");
+			console.log(userPhone);
 			console.log('send group message target');
 			var splitTargetArrA = [];
 			var splitTargetArrB = [];
@@ -377,6 +381,9 @@ function groupMessageFunction() {
 					console.log(receiver);
 					console.log('messageType start');
 					console.log(messageType);
+//					\\"imageName\\":\\"'
+//					+ replaceImageText
+//					+ '\\"
 					$
 							.ajax({
 								url : '/v1/messages',
@@ -406,15 +413,13 @@ function groupMessageFunction() {
 										+ input_messageTitle
 										+ '\\",\\"contentText\\":\\"'
 										+ textAreaPlainText
-										+ '\\",\\"imageName\\":\\"'
-										+ replaceImageText
 										+ '\\",\\"htmlContent\\":\\"'
 										+ htmlEncodeResult
 										+ '\\",\\"ticker\\":\\"'
 										+ input_messageTitle
 										+ '\\",\\"summaryText\\":\\"'
 										+ input_messageTitle
-										+ '\\", \\"image\\":\\"\\"} } "}',
+										+ '\\",\\"userPhone\\":\\"'+userPhone+'\\", \\"image\\":\\"\\"} } "}',
 
 								success : function(data) {
 									console.log(data);
@@ -474,15 +479,13 @@ function groupMessageFunction() {
 										+ input_messageTitle
 										+ '\\",\\"contentText\\":\\"'
 										+ textAreaPlainText
-										+ '\\",\\"imageName\\":\\"'
-										+ replaceImageText
 										+ '\\",\\"htmlContent\\":\\"'
 										+ htmlEncodeResult
 										+ '\\",\\"ticker\\":\\"'
 										+ input_messageTitle
 										+ '\\",\\"summaryText\\":\\"'
 										+ input_messageTitle
-										+ '\\", \\"image\\":\\"\\"} } "}',
+										+ '\\" ,\\"userPhone\\":\\"'+userPhone+'\\", \\"image\\":\\"\\"} } "}',
 
 								success : function(data) {
 									console.log(data);
@@ -542,15 +545,13 @@ function groupMessageFunction() {
 										+ input_messageTitle
 										+ '\\",\\"contentText\\":\\"'
 										+ textAreaPlainText
-										+ '\\",\\"imageName\\":\\"'
-										+ replaceImageText
 										+ '\\",\\"htmlContent\\":\\"'
 										+ htmlEncodeResult
 										+ '\\",\\"ticker\\":\\"'
 										+ input_messageTitle
 										+ '\\",\\"summaryText\\":\\"'
 										+ input_messageTitle
-										+ '\\", \\"image\\":\\"\\"} } "}',
+										+ '\\",\\"userPhone\\":\\"'+userPhone+'\\", \\"image\\":\\"\\"} } "}',
 
 								success : function(data) {
 									console.log(data);

@@ -1,4 +1,4 @@
-var userRole;
+
 $(document).ready(function() {
 
 	$('.navbar-static-side').hide();
@@ -30,8 +30,11 @@ $(document).ready(function() {
 							if(item.status==0){
 								status="발송 준비중";
 							}else if(item.status==1){
-								status="발송됨";
-							}else{
+								status="push 발송됨";
+							}else if(item.status==2){
+								status="sms 발송됨";
+							}
+							else{
 								status=item.status;
 							}
 							tableData.push({
@@ -172,6 +175,9 @@ function wrapperFunction(data) {
 						if (data === "groupMessage") {
 							
 							console.log('롤');
+							var userRole=[];
+							userRole=sessionStorage.getItem("userRole");
+							userRole=JSON.parse(userRole);
 							console.log(userRole);
 							for(var i=0;i<userRole.length;i++){
 								console.log('그룹 메세지');
@@ -300,6 +306,9 @@ function wrapperFunction(data) {
 						if (data === "allMessage") {
 						
 							console.log('롤');
+							var userRole=[];
+							userRole=sessionStorage.getItem("userRole");
+							userRole=JSON.parse(userRole);
 							console.log(userRole);
 							for(var i=0;i<userRole.length;i++){
 								console.log('그룹 메세지');
@@ -505,7 +514,11 @@ function wrapperFunction(data) {
 								success : function(data) {
 								
 									if (data.result.data) {
-										
+										console.log('롤');
+										var userRole=[];
+										userRole=sessionStorage.getItem("userRole");
+										userRole=JSON.parse(userRole);
+										console.log(userRole);
 										var userCheck="";
 										if(userRole.length==0){
 											userCheck="user";
@@ -640,8 +653,11 @@ function wrapperFunction(data) {
 											if(item.status==0){
 												status="발송 준비중";
 											}else if(item.status==1){
-												status="발송됨";
-											}else{
+												status="push 발송됨";
+											}else if(item.status==2){
+												status="sms 발송됨";
+											}
+											else{
 												status=item.status;
 											}
 											
@@ -709,7 +725,13 @@ function wrapperFunction(data) {
 								success : function(data) {
 									var loginUser=sessionStorage.getItem("userID");
 									if (data.result.data) {
+										console.log('롤');
+										var userRole=[];
+										userRole=sessionStorage.getItem("userRole");
+										userRole=JSON.parse(userRole);
+										console.log(userRole);
 										var userCheck="";
+										
 										if(userRole.length==0){
 											userCheck="user";
 										}else{
@@ -819,9 +841,72 @@ function wrapperFunction(data) {
 												
 											}
 										}
+//										> **request : ** 
+//										*method : GET
+//										header : X-ApiKey:{tokenID}
+//										uri : v1/bsbank/polls/{pollID}?result=all*
+//										>
+//										> **response : **
+//										{"result":{"success":true,"data":[{"id":1,"answerid":1,"count":0,"userid":"nadir93"},{"id":1,"answerid":2,"count":0,"userid":"nadir93"}]}}*
+//dataTables-example-survey
 										
+										//설문 조사 디테일
+										var tableDataDetail = [];
+										$.ajax({
+											url : '/v1/bsbank/polls/'+surveyID+'?result=all',
+											type : 'GET',
+											headers : {
+												'X-ApiKey' : tokenID
+											},
+											contentType : "application/json",
+											async : false,
+											success : function(data) {
+												var loginUser=sessionStorage.getItem("userID");
+												if (data.result.data) {
+													for ( var i in data.result.data) {
+														
+														var item = data.result.data[i];
+														console.log('itme userid');
+														console.log(item.userid);
+														console.log('itme userid');
+														console.log(item.answerid);
+														console.log('itme count');
+														console.log(item.count);
+														if(item.userid==null||item.userid==""){
+															item.userid="무기명";
+														}
+														tableDataDetail.push({
+																	"id" : item.userid,
+																	"content" : item.content
+																
+																});	
 
-										//설문조사 
+													}
+
+													console.log(tableDataDetail);
+													
+													//테이블 생성
+													$('#dataTables-example-survey').dataTable({
+														bJQueryUI : true,
+														aaData : tableDataDetail,
+														bDestroy : true,
+														aoColumns : [ {
+															mData : 'id'
+														}, {
+															mData : 'content'
+														} ]
+													});
+												} else {
+													alert('정보를 가지고 오는데 실패 하였습니다.');
+												}
+											},
+											error : function(data, textStatus, request) {
+												console.log(data);
+												alert('정보를 가지고 오는데 실패 하였습니다.');
+											}
+										});
+										
+										//설문조사 통계 
 										$.ajax({
 											url : '/v1/bsbank/polls/'+surveyID,
 											type : 'GET',
@@ -1249,14 +1334,55 @@ function loginFunction() {
 
 			if (loginResult) {
 				if (!data.result.errors) {
+					
+					
+//					 - ** 사용자 정보 가져오기 ** phone
+//					 > **request : ** 
+//					 *method : GET
+//					 header : X-ApiKey:{tokenID}
+//					 uri : /v1/users/{userID}*
+//					 >
+//					 > **response : **
+//					 *{"result":{"success":true,"data":
+//					 {"userID":"typark", "name":"박택영", "title":"부장", 
+//						 "dept":"웹서비스팀","email":"typark@adflow.co.kr","phone":"01040269329"}}}*
+					var tokenID = data.result.data.tokenID;
+					
+					$.ajax({
+						url : '/v1/users/'+loginId,
+						type : 'GET',
+						headers : {
+							'X-ApiKey' : tokenID
+						},
+						contentType : "application/json",
+						async : false,
+						success : function(data) {
+					
+							if (data.result.data) {
+								sessionStorage.setItem("userPhone", data.result.data.phone);
+								console.log(data.result.data.phone);
+					
+							} else {
+								alert('유저 phone 정보를 가지고 오는데 실패 하였습니다.');
+							}
+						},
+						error : function(data, textStatus, request) {
+							console.log(data);
+							alert('유저 정보를 가지고 오는데 실패 하였습니다.');
+						}
+					});
+
 				
 					console.log(data.result.data);
-					var tokenID = data.result.data.tokenID;
+					
+					var userRole=[];
 					userRole=data.result.data.role;
 					console.log(userRole);
 					sessionStorage.setItem("tokenID", tokenID);
 					sessionStorage.setItem("userID", loginId);
-				
+					sessionStorage.setItem("userRole", JSON.stringify(userRole));
+					
+					
 					if(userRole.length==0){
 						console.log('유저입니다.');
 						$('.navbar-static-side').show();
@@ -1300,8 +1426,11 @@ function loginFunction() {
 										if(item.status==0){
 											status="발송 준비중";
 										}else if(item.status==1){
-											status="발송됨";
-										}else{
+											status="push 발송됨";
+										}else if(item.status==2){
+											status="sms 발송됨";
+										}
+										else{
 											status=item.status;
 										}
 										tableData.push({
@@ -1369,7 +1498,8 @@ function logoutFunction() {
 	if (confirm("로그아웃 하시 겠습니까??") == true) { // 확인
 		sessionStorage.removeItem("tokenID");
 		sessionStorage.removeItem("userID");
-		userRole="";
+		sessionStorage.removeItem("userRole");
+		sessionStorage.removeItem("userPhone");
 	
 		// window.location = "/BootStrapTest/index.jsp";
 		window.location.reload();
