@@ -209,6 +209,10 @@ function researchSend() {
 	var qos = 0;
 	var tokenID = sessionStorage.getItem("tokenID");
 	var loginID = sessionStorage.getItem("userID");
+	var userPhone="";
+	userPhone=sessionStorage.getItem("userPhone");
+	console.log('메세지 센드 유저 핸드폰번호 ');
+	console.log(userPhone);
 	if (tokenID) {
 
 		qos = $("#qosSelect").val();
@@ -313,10 +317,7 @@ function researchSend() {
 		console.log(sendTarget);
 		console.log(receiver);
 		console.log('설문조사 대상 끝');
-		var userPhone = sessionStorage.getItem("userPhone");
-		if(typeof userPhone===undefined||typeof userPhone==='undefined'||userPhone==null){
-			userPhone="번호없음";
-		}
+	
 		$
 				.ajax({
 					url : '/v1/bsbank/polls',

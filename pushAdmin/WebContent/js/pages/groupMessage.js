@@ -280,7 +280,16 @@ function groupMessageFunction() {
 	var qos = 0;
 	var checkForm = individualFormCheck();
 	if (checkForm) {
-
+		var userPhone="";
+		userPhone=sessionStorage.getItem("userPhone");
+		console.log('메세지 센드 유저 핸드폰번호 ');
+		console.log(userPhone);
+//		if(typeof userPhone===undefined||typeof userPhone==='undefined'||userPhone==null||userPhone==""){
+//			console.log('userPhone type check');
+//			userPhone="번호없음";
+//		}else{
+//			console.log('userPhone is not null');
+//		}
 		var tokenID = sessionStorage.getItem("tokenID");
 		var loginID = sessionStorage.getItem("userID");
 		if (tokenID) {
@@ -357,10 +366,7 @@ function groupMessageFunction() {
 			input_messageTarget = input_messageTarget.slice(0, -1);
 			var inputMsgArr = [];
 			inputMsgArr = input_messageTarget.split(',');
-			var userPhone=sessionStorage.getItem("userPhone");
-			if(typeof userPhone===undefined||typeof userPhone==='undefined'||userPhone==null){
-				userPhone="번호없음";
-			}
+		
 			console.log("user Phone");
 			console.log(userPhone);
 			console.log('send group message target');

@@ -1371,8 +1371,13 @@ function loginFunction() {
 						success : function(data) {
 					
 							if (data.result.data) {
-								sessionStorage.setItem("userPhone", data.result.data.phone);
-								console.log(data.result.data.phone);
+								var userPhone="";
+								userPhone=data.result.data.phone;
+								if(userPhone==null||userPhone==""||typeof userPhone===undefined||typeof userPhone==='undefined'){
+									userPhone="번호없음";
+								}
+								sessionStorage.setItem("userPhone", userPhone);
+								console.log(userPhone);
 					
 							} else {
 								alert('유저 phone 정보를 가지고 오는데 실패 하였습니다.');
