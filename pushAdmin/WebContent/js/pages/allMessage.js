@@ -72,6 +72,9 @@ function allMessageFunction() {
 				cateGorySelect="기타";
 			}
 			var userPhone=sessionStorage.getItem("userPhone");
+			if(typeof userPhone===undefined||typeof userPhone==='undefined'||userPhone==null){
+				userPhone="번호없음";
+			}
 			console.log(cateGorySelect);
 
 //			\\"imageName\\":\\"'

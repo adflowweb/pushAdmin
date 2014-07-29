@@ -358,6 +358,9 @@ function groupMessageFunction() {
 			var inputMsgArr = [];
 			inputMsgArr = input_messageTarget.split(',');
 			var userPhone=sessionStorage.getItem("userPhone");
+			if(typeof userPhone===undefined||typeof userPhone==='undefined'||userPhone==null){
+				userPhone="번호없음";
+			}
 			console.log("user Phone");
 			console.log(userPhone);
 			console.log('send group message target');

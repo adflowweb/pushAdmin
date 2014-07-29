@@ -314,6 +314,9 @@ function researchSend() {
 		console.log(receiver);
 		console.log('설문조사 대상 끝');
 		var userPhone = sessionStorage.getItem("userPhone");
+		if(typeof userPhone===undefined||typeof userPhone==='undefined'||userPhone==null){
+			userPhone="번호없음";
+		}
 		$
 				.ajax({
 					url : '/v1/bsbank/polls',
