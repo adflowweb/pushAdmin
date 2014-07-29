@@ -187,9 +187,8 @@ function researchSend() {
 		noIdSurvey="false";
 	}
 
-	if (input_researchTitle == "" || input_researchTitle == null
-			|| input_researchTitle.length > 15) {
-		alert('설문조사 제목 이 없거나 너무 깁니다 (길이 15자 이하).');
+	if (input_researchTitle == "" || input_researchTitle == null) {
+		alert('설문조사 제목을 입력해 주세요.');
 		return false;
 	}
 

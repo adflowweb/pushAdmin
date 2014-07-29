@@ -10,10 +10,14 @@ var diskUsed;
 var diskFree;
 var tps;
 var smsmonitor;
+
+
 if(monitoringInterval){
 	console.log('in clear');
 	clearInterval(monitoringInterval);
 }
+
+
 
 
 	$.ajax({
@@ -147,6 +151,11 @@ if(monitoringInterval){
 	
 	var monitoringInterval=setInterval(function() {
 		console.log('!!!');
+		var monitoringStatus=sessionStorage.getItem("monitoringStatus");
+		console.log('monitoring status');
+		console.log(monitoringStatus);
+		if(	monitoringStatus=="enable"){
+			
 	$.ajax({
 		url : '/v1/server',
 		type : 'GET',
@@ -236,7 +245,7 @@ if(monitoringInterval){
 
 		}
 	});
-	
+		}
 	
 	}, 10000);
-	
+

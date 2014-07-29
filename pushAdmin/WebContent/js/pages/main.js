@@ -9,6 +9,7 @@ $(document).ready(function() {
 		$('#ul_userInfo').show();
 		$("#page-wrapper").load("pages/messageListPageWrapper.html", function() {
 			var tableData = [];
+			sessionStorage.setItem("monitoringStatus", "disable");
 			$('#ul_userInfo').show();
 			$.ajax({
 				url : '/v1/messages?type=sent',
@@ -100,6 +101,7 @@ function wrapperFunction(data) {
 						console.log(userID);
 						// individual message page load
 						if (data === "individual") {
+							sessionStorage.setItem("monitoringStatus", "disable");
 							//input_researchTarget
 							  $('#input_messageTarget').prop('disabled',true);
 							  $('#cateGorySelect').prop('disabled', 'disabled');
@@ -173,7 +175,7 @@ function wrapperFunction(data) {
 						}
 						// groupMessage page load
 						if (data === "groupMessage") {
-							
+							sessionStorage.setItem("monitoringStatus", "disable");
 							console.log('롤');
 							var userRole=[];
 							userRole=sessionStorage.getItem("userRole");
@@ -304,7 +306,7 @@ function wrapperFunction(data) {
 						}
 						// AllMessage page load
 						if (data === "allMessage") {
-						
+							sessionStorage.setItem("monitoringStatus", "disable");
 							console.log('롤');
 							var userRole=[];
 							userRole=sessionStorage.getItem("userRole");
@@ -388,6 +390,7 @@ function wrapperFunction(data) {
 						}
 						// 추후 업데이트 
 						if (data === "formManager") {
+							sessionStorage.setItem("monitoringStatus", "disable");
 							CKEDITOR.replace('input_messageContent');
 							$('#dataTables-example').dataTable();
 							var nowDate = new Date();
@@ -398,7 +401,7 @@ function wrapperFunction(data) {
 						}
 						// stats page load
 						if (data === "stats") {
-
+							sessionStorage.setItem("monitoringStatus", "disable");
 							$(function() {
 								var script = document.createElement("script");
 								script.type = "text/javascript";
@@ -430,11 +433,16 @@ function wrapperFunction(data) {
 						}
 						// monitoring page load
 						if (data === "monitoring") {
-		
-
+							
+								var element = document.createElement("script");
+								element.src = "js/pages/monitoring.js";
+								document.body.appendChild(element);
+								sessionStorage.setItem("monitoringStatus", "enable");
+						
 						}
 						// userManager
 						if (data === "userManager") {
+							sessionStorage.setItem("monitoringStatus", "disable");
 							$.ajax({
 								url : '/v1/users?type=admin',
 								type : 'GET',
@@ -499,7 +507,7 @@ function wrapperFunction(data) {
 						}
 						// 예약메세지 관리
 						if (data === "reservation") {
-				
+							sessionStorage.setItem("monitoringStatus", "disable");
 							var input_reservationCancelID = "test";
 							var tableData = [];
 							var loginUser=sessionStorage.getItem("userID");
@@ -631,7 +639,7 @@ function wrapperFunction(data) {
 
 						//메세지 리스트 
 						if(data==='messageList'){
-							
+							sessionStorage.setItem("monitoringStatus", "disable");
 							var tableData = [];
 							$.ajax({
 								url : '/v1/messages?type=sent',
@@ -703,7 +711,7 @@ function wrapperFunction(data) {
 						
 						//설문 조사 
 						if(data==="surveyList"){
-						
+							sessionStorage.setItem("monitoringStatus", "disable");
 //							*method : GET
 //							header : X-ApiKey:{tokenID}
 //							uri : v1/bsbank/polls/*
@@ -952,12 +960,14 @@ function wrapperFunction(data) {
 						// 비밀번호 변경
 						if (data === "changePass") {
 							console.log('changePass...in..');
+							sessionStorage.setItem("monitoringStatus", "disable");
 							$('#input_changeUserId').val(userID);
 
 						}
 						
 						//설문조사 페이지
 						if(data==="research"){
+							sessionStorage.setItem("monitoringStatus", "disable");
 							//input_researchTarget
 							$('#input_researchTarget').prop('disabled',true);
 							$('#input_surveyStart').prop('disabled',true);
@@ -1163,6 +1173,7 @@ function wrapperFunction(data) {
 						
 						//카테고리 생성 페이지 
 						if(data==="category"){
+							sessionStorage.setItem("monitoringStatus", "disable");
 							var tableData=[];
 							$.ajax({
 								url : '/v1/categories',
@@ -1232,6 +1243,7 @@ function wrapperFunction(data) {
 						}
 						//서식 발송 페이지 추후 업데이트 
 						if(data==="excel"){
+							sessionStorage.setItem("monitoringStatus", "disable");
 							 $('#cateGorySelect').prop('disabled', 'disabled');
 							  $('#timeSelect').prop('disabled', 'disabled');
 							  $("#timeSelect").each(function()
