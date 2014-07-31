@@ -180,6 +180,7 @@ function addResearchFunction() {
 function researchSend() {
 	var input_researchTitle = $('#input_researchTitle').val();
 	var noIdSurvey="";
+	var messageType="";
 	if($("input:checkbox[id='noIdSurvey_checkBox']").is(":checked") == true){
 		noIdSurvey="true";
 		
@@ -302,16 +303,19 @@ function researchSend() {
 		var receiver="";
 		if(sendTarget.length>1){
 			receiver="/groups/"+sendTarget[0];
+			messageType=3;
 		}else if(sendTarget[0]==null||sendTarget[0]==""){
 			('타겟을 지정하지 않음');
 			if (confirm("전 직원 설문 조사로 발송 하시겠습니까??") == true) { // 확인
 				receiver="/users";
+				messageType=1;
 			} else { // 취소
 				return;
 			}
 		
 		}else{
 			receiver="/users/"+sendTarget[0];
+			messageType=0;
 		}
 		console.log('설문 조사 대상 시작');
 		console.log(sendTarget);
@@ -355,7 +359,7 @@ function researchSend() {
 												+ loginID
 												+ '","receiver":"'+receiver+'","qos":'
 												+ qos
-												+ ', "retained":false,"type":1,"sms":"", "timeOut":"","reservation":"","category":"'
+												+ ', "retained":false,"type":'+messageType+',"sms":"", "timeOut":"","reservation":"","category":"'
 												+ cateGorySelect
 												+ '", "content":" {\\"notification\\":{\\"notificationStyle\\":1,\\"contentTitle\\":\\"'
 												+ input_researchTitle

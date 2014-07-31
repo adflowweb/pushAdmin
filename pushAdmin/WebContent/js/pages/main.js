@@ -1346,18 +1346,7 @@ function loginFunction() {
 
 			if (loginResult) {
 				if (!data.result.errors) {
-					
-					
-//					 - ** 사용자 정보 가져오기 ** phone
-//					 > **request : ** 
-//					 *method : GET
-//					 header : X-ApiKey:{tokenID}
-//					 uri : /v1/users/{userID}*
-//					 >
-//					 > **response : **
-//					 *{"result":{"success":true,"data":
-//					 {"userID":"typark", "name":"박택영", "title":"부장", 
-//						 "dept":"웹서비스팀","email":"typark@adflow.co.kr","phone":"01040269329"}}}*
+
 					var tokenID = data.result.data.tokenID;
 					
 					$.ajax({
@@ -1491,7 +1480,7 @@ function loginFunction() {
 					alert(data.result.errors[0]);
 				}
 			} else {
-				alert('server error');
+				alert('로그인에 실패 하였습니다.');
 			}
 
 		},
