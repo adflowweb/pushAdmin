@@ -75,7 +75,9 @@ function surveyPersonSearch() {
 										}).get();
 
 								console.log(tableData[0]);
-								$('#input_researchTarget').val(tableData[0]);
+							
+								
+								$('#input_researchTarget').val(tableData[0]+"("+tableData[1]+")");
 
 							});
 					}else{
@@ -143,7 +145,7 @@ function surveyPersonSearch() {
 										}).get();
 
 								console.log(tableData[0]);
-								$('#input_researchTarget').val(tableData[0]);
+								$('#input_researchTarget').val(tableData[0]+"("+tableData[1]+")");
 
 							});
 					}else{
@@ -294,17 +296,32 @@ function researchSend() {
 		console.log("test log start");
 		console.log(test);
 		var input_researchTarget=$('#input_researchTarget').val();
-		var sendTarget=[];
+		var sendTargetGroupA=[];
+		var sendTargetGroupB=[];
+		var sendTargetPerson=[];
 	
 		console.log(input_researchTarget);
 
-		sendTarget= input_researchTarget.split('(');
-		console.log(sendTarget[0]);
+		sendTargetGroupA=input_researchTarget.split('[');
+		sendTargetGroupB=input_researchTarget.split('{');
+		sendTargetPerson= input_researchTarget.split('(');
+	
 		var receiver="";
-		if(sendTarget.length>1){
-			receiver="/groups/"+sendTarget[0];
+		//group A
+		if(sendTargetGroupA.length>1){
+			receiver="/groups/"+sendTargetGroupA[0];
+			messageType=2;
+		}
+		if(sendTargetGroupB.length>1){
+			receiver="/groups/"+sendTargetGroupB[0];
 			messageType=3;
-		}else if(sendTarget[0]==null||sendTarget[0]==""){
+		}
+		if(sendTargetPerson.length>1){
+			receiver="/users/"+sendTargetPerson[0];
+			messageType=0;
+		}
+		
+		else if(input_researchTarget==null||input_researchTarget==""){
 			('타겟을 지정하지 않음');
 			if (confirm("전 직원 설문 조사로 발송 하시겠습니까??") == true) { // 확인
 				receiver="/users";
@@ -313,12 +330,10 @@ function researchSend() {
 				return;
 			}
 		
-		}else{
-			receiver="/users/"+sendTarget[0];
-			messageType=0;
 		}
+	
 		console.log('설문 조사 대상 시작');
-		console.log(sendTarget);
+		console.log(messageType);
 		console.log(receiver);
 		console.log('설문조사 대상 끝');
 	

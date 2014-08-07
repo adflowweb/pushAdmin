@@ -1035,13 +1035,8 @@ function wrapperFunction(data) {
 
 										console.log(tableData[0]);
 										$('#input_researchTarget').val(
-												tableData[0]+"("+tableData[1]+")");
-										$(
-										'#message_type')
-										.val(2);
-										console.log($(
-										'#message_type')
-										.val());
+												tableData[0]+"["+tableData[1]+"]");
+						
 										//get group info 
 										$
 												.ajax({
@@ -1120,13 +1115,8 @@ function wrapperFunction(data) {
 																				$(
 																						'#input_researchTarget')
 																						.val(
-																								tableData[0]+"("+tableData[1]+")");
-																				$(
-																				'#message_type')
-																				.val(3);
-																				console.log($(
-																				'#message_type')
-																				.val());
+																								tableData[0]+"{"+tableData[1]+"}");
+																			
 																			});
 														} else {
 															alert('세부 Group 정보를 가지고 오는데 실패 하였습니다.');
