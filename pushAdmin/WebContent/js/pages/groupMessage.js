@@ -278,6 +278,7 @@ function groupMessageFunction() {
 	var smscheck = false;
 	var smsTimeOut = 0;
 	var qos = 0;
+	var messageSend =0;
 	var checkForm = individualFormCheck();
 	if (checkForm) {
 		var userPhone="";
@@ -374,6 +375,7 @@ function groupMessageFunction() {
 			var splitTargetArrB = [];
 			var splitTargetArrC = [];
 			var receiver = "";
+			messageSend=inputMsgArr.length;
 			for (var i = 0; i < inputMsgArr.length; i++) {
 				//A 2
 				splitTargetArrA = inputMsgArr[i].split('[');
@@ -434,9 +436,9 @@ function groupMessageFunction() {
 									console.log(data);
 									console.log(data.result.success);
 									if (data.result.info) {
-										alert("계열사 메세지 성공적으로 전송하였습니다.");
-										wrapperFunction('groupMessage');
-										$('#input_messageTarget').focus();
+//										alert("계열사 메세지 성공적으로 전송하였습니다.");
+//										wrapperFunction('groupMessage');
+//										$('#input_messageTarget').focus();
 									} else {
 										alert("계열사 메세지 전송에 실패 하였습니다");
 										wrapperFunction('groupMessage');
@@ -500,9 +502,9 @@ function groupMessageFunction() {
 									console.log(data);
 									console.log(data.result.success);
 									if (data.result.info) {
-										alert("부서  메세지 성공적으로 전송하였습니다.");
-										wrapperFunction('groupMessage');
-										$('#input_messageTarget').focus();
+//										alert("부서  메세지 성공적으로 전송하였습니다.");
+//										wrapperFunction('groupMessage');
+//										$('#input_messageTarget').focus();
 									} else {
 										alert("부서  메세지 전송에 실패 하였습니다");
 										wrapperFunction('groupMessage');
@@ -566,9 +568,9 @@ function groupMessageFunction() {
 									console.log(data);
 									console.log(data.result.success);
 									if (data.result.info) {
-										alert("개인 메세지 성공적으로 전송하였습니다.");
-										wrapperFunction('groupMessage');
-										$('#input_messageTarget').focus();
+//										alert("개인 메세지 성공적으로 전송하였습니다.");
+//										wrapperFunction('groupMessage');
+//										$('#input_messageTarget').focus();
 									} else {
 										alert("개인 메세지 전송에 실패 하였습니다");
 										wrapperFunction('groupMessage');
@@ -584,6 +586,11 @@ function groupMessageFunction() {
 
 				}
 
+			}
+			
+			if(messageSend>0){
+				alert('총'+messageSend+"건의 메세지를 발송하였습니다.");
+				wrapperFunction('groupMessage');
 			}
 
 		}

@@ -62,7 +62,8 @@ $(document).ready(function() {
 								mData : 'qos'
 							},{
 								mData : 'status'
-							} ]
+							} ],
+							aaSorting: [[0,'desc']]
 						});
 					} else {
 						alert('메세지 발송 정보를 가지고 오는데 실패 하였습니다.');
@@ -670,7 +671,7 @@ function wrapperFunction(data) {
 											}
 											
 											tableData.push({
-												"MessageId" : item.id,
+												"MessageId" :item.id,
 												"Sender" : item.sender,
 												"Receiver" : item.receiver,
 												"qos" : item.qos,
@@ -695,7 +696,8 @@ function wrapperFunction(data) {
 												mData : 'qos'
 											},{
 												mData : 'status'
-											} ]
+											} ],
+											aaSorting: [[0,'desc']]
 										});
 									} else {
 										alert('메세지 발송 정보를 가지고 오는데 실패 하였습니다.');
@@ -1453,7 +1455,8 @@ function loginFunction() {
 											mData : 'qos'
 										},{
 											mData : 'status'
-										} ]
+										} ],
+										aaSorting: [[0,'desc']]
 									});
 								} else {
 									alert('메세지 발송 정보를 가지고 오는데 실패 하였습니다.');
