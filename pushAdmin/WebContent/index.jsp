@@ -110,11 +110,16 @@
                                     <a href="#" onclick="javascript:wrapperFunction('groupMessage');">메세지 발송</a>
                               
                                 </li>
+                              
 <!--                                  <li> -->
 <!--                                    <a href="#" onclick="javascript:wrapperFunction('excel');">대량 메세지</a> -->
 <!--                                 </li> -->
                                    <li>
                                    <a href="#" onclick="javascript:wrapperFunction('allMessage');">전체 메세지 발송 </a>
+                                </li>
+                                    <li>
+                                    <a href="#" onclick="javascript:wrapperFunction('phoneMessage');">전화번호 메세지 발송</a>
+                              
                                 </li>
                                 
                                  <li>

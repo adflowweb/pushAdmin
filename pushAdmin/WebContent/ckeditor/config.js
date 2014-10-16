@@ -9,3 +9,41 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.uiColor = '#AADC6E';
 	config.removePlugins = 'find,flash,a11yhelp,print,save,smiley,PageBreak';
 };
+
+
+
+CKEDITOR.on( 'dialogDefinition', function( ev ) {
+
+	    // Take the dialog name and its definition from the event data.
+
+var dialogName = ev.data.name;
+
+var dialogDefinition = ev.data.definition;
+
+
+
+// Check if the definition is from the dialog window you are interested in (the "Link" dialog window).
+
+if ( dialogName == 'link' ) {
+
+    // Get a reference to the "Link Info" tab.
+
+    var targetTab = dialogDefinition.getContents('target');
+
+
+
+    // Set the default value for the URL field.
+
+    var typeField = targetTab.get( 'linkTargetType' );
+
+    typeField[ 'default' ] = 'popup';
+
+
+
+   
+
+} 
+
+
+
+});

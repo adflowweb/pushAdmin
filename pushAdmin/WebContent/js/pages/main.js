@@ -27,6 +27,9 @@ $(document).ready(function() {
 
 							var item = data.result.data[i];
 							console.log(item);
+							var dateTime=item.issue;
+							console.log(dateTime);
+							var sendTime=new Date(dateTime).toISOString();
 							var status="";
 							if(item.status==0){
 								status="발송 준비중";
@@ -43,7 +46,8 @@ $(document).ready(function() {
 								"Sender" : item.sender,
 								"Receiver" : item.receiver,
 								"qos" : item.qos,
-								"status":status
+								"status":status,
+								"sendTime":sendTime
 						
 							});
 						}
@@ -62,6 +66,8 @@ $(document).ready(function() {
 								mData : 'qos'
 							},{
 								mData : 'status'
+							},{
+								mData : 'sendTime'
 							} ],
 							aaSorting: [[0,'desc']]
 						});
@@ -287,7 +293,7 @@ function wrapperFunction(data) {
 									alert('Group 정보를 가지고 오는데 실패 하였습니다.');
 								}
 							});
-							
+//							 filebrowserUploadUrl: '/topic/upload'
 							//ckeditor create
 							CKEDITOR.replace('input_messageContent');
 							
@@ -388,6 +394,87 @@ function wrapperFunction(data) {
 							
 							$('#datetimepicker1').datetimepicker().data(
 							"DateTimePicker").setMaxDate(today_30);
+						}
+						
+						if(data==="phoneMessage"){
+							sessionStorage.setItem("monitoringStatus", "disable");
+							console.log('롤');
+							var userRole=[];
+							userRole=sessionStorage.getItem("userRole");
+							userRole=JSON.parse(userRole);
+							console.log(userRole);
+							for(var i=0;i<userRole.length;i++){
+				
+								console.log(userRole[i]);
+								if(userRole[i].menu=="sms"){
+									$('#sms_checkdiv').show();
+								}
+								
+							}
+							
+							 $('#cateGorySelect').prop('disabled', 'disabled');
+							  $('#timeSelect').prop('disabled', 'disabled');
+							  $("#timeSelect").each(function()
+									  {
+									      $(this).val('disable'); 
+									    
+									  });
+							
+							//datetimepicker create
+								var nowDate = new Date();
+								var today = new Date(nowDate.getFullYear(), nowDate
+										.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+								var today_30 = new Date(nowDate.getFullYear(), nowDate
+										.getMonth(), nowDate.getDate()+30, 0, 0, 0, 0);
+								$('#datetimepicker1').datetimepicker().data(
+										"DateTimePicker").setMinDate(today);
+								
+								$('#datetimepicker1').datetimepicker().data(
+								"DateTimePicker").setMaxDate(today_30);
+							//get category
+							$.ajax({
+								url : '/v1/categories',
+								type : 'GET',
+								headers : {
+								'X-ApiKey' : tokenID
+							},
+								contentType : "application/json",
+								dataType : 'json',
+								async : false,
+								success : function(data) {
+									console.log('category call success');
+									console.log(data.result);
+									console.log(data.result.data);
+									if(data.result.data){
+										for ( var i in data.result.data) {
+										
+											var item = data.result.data[i];
+											console.log(item.id);
+											console.log(item.name);
+										
+											$('#cateGorySelect').append('<option value="'+item.name+'">'+item.name+'</option>');
+										}
+										  $("#cateGorySelect").each(function()
+												  {
+												      $(this).val('disable'); 
+												    
+												  });
+									}else{
+										alert('카테고리 조회에 실패하였습니다.');
+									
+									}
+							
+
+								},
+								error : function(data, textStatus, request) {
+									console.log('fail start...........');
+									alert('카테고리 조회에 실패하였습니다.');
+									console.log('fail end.............');
+								}
+							});
+							
+							//ckdeditor create
+							CKEDITOR.replace('input_messageContent');
 						}
 						// 추후 업데이트 
 						if (data === "formManager") {
@@ -659,6 +746,9 @@ function wrapperFunction(data) {
 											var item = data.result.data[i];
 											console.log(item);
 											var status="";
+											var dateTime=item.issue;
+											console.log(dateTime);
+											var sendTime=new Date(dateTime).toISOString();
 											if(item.status==0){
 												status="발송 준비중";
 											}else if(item.status==1){
@@ -671,11 +761,12 @@ function wrapperFunction(data) {
 											}
 											
 											tableData.push({
-												"MessageId" :item.id,
+												"MessageId" :item.id,        
 												"Sender" : item.sender,
 												"Receiver" : item.receiver,
 												"qos" : item.qos,
-												"status":status
+												"status":status,
+												"sendTime":sendTime
 										
 											});
 										}
@@ -696,6 +787,8 @@ function wrapperFunction(data) {
 												mData : 'qos'
 											},{
 												mData : 'status'
+											},{
+												mData : 'sendTime'
 											} ],
 											aaSorting: [[0,'desc']]
 										});
@@ -1420,6 +1513,9 @@ function loginFunction() {
 
 										var item = data.result.data[i];
 										console.log(item);
+										var dateTime=item.issue;
+										console.log(dateTime);
+										var sendtime=new Date(dateTime).toISOString();
 										var status="";
 										if(item.status==0){
 											status="발송 준비중";
@@ -1436,7 +1532,8 @@ function loginFunction() {
 											"Sender" : item.sender,
 											"Receiver" : item.receiver,
 											"qos" : item.qos,
-											"status":status
+											"status":status,
+											"sendtime":sendtime
 									
 										});
 									}
@@ -1455,6 +1552,8 @@ function loginFunction() {
 											mData : 'qos'
 										},{
 											mData : 'status'
+										},{
+											mData : 'sendtime'
 										} ],
 										aaSorting: [[0,'desc']]
 									});

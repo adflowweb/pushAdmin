@@ -47,31 +47,31 @@ function individualFunction() {
 			var input_reservation = $('#input_reservation').val();
 			var  cateGorySelect=$('#cateGorySelect').val();
 			dateResult = dateFormating(input_reservation);
-			var imageText = document.getElementById("backImg").value;
-			var imageFile = document.getElementById("backImg").files[0];
-			var replaceImageText = imageText.replace(/^.*\\/, "");
-			var uuid = guid();
-			console.log("유유아이디");
-			console.log(uuid);
-			console.log("유유아이디");
-			replaceImageText = uuid + replaceImageText;
-			console.log(replaceImageText);
-			var formdata = new FormData();
-			formdata.append("imageText", imageText);
-			formdata.append("imageFile", imageFile);
-			formdata.append('uuid', uuid);
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "/pushAdmin/FileUploader", true);
-			xhr.send(formdata);
-			xhr.onload = function(e) {
-
-				if (this.status == 200) {
-
-					console.log(this.responseText);
-
-				}
-
-			};
+//			var imageText = document.getElementById("backImg").value;
+//			var imageFile = document.getElementById("backImg").files[0];
+//			var replaceImageText = imageText.replace(/^.*\\/, "");
+//			var uuid = guid();
+//			console.log("유유아이디");
+//			console.log(uuid);
+//			console.log("유유아이디");
+//			replaceImageText = uuid + replaceImageText;
+//			console.log(replaceImageText);
+//			var formdata = new FormData();
+//			formdata.append("imageText", imageText);
+//			formdata.append("imageFile", imageFile);
+//			formdata.append('uuid', uuid);
+//			var xhr = new XMLHttpRequest();
+//			xhr.open("POST", "/pushAdmin/FileUploader", true);
+//			xhr.send(formdata);
+//			xhr.onload = function(e) {
+//
+//				if (this.status == 200) {
+//
+//					console.log(this.responseText);
+//
+//				}
+//
+//			};
 			if (input_reservation) {
 				dateResult = dateResult.toISOString();
 			}

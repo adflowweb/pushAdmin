@@ -271,6 +271,34 @@ $('#dataTables-example-groupA tbody').on('click','tr',function(){
 });
 
 
+function imageFileSend(){
+	
+	var imageText = document.getElementById("imageFile").value;
+	var imageFile = document.getElementById("imageFile").files[0];
+	var replaceImageText = imageText.replace(/^.*\\/, "");
+	var uuid = guid();
+	replaceImageText = uuid + replaceImageText;
+	var formdata = new FormData();
+	formdata.append("imageText", imageText);
+	formdata.append("imageFile", imageFile);
+	formdata.append('uuid', uuid);
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "/pushAdmin/FileUploader", true);
+	xhr.send(formdata);
+	xhr.onload = function(e) {
+
+		if (this.status == 200) {
+
+			console.log('image send res code 200 return');
+			
+
+		}
+
+	};
+	
+	
+}
+
 // click group message send..
 function groupMessageFunction() {
 	console.log('message send click..');
@@ -328,27 +356,7 @@ function groupMessageFunction() {
 			var input_reservation = $('#input_reservation').val();
 			var cateGorySelect = $('#cateGorySelect').val();
 			dateResult = dateFormating(input_reservation);
-//			var imageText = document.getElementById("backImg").value;
-//			var imageFile = document.getElementById("backImg").files[0];
-//			var replaceImageText = imageText.replace(/^.*\\/, "");
-//			var uuid = guid();
-//			replaceImageText = uuid + replaceImageText;
-//			var formdata = new FormData();
-//			formdata.append("imageText", imageText);
-//			formdata.append("imageFile", imageFile);
-//			formdata.append('uuid', uuid);
-//			var xhr = new XMLHttpRequest();
-//			xhr.open("POST", "/pushAdmin/FileUploader", true);
-//			xhr.send(formdata);
-//			xhr.onload = function(e) {
-//
-//				if (this.status == 200) {
-//
-//					console.log('image send res code 200 return');
-//
-//				}
-//
-//			};
+	
 			if (input_reservation) {
 				dateResult = dateResult.toISOString();
 			}
@@ -800,38 +808,68 @@ $('#smsckeck').change(function() {
 		$('#timeSelect').prop('disabled', 'disabled');
 	}
 });
-// 메세지 서식이미지 로딩 Event
-$("#backImg").change(function() {
-	console.log('file.....change...');
-	console.log(this.files[0].size);
-	if (this.files[0].size > 20000) {
-		alert('파일 사이즈를 20kb 이하로 설정해 주십시요 .');
-		wrapperFunction('groupMessage');
-	}
-	readURL(this);
-});
-// 메세지 서식 이미지 적용
-function readURL(input) {
-	console.log("in resadURL...");
 
-	if (input.files && input.files[0]) {
-		var reader = new FileReader();
+function imageFileSend(){
+	var imageText = document.getElementById("imageFile").value;
+	var imageFile = document.getElementById("imageFile").files[0];
+	var replaceImageText = imageText.replace(/^.*\\/, "");
+	var uuid = guid();
+	console.log("유유아이디");
+	console.log(uuid);
+	console.log("유유아이디");
+	replaceImageText = uuid + replaceImageText;
+	console.log(replaceImageText);
+	var formdata = new FormData();
+	formdata.append("imageText", imageText);
+	formdata.append("imageFile", imageFile);
+	formdata.append('uuid', uuid);
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "/pushAdmin/FileUploader", true);
+	xhr.send(formdata);
+	xhr.onload = function(e) {
 
-		reader.onload = function(e) {
-			console.log(e.target.result);
+		if (this.status == 200) {
 
-			$('.cke_reset').contents().find('.cke_show_borders').css(
-					"background-image", "url(" + e.target.result + ")");
-
-			$('.cke_reset').contents().find('.cke_show_borders').css(
-					"background-size", "100%");
-
+			console.log(this.responseText);
+			$('#span_imageUpload').text("http://adflow.net:8080/static/"+replaceImageText+"으로 업로드 되었습니다.");
 		}
 
-		reader.readAsDataURL(input.files[0]);
-	} else {
-		$('.cke_reset').contents().find('.cke_show_borders').css(
-				"background-image", "none");
-
-	}
+	};
+	
+	
 }
+// 메세지 서식이미지 로딩 Event
+$("#imageFile").change(function() {
+	console.log('file.....change...');
+	console.log(this.files[0].size);
+	if (this.files[0].size > 200000) {
+		alert('파일 사이즈를 200kb 이하로 설정해 주십시요 .');
+		wrapperFunction('groupMessage');
+	}
+//	readURL(this);
+});
+//// 메세지 서식 이미지 적용
+//function readURL(input) {
+//	console.log("in resadURL...");
+//
+//	if (input.files && input.files[0]) {
+//		var reader = new FileReader();
+//
+//		reader.onload = function(e) {
+//			console.log(e.target.result);
+//
+//			$('.cke_reset').contents().find('.cke_show_borders').css(
+//					"background-image", "url(" + e.target.result + ")");
+//
+//			$('.cke_reset').contents().find('.cke_show_borders').css(
+//					"background-size", "100%");
+//
+//		}
+//
+//		reader.readAsDataURL(input.files[0]);
+//	} else {
+//		$('.cke_reset').contents().find('.cke_show_borders').css(
+//				"background-image", "none");
+//
+//	}
+//}
